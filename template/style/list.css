@@ -1,0 +1,113 @@
+
+.cart-item  img{
+	width: 200px;
+	height: auto;
+}
+.cart-description{
+	border-bottom: 1px solid #000
+}
+.nav-cart{
+	border-bottom: 1px solid #000
+}
+.foot-list li{
+	border: 0;
+	padding: 0;
+	list-style: none
+}
+.img-inline img {
+	width: 30px;
+	height: auto;
+	cursor: pointer
+}
+.img-inline-2 img {
+	width: 15px;
+	height: auto;
+	cursor: pointer
+}
+.empty, .cabinet {
+	width: 100%;
+	height: 500px;
+}
+#close{
+	color: aliceblue;
+	font: 30px sans-serif;
+	width: 30px;
+	height: auto;
+	cursor: pointer;
+}
+#form{
+	width: 40%;
+	position: relative;
+	left: 30%;
+	top: 40%;
+}
+.input-email{
+	width: 20%;
+}
+.login-field{
+	left: 40%;
+}
+.remove{
+	display: none
+}
+.rating-full{
+	color: #d58e32;
+}
+.rating-empty{
+	color: #fff;
+}
+.cart-btn::before{
+	content: '🛒';
+}
+.compare-btn::before{
+	content: '⚖';
+}
+
+.modal-item{
+    background-color: rgba(159, 165, 169, 0.5);
+    display: block;
+    z-index: 100000;
+    overflow-y: scroll;
+}
+.femaleLabel{
+ margin-left: 0;   
+}
+.maleLabel{
+ margin-left: 0;   
+}
+.modal-item label{
+    margin-left: 47%;
+    color: azure;
+    width: 100%;
+}
+.modal-item input[type='text'], [type='password'],[type='email'],[type='phone'],textarea{
+    margin: 1% 46% 0;
+    
+}
+
+.modal-item select{
+    margin: 6% 46%;
+}
+.form-zip{
+    margin: 1.8% -5%;
+}
+.form-country{
+    margin: 0 8%;
+}
+.form-gender{
+    text-align: left;
+    margin-left: 22%;
+    color: rgba(255, 255, 255,1);
+}
+.form-gender input{
+    margin-left: 5px;
+}
+.modal-hide, .input-hide{
+    display: none;
+}
+.correct{
+    outline:solid rgb(22, 250, 98) 3px;
+}
+.error{
+    outline:solid rgb(250, 22, 22) 3px;
+}

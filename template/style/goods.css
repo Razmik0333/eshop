@@ -1,0 +1,45 @@
+.compare-btn::before{
+	content: '⚖';
+}
+.sale{
+	position: absolute;
+    width: 25%;
+}
+.cart-btn::before{
+	content: '🛒';
+}
+.sale-img{
+	width: 100px;
+	height: auto;
+	margin-left: 70px;
+}
+.close-item{
+	left: 75%;
+	top: 0%;
+}
+.compare-description{
+	margin-top: 60px;
+}
+.img-inline-2 img {
+	width: 15px;
+	height: auto;
+	cursor: pointer
+}
+.img-inline img {
+	width: 30px;
+	height: auto;
+	cursor: pointer
+}
+.foot-list li{
+	border: 0;
+	padding: 0;
+	list-style: none
+}
+.search-items{
+	z-index: 99999;
+	top: 35px;
+	left: -14px;
+	visibility: hidden;
+	width: 35%;
+
+}

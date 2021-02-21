@@ -1,0 +1,53 @@
+.carousel-rec{
+    width: 80%;
+    height: auto;
+}
+
+.modal-item{
+    background-color: rgba(159, 165, 169, 0.5);
+    display: block;
+    z-index: 100000;
+    overflow-y: scroll;
+}
+.femaleLabel{
+ margin-left: 0;   
+}
+.maleLabel{
+ margin-left: 0;   
+}
+.modal-item label{
+    margin-left: 47%;
+    color: azure;
+    width: 100%;
+}
+.modal-item input[type='text'], [type='password'],[type='email']{
+    margin: 1% 46% 0;
+    
+}
+
+.modal-item select{
+    margin: 6% 46%;
+}
+.form-zip{
+    margin: 1.8% -5%;
+}
+.form-country{
+    margin: 0 8%;
+}
+.form-gender{
+    text-align: left;
+    margin-left: 22%;
+    color: rgba(255, 255, 255,1);
+}
+.form-gender input{
+    margin-left: 5px;
+}
+.modal-hide{
+    display: none;
+}
+.correct{
+    outline:solid rgb(22, 250, 98) 3px;
+}
+.error{
+    outline:solid rgb(250, 22, 22) 3px;
+}

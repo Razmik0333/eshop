@@ -1,0 +1,18 @@
+.ratings{
+    font-size: 0.8rem;
+}
+.selected{
+    background-color: #ffc107;
+    color: #000;
+}
+
+.filter-show{
+    width: 170px;
+}
+
+.rating-full{
+	color: #d58e32;
+}
+.rating-empty{
+	color: #fff;
+}
