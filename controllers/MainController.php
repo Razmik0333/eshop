@@ -3,9 +3,14 @@
     {
         public function actionIndex()
         {
-            $productsLists = array();
-            $productsLists = Product::getProductList(1);
-            echo json_encode($productsLists);
+            // $productsLists = array();
+            // $productsLists = Product::getProductList(1);
+
+
+            
+           $obj = new Product();
+           $obj->productsLists;
+            echo json_encode(Product::getProductList());
             return true;
         }
         public function actionRecomend()

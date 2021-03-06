@@ -1,32 +1,33 @@
 <?php
-class Category
+
+class Category extends Main
 {
-    public static function getCategoryList()
+    public $tableName = 'category';
+    public $categoryList = [];
+    public function getCategories()
     {
-        $db = Db::getConnection();
-        $categoryList = array();
-        $sql = 'SELECT id, `alias`, arm_name, img FROM category';
-        $result = $db->query($sql);
-        $i = 0;
-        while ($row = $result->fetch()) {
-            $categoryList[$i]['id'] = $row['id'];
-            $categoryList[$i]['alias'] = $row['alias'];
-            $categoryList[$i]['arm_name'] = $row['arm_name'];
-            $categoryList[$i]['img'] = $row['img'];
-            $i++;
-        }
+       $categoryList = $this->findFields($this->tableName,['id','alias','arm_name']);
         return $categoryList;
     }
-    public static function getCategoryById($id)
+    public static function getCategoryList()
     {
-        $db = Db::getConnection();
-        $categoryList = array();
-        $sql = 'SELECT id, `alias`,  arm_name, img FROM category WHERE id = :id';
-        $result = $db->prepare($sql);
-        $result->bindParam(':id', $id);
-        $result->execute();
-        return $result->fetch();
+        
+        return self::$instance->getCategories();
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public static function getCategoriesById($category = false, $category_id = false)
     {

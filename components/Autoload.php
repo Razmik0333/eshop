@@ -2,9 +2,9 @@
     function __autoload($class_name)
     {
         $array_path = array(
-            '/models/',
             '/components/',
-            //'/controllers/',
+            '/models/',
+            '/controllers/',
         );
         foreach ($array_path as $path) {
             $path = ROOT. $path . $class_name.'.php';

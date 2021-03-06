@@ -1,38 +1,28 @@
 <?php
-class Product 
+
+class Product extends Main
 {
+    public $tableName = 'products';
+    public $productsLists = [];
     const SHOW_BY_DEFAULT = 8;
     const RATING_VALUE = 4;
 
-    public static function getProductList($page = false)
+    public function productList()
     {
-        $db = Db::getConnection();
-        $count = Product::SHOW_BY_DEFAULT;
-        $productsLists = array();
-        $offset = ($page - 1)*$count;
-        $sql = 'SELECT id, title, main, image_basic, rating, cost, discount,new_cost, `desc`,1c_articul FROM products ORDER BY id DESC ';
-        $result = $db->prepare($sql);
-        $result->bindParam(':count', $count,PDO::PARAM_INT);
-        $result->bindParam(':offset', $offset,PDO::PARAM_INT);
-        $result->setFetchMode(PDO::FETCH_ASSOC);
-        $result->execute();
-        $i = 0;
-        while ($row = $result->fetch()) {
-            $productsLists[$i]['id'] = $row['id'];
-            $productsLists[$i]['title'] = $row['title'];
-            $productsLists[$i]['main'] = $row['main'];
-            $productsLists[$i]['image_basic'] = $row['image_basic'];
-            $productsLists[$i]['rating'] = $row['rating'];
-            $productsLists[$i]['cost'] = $row['cost'];
-            $productsLists[$i]['discount'] = $row['discount'];
-            $productsLists[$i]['new_cost'] = $row['new_cost'];
-            $productsLists[$i]['desc'] = $row['desc'];
-            $productsLists[$i]['1c_articul'] = $row['1c_articul'];
-            $i++;
-        }
-        return $productsLists;
+        $dbMembers = ['id', 'title', 'main',
+        'image_basic','rating','cost','discount',
+        'new_cost','desc','1c_articul'];
+        //$this->productsLists = $this->findFields($this->tableName,$dbMembers,self::SHOW_BY_DEFAULT);
+        $this->productsLists = $this->findFieldsByStr($this->tableName,'main',$dbMembers,'win',8);
+        var_dump($this->productsLists);
+        return $this->productsLists;
     }
-    
+
+     public static function getProductList(){
+
+         $obj = new Product();
+         return $obj->productList();
+     }
     public static function getProductById($productId)
     {
         if ($productId) {
@@ -147,7 +137,7 @@ class Product
             $products[$i]['desc'] = $row['desc'];
             $i++;
         }
-         return $products;// Выполнение коменды
+        return $products;// Выполнение коменды
     }
     public static function getMaxMinCost($alias, $param)
     {

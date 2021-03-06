@@ -1,8 +1,10 @@
 <?php
     class ProductController
     {
+
         public function actionView($filename,$productId)
         {
+
             $arrStyle = ['bootstrap.min','fonts','email',$filename];
             $fileStyle = Page::getStyles($arrStyle);
             $arrScripts = ['bootstrap.min','category','email',$filename];
