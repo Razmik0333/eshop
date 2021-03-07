@@ -15,24 +15,25 @@
             $dsn = "mysql:host={$this->params['host']};dbname={$this->params['dbname']}";
             $this->db = new PDO($dsn, $this->params['user'], $this->params['password'],$options);
         }
-        public function queryFetch($sql,$fields = [])
+        public function queryFetch($sql,$fieldsForBind = null, $fieldsForResult= [])
         {
             $smt = $this->db->prepare($sql);
-            $smt = \Db::getObjectForBindParam($smt,$fields);
+            // if ($fieldsForBind === []) {
+            //     $smt = \Db::getObjectForBindParam($smt,$fieldsForBind);
+                
+            // }
             $smt->execute();
-            $res = \Db::getArrayOfGivenFields($smt,$fields);
+            $res = \Db::getArrayOfGivenFields($smt,$fieldsForResult);
+            Page::showArray($res);
             return $res;
-        }
-        public function queryFetchStr($sql, $fields = [])
-        {
-            
         }
         public static function getObjectForBindParam($obj,$fields=[])
         {
             if($obj && $fields){
                 foreach ($fields as $key => $field) {
-                    $obj->bindParam(":$field",$field,PDO::PARAM_STR);
+                    $obj->bindParam(":$key", $field,PDO::PARAM_STR);
                 }
+                var_dump($obj);
                 return $obj;
             }
             return false;
@@ -41,12 +42,17 @@
         public static function getArrayOfGivenFields($smt,$fields)
         {
             $i = 0;
+            $categoryList = [];
             while ($row = $smt->fetch()) {
                 foreach ($fields as $key => $value) {
+                    echo $value;
+
                     $categoryList[$i][$fields[$key]] = $row[$fields[$key]];
                 }
                 $i++;
             }
+            
+            var_dump($categoryList);
             return $categoryList;
         }
         protected static function returnInstance()

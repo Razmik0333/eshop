@@ -9,12 +9,10 @@ class Product extends Main
 
     public function productList()
     {
-        $dbMembers = ['id', 'title', 'main',
-        'image_basic','rating','cost','discount',
-        'new_cost','desc','1c_articul'];
-        //$this->productsLists = $this->findFields($this->tableName,$dbMembers,self::SHOW_BY_DEFAULT);
-        $this->productsLists = $this->findFieldsByStr($this->tableName,'main',$dbMembers,'win',8);
-        var_dump($this->productsLists);
+        $this->productsLists = $this->findFields($this->tableName, null,self::SHOW_BY_DEFAULT);
+        //$this->productsLists = $this->findFieldsByStr($this->tableName,'main',$dbMembers,'win',8);
+        //$this->productsLists = $this->findFieldsByIds($this->tableName,'id',[22,25,28],['id','main']);
+        $this->productsLists = $this->findFieldById($this->tableName,['id'=>'28'],['id','main']);
         return $this->productsLists;
     }
 
