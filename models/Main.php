@@ -7,24 +7,26 @@ abstract class Main extends Db
     {
         $this->pdo = \Db::returnInstance();
     }
+
+    //find fields from SELECT
     public function findFieldById($table, $arrayOfFields = [], $field)
     {
-         $sql = "SELECT * FROM {$table} WHERE $field[0] = :$field[0]";
-
-         $this->pdo->queryFetch($sql, $arrayOfFields,$field);
+        $sqlString = Main::createQuery($arrayOfFields);
+        $sql = "SELECT * FROM {$table} WHERE $sqlString";
+        $arr = $this->pdo->queryFetch($sql, $arrayOfFields,$field);
+        return $arr; 
     }
     public function findFields($table, $arrayOfFields = [], $count = NULL)
     {
         $sql = "SELECT * FROM {$table}";
         $count !== null ?  $sql.=" LIMIT $count" : '';
-        echo $sql;
-        $arr = $this->pdo->queryFetch($sql, $arrayOfFields);
+        $arr = $this->pdo->queryFetch($sql, null, $arrayOfFields);
         return $arr;
     }
     public function findFieldsByStr($table,$field,$arrayOfFields = [],$str, $count)
     {
         $sql = "SELECT * FROM {$table} WHERE $field LIKE '%$str%' LIMIT $count";
-        $arr = $this->pdo->queryFetch($sql, $arrayOfFields);
+        $arr = $this->pdo->queryFetch($sql,null, $arrayOfFields);
         return $arr;
     }
     public function findFieldsByIds($table,$field,$idsArray,$arrayOfFields=[])
@@ -32,10 +34,69 @@ abstract class Main extends Db
         $idsString = implode(',', $idsArray);
         $sql = "SELECT * FROM {$table} WHERE $field IN ($idsString)";
         $arr = $this->pdo->queryFetch($sql, $arrayOfFields);
-        var_dump($arr);
         return $arr;
+        
     }
-    
+
+
+    //find
+    //delete fields from  DELETE
+    public function deleteFieldById($table, $arrayOfId)
+    {
+        $sqlString = Main::createQueryForUpdate($arrayOfId);
+        $sql = "DELETE FROM {$table} WHERE $sqlString";
+        $res = $this->pdo->queryExecute($sql, $arrayOfId);
+        return $res; 
+    }
+    //delete fields from  DELETE
+    //update fields from  UPDATE
+
+    public function updateFieldById($table,$arrayOfField,$arrayOfId)
+    {
+
+        $sqlStringId = Main::createQueryForUpdate($arrayOfId);
+        $sqlString = Main::createQueryForUpdate($arrayOfField);
+        $sql = "UPDATE {$table} SET $sqlString  WHERE $sqlStringId";
+        $mergedArray = array_merge($arrayOfField,$arrayOfId); 
+        $res = $this->pdo->queryExecute($sql, $mergedArray);
+
+        return $res; 
+
+    }
+    public function insertField($table, $arrayOfField)
+    {
+        $sqlString = $this->createQueryForInsert($arrayOfField);
+        $sql = "INSERT INTO {$table} $sqlString";
+        echo $sql;
+        $res = $this->pdo->queryExecute($sql, $arrayOfField);
+
+        return $res; 
+        //'INSERT INTO products (category,category_id, `desc`,  cost, discount,  is_recomended, `availability`, main, 1c_articul, time_add) 
+                       // VALUES (:category, :category_id, :item_name, :cost, :is_recommended, :availabile, :main, :code, :time_add)';
+    }
+    //update fields from  UPDATE
+    //insert fields from INSERT
+    public function createQueryForInsert($arrayOfFields = [])
+    {
+        $sqlStringOne = "";
+        $sqlStringTwo = "";
+        foreach ($arrayOfFields as $key => $value) {
+            $sqlStringOne .= " $key,";
+            $sqlStringTwo .= " :$key,";
+        }
+        return '('.substr($sqlStringOne, 0, -1) .') VALUES ('.substr($sqlStringTwo, 0, -1).')'; // delete last character ,
+    }
+    public static function createQueryForUpdate($arrayOfFields = [])
+    {
+        $sqlString = "";
+        foreach ($arrayOfFields as $key => $value) {
+            $sqlString .= "$key = :$key, ";
+           
+        }
+
+        return substr($sqlString, 0, -2); // delete last character ,
+        
+    }
 }
 
 ?>

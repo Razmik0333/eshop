@@ -43,6 +43,7 @@ class Category extends Main
     {
         $db = Db::getConnection();
         $categoryList = array();
+
         $sql = 'SELECT id, category, category_id, category_arm_name FROM item_category WHERE category = :category';
         $result = $db->prepare($sql);
         $result->bindParam(':category',$categoryId,PDO::PARAM_INT);
@@ -58,7 +59,12 @@ class Category extends Main
         }
         return $categoryList;
     }
-    
+   public getById(int id)
+   {
+       List<Category> categories 
+       = dbTableContext.category.select(p => p.categoryId == id)
+   }
+
     public static function createCategory($options)
     {
         $db = Db::getConnection();

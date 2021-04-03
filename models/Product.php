@@ -9,10 +9,30 @@ class Product extends Main
 
     public function productList()
     {
-        $this->productsLists = $this->findFields($this->tableName, null,self::SHOW_BY_DEFAULT);
-        //$this->productsLists = $this->findFieldsByStr($this->tableName,'main',$dbMembers,'win',8);
-        //$this->productsLists = $this->findFieldsByIds($this->tableName,'id',[22,25,28],['id','main']);
-        $this->productsLists = $this->findFieldById($this->tableName,['id'=>'28'],['id','main']);
+        //$arr1 = $this->findFields($this->tableName,['id','main'],self::SHOW_BY_DEFAULT);
+        
+        //$arr2 = $this->productsLists = $this->findFieldsByStr($this->tableName,'main',['id','main'],'win',8);
+        //$arr3 = $this->productsLists = $this->findFieldsByIds($this->tableName,'id',[22,25,28],['id','main']);
+        //$arr4 = $this->productsLists = $this->findFieldById($this->tableName,['id' => '31'],['id','main']);
+        //$arr5 = $this->productsLists = $this->deleteFieldById($this->tableName,['id' => '30']);
+        //$arr6 = $this->productsLists = $this->updateFieldById($this->tableName,['title' => 'casket1','cost' => 1800],['id' => 20]);
+        /*$arr7 = $this->productsLists = $this->insertField($this->tableName,
+        ['category' => 1,
+        'category_id' => 2, 
+        'descr' => 'Բռոշ',  
+        'cost'=> '1200', 
+        'discount'=> '0',
+        'is_recomended'=> '1', 
+        'availability'=> '1', 
+        'main'=> 'text', 
+        '1c_articul'=> 'hhfhfhfh', 
+        'time_add'=> time()]);
+        //Page::showArray($arr3);
+        //Page::showArray($arr4);
+        Page::showArray($arr7);*/
+        $productsLists = $this->findFields($this->tableName, ['id','main'],self::SHOW_BY_DEFAULT);
+        Page::showArray($productsLists);
+
         return $this->productsLists;
     }
 
@@ -441,15 +461,19 @@ class Product extends Main
     {
         $db = Db::getConnection();
         $sql = 'UPDATE  products  SET rating = :rating  WHERE id = :id';
+
+        //"UPDATE products SET category = :category , title = :title WHERE id = :id " 
+
         $result = $db->prepare($sql);        
         $result->bindParam(':rating', $rating);
         $result->bindParam(':id', $id);
         return $result->execute();
-        
     }
     public static function insertRatingString($id,$string)//$idItem id товара $idRating значение оценки
     {
         $db = Db::getConnection();
+        $sql = 'SELECT * FROM products WHERE id = :id';
+
         $sql = 'UPDATE  products  SET rating_string = :rating_string  WHERE id = :id';
         $result = $db->prepare($sql);        
         $result->bindParam(':rating_string', $string);

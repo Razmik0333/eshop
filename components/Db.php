@@ -1,4 +1,5 @@
 <?php
+
     class Db
     {
         protected static $instance;
@@ -15,45 +16,59 @@
             $dsn = "mysql:host={$this->params['host']};dbname={$this->params['dbname']}";
             $this->db = new PDO($dsn, $this->params['user'], $this->params['password'],$options);
         }
-        public function queryFetch($sql,$fieldsForBind = null, $fieldsForResult= [])
+
+        public function queryExecute($sql,$fieldsForBind = null)
         {
-            $smt = $this->db->prepare($sql);
-            // if ($fieldsForBind === []) {
-            //     $smt = \Db::getObjectForBindParam($smt,$fieldsForBind);
-                
-            // }
-            $smt->execute();
-            $res = \Db::getArrayOfGivenFields($smt,$fieldsForResult);
-            Page::showArray($res);
+            return $this->query($sql, $fieldsForBind);
+
+        }
+
+        public function queryFetch($sql,$fieldsForBind = [], $fieldsForResult= [])
+        {
+            $smt = $this->query($sql, $fieldsForBind);
+            $res = $this->getArrayOfGivenFields($smt,$fieldsForResult);
+
             return $res;
         }
-        public static function getObjectForBindParam($obj,$fields=[])
+
+        private function query($sql, $fieldsForBind)
+        {
+            $smt = $this->db->prepare($sql); 
+            if ($fieldsForBind === null) {
+                 $smt->execute();
+            }else{
+                 $this->getObjectForBind($smt,$fieldsForBind)->execute();
+            }
+            return $smt;
+        }
+
+
+
+        private function getObjectForBind($obj,$fields=[])
         {
             if($obj && $fields){
                 foreach ($fields as $key => $field) {
-                    $obj->bindParam(":$key", $field,PDO::PARAM_STR);
+                    $this->getBind($obj,$key,$field);
                 }
-                var_dump($obj);
                 return $obj;
             }
             return false;
         }
-
-        public static function getArrayOfGivenFields($smt,$fields)
+        private function getBind($obj, $key,$field)
+        {
+           return $obj->bindParam(":$key", $field,PDO::PARAM_STR);
+        }
+        public function getArrayOfGivenFields($smt,$fields)
         {
             $i = 0;
-            $categoryList = [];
+            $fieldsList = [];
             while ($row = $smt->fetch()) {
                 foreach ($fields as $key => $value) {
-                    echo $value;
-
-                    $categoryList[$i][$fields[$key]] = $row[$fields[$key]];
+                    $fieldsList[$i][$fields[$key]] = $row[$fields[$key]];
                 }
                 $i++;
             }
-            
-            var_dump($categoryList);
-            return $categoryList;
+            return $fieldsList;
         }
         protected static function returnInstance()
         {
@@ -63,6 +78,7 @@
             return self::$instance;
 
         }
+       
     }
     
 ?>
