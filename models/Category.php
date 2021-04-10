@@ -9,11 +9,7 @@ class Category extends Main
        $categoryList = $this->findFields($this->tableName,['id','alias','arm_name']);
         return $categoryList;
     }
-    public static function getCategoryList()
-    {
-        
-        return self::$instance->getCategories();
-    }
+
 
 
 
@@ -59,11 +55,7 @@ class Category extends Main
         }
         return $categoryList;
     }
-   public getById(int id)
-   {
-       List<Category> categories 
-       = dbTableContext.category.select(p => p.categoryId == id)
-   }
+  
 
     public static function createCategory($options)
     {

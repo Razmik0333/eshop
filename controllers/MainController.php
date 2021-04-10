@@ -1,30 +1,30 @@
 <?php
     class MainController
     {
+         
+        public function getProductObj()
+        {
+            return $productObj = new Product();
+        }
         public function actionIndex()
         {
-            // $productsLists = array();
-            // $productsLists = Product::getProductList(1);
-
-
-            
-           $obj = new Product();
-           $obj->productsLists;
-            echo json_encode(Product::getProductList());
+            $arr = $this->getProductObj()->getProductList();
+            echo json_encode($arr);
             return true;
         }
         public function actionRecomend()
         {
             $recomendProductsLists = array();
-            $recomendProductsLists = Product::getRecomendProducts(3);
+            $recomendProductsLists = $this->getProductObj()->getRecomendProducts();
+            //Page::showArray($recomendProductsLists);
             echo json_encode($recomendProductsLists);
             return true;
         }
         public function actionMaxdiscount()
         {
-            $productDiscount = Product::getDiscountMax();
+            $productDiscount = $this->getProductObj()->getDiscountMax();
             $productDiscount = $productDiscount['max'];
-            $productsMax= Product::getProductFromDiscount($productDiscount);
+            $productsMax= $this->getProductObj()->getProductFromDiscount($productDiscount);
             echo json_encode($productsMax);
             return true;
         }
@@ -32,8 +32,8 @@
         public function actionSearch($str)
         {
             $productsLists = array();
-            $productsLists = Product::getProductByStr($str, 1);          
-            echo json_encode($productsLists);# code...
+            $productsLists = $this->getProductObj()->getProductByStr($str);          
+            echo json_encode($productsLists);
             return true;
 
         }

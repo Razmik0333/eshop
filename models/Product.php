@@ -7,67 +7,63 @@ class Product extends Main
     const SHOW_BY_DEFAULT = 8;
     const RATING_VALUE = 4;
 
-    public function productList()
+    public function getProductList()
     {
-        //$arr1 = $this->findFields($this->tableName,['id','main'],self::SHOW_BY_DEFAULT);
-        
-        //$arr2 = $this->productsLists = $this->findFieldsByStr($this->tableName,'main',['id','main'],'win',8);
-        //$arr3 = $this->productsLists = $this->findFieldsByIds($this->tableName,'id',[22,25,28],['id','main']);
-        //$arr4 = $this->productsLists = $this->findFieldById($this->tableName,['id' => '31'],['id','main']);
-        //$arr5 = $this->productsLists = $this->deleteFieldById($this->tableName,['id' => '30']);
-        //$arr6 = $this->productsLists = $this->updateFieldById($this->tableName,['title' => 'casket1','cost' => 1800],['id' => 20]);
-        /*$arr7 = $this->productsLists = $this->insertField($this->tableName,
-        ['category' => 1,
-        'category_id' => 2, 
-        'descr' => 'Բռոշ',  
-        'cost'=> '1200', 
-        'discount'=> '0',
-        'is_recomended'=> '1', 
-        'availability'=> '1', 
-        'main'=> 'text', 
-        '1c_articul'=> 'hhfhfhfh', 
-        'time_add'=> time()]);
-        //Page::showArray($arr3);
-        //Page::showArray($arr4);
-        Page::showArray($arr7);*/
-        $productsLists = $this->findFields($this->tableName, ['id','main'],self::SHOW_BY_DEFAULT);
-        Page::showArray($productsLists);
 
+        $this->productsLists = $this->findFields($this->tableName, ['id','main'],self::SHOW_BY_DEFAULT);
+        return $this->productsLists;
+    }
+    public function getRecomendProducts()
+    {
+
+        $this->productsLists = $this->findFieldById($this->tableName, ['is_recomended' => 1],['id','main'],3);
         return $this->productsLists;
     }
 
-     public static function getProductList(){
-
-         $obj = new Product();
-         return $obj->productList();
-     }
-    public static function getProductById($productId)
+    public function getProductById($productId)
     {
         if ($productId) {
-            $db = Db::getConnection();
-            $sql = 'SELECT * FROM products WHERE id = :id';
-            $result = $db->prepare($sql);
-            $result->bindParam(':id', $productId,PDO::PARAM_INT);
-            $result->setFetchMode(PDO::FETCH_ASSOC);
-            $result->execute();
-            return $result->fetch();
+            $this->productsLists = $this->findFieldById($this->tableName, ['id' => $productId],['id','main']);
+            return $this->productsLists;
         }
-        
+        return false;
     }
-    public static function getProductByStr($str,$page = false)
+    public function getProductByStr($str)
     {
-        $db = Db::getConnection();
-        $count = Product::SHOW_BY_DEFAULT;
-        $offset = ($page - 1)*$count;
-        $sql = 'SELECT * FROM products WHERE main LIKE "%":str"%" LIMIT :count OFFSET :offset';
-        $result = $db->prepare($sql);
-        $result->bindParam(':str', $str,PDO::PARAM_STR);
-        $result->bindParam(':count', $count,PDO::PARAM_INT);
-        $result->bindParam(':offset', $offset,PDO::PARAM_INT);
-        $result->setFetchMode(PDO::FETCH_ASSOC);
-        $result->execute();
-        return $result->fetchAll();
+
+        $this->productsLists = $this->findFieldsByStr($this->tableName,'main',['id','main'],$str,3);
+        return $this->productsLists;
     }
+    public function deleteProductById($id)
+    {
+        return $this->deleteFieldById($this->table, ['id' => $id]);
+    }
+    public function getProductByIds($idsArray)
+    {
+        if($idsArray){
+            $this->productLists = $this->findFieldsByIds($this->table,'id',$idsArray,['id','main']);
+            return $this->productLists;
+        }
+        return false;
+    }
+    public function getProductFromDiscount($discount = false )
+    {
+        if ($discount) {
+            $this->productsLists = $this->findFieldById($this->tableName, ['discount' => $discount],['id','main']);
+            return $this->productsLists;
+            
+        }
+    }
+    public function getDiscountMax()
+    {
+        return $this->getMaxItem('discount');
+    }
+
+
+
+
+
+
     public static function getTotalProducts()
     {
         // Соединение с БД
@@ -305,33 +301,7 @@ class Product extends Main
         }
          return $products;
     }
-    public static function getProductByIds($idsArray)
-    {
-        
-        $db = Db::getConnection();
-        if($idsArray){
-            $idsString = implode(',', $idsArray);
-            $sql = "SELECT * FROM products WHERE id IN ($idsString)";
-            $result = $db->query($sql);
-            $products = array();
-            //$result->setFetchMode(PDO::FETCH_ASSOC);
-            $i = 0;
-            while ($row = $result->fetch()) {
-                $products[$i]['id'] = $row['id'];
-                $products[$i]['title'] = $row['title'];
-                $products[$i]['main'] = $row['main'];
-                $products[$i]['image_basic'] = $row['image_basic'];
-                $products[$i]['cost'] = $row['cost'];
-                $products[$i]['rating'] = $row['rating'];
-                $products[$i]['desc'] = $row['desc'];
-                $products[$i]['availability'] = $row['availability'];
-                $i++;
-            }
-
-            return $products;
-        }
-        return false;
-    }
+    
     public static function getProductByIdsString($idsString)
     {
         
@@ -368,39 +338,13 @@ class Product extends Main
         }
         return false;
     }
-    public static function getDiscountMax(){
-        $db = Db::getConnection();
-        $sql = 'SELECT  MAX(discount) AS max FROM products ';
-        $result = $db->query($sql);
-        return $result->fetch(PDO::FETCH_ASSOC);
-
-    }
-    public static function getProductFromDiscount($discount = false )
-    {
-        if ($discount) {
-            $db = Db::getConnection();
-            $sql = "SELECT * FROM products WHERE discount = :discount";
-            $result = $db->prepare($sql);
-            $result->bindParam(':discount', $discount, PDO::PARAM_INT);
-            $result->execute();
-            $products = array();
-            $i = 0;
-            while ($row = $result->fetch()) {
-                $products[$i]['id'] = $row['id'];
-                $products[$i]['title'] = $row['title'];
-                $products[$i]['main'] = $row['main'];
-                $products[$i]['image_basic'] = $row['image_basic'];
-                $products[$i]['rating'] = $row['rating'];
-                $products[$i]['cost'] = $row['cost'];
-                $products[$i]['new_cost'] = $row['new_cost'];
-                $products[$i]['desc'] = $row['desc'];
-                $products[$i]['time_add'] = $row['time_add'];
-                $i++;
-            }
-            return $products;
-        }
-    }
-    public static function getRecomendProducts($count = false)
+    // public static function getDiscountMax(){
+    //     $db = Db::getConnection();
+    //     $sql = 'SELECT  MAX(discount) AS max FROM products ';
+    //     $result = $db->query($sql);
+    //     return $result->fetch(PDO::FETCH_ASSOC);
+    // }
+        /*public static function getRecomendProducts($count = false)
     {
         $db = Db::getConnection();
         $sql = "SELECT * FROM products WHERE `is_recomended` = 1  ORDER BY id DESC LIMIT :count";
@@ -424,15 +368,8 @@ class Product extends Main
         }
         return $products;
     }
+*/
 
-    public static function deleteProductById($id)
-    {
-        $db = Db::getConnection();
-        $sql = 'DELETE FROM products WHERE id = :id';
-        $result = $db->prepare($sql);
-        $result->bindParam(':id', $id, PDO::PARAM_INT);
-        return $result->execute();        
-    }
     public static function getRating($id) //$idItem id товара
     {
         $db = Db::getConnection();

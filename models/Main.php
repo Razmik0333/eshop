@@ -9,10 +9,10 @@ abstract class Main extends Db
     }
 
     //find fields from SELECT
-    public function findFieldById($table, $arrayOfFields = [], $field)
+    public function findFieldById($table, $arrayOfFields = [], $field,$count = 1)
     {
-        $sqlString = Main::createQuery($arrayOfFields);
-        $sql = "SELECT * FROM {$table} WHERE $sqlString";
+        $sqlString = Main::createQueryForUpdate($arrayOfFields);
+        $sql = "SELECT * FROM {$table} WHERE $sqlString LIMIT $count";
         $arr = $this->pdo->queryFetch($sql, $arrayOfFields,$field);
         return $arr; 
     }
@@ -36,6 +36,13 @@ abstract class Main extends Db
         $arr = $this->pdo->queryFetch($sql, $arrayOfFields);
         return $arr;
         
+    }
+    public function getMaxItem($str)  // get max item(discount, rating)
+    {
+        $sql = "SELECT  MAX($str) AS max FROM products";
+        $arr = $this->pdo->queryFetch($sql,null,['max']);
+        return $arr[0];
+
     }
 
 
@@ -63,18 +70,15 @@ abstract class Main extends Db
         return $res; 
 
     }
+    //update fields from  UPDATE
+    //insert fields from INSERT
     public function insertField($table, $arrayOfField)
     {
         $sqlString = $this->createQueryForInsert($arrayOfField);
         $sql = "INSERT INTO {$table} $sqlString";
-        echo $sql;
         $res = $this->pdo->queryExecute($sql, $arrayOfField);
-
-        return $res; 
-        //'INSERT INTO products (category,category_id, `desc`,  cost, discount,  is_recomended, `availability`, main, 1c_articul, time_add) 
-                       // VALUES (:category, :category_id, :item_name, :cost, :is_recommended, :availabile, :main, :code, :time_add)';
+        return $res;
     }
-    //update fields from  UPDATE
     //insert fields from INSERT
     public function createQueryForInsert($arrayOfFields = [])
     {

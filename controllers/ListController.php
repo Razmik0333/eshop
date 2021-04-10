@@ -1,10 +1,14 @@
 <?php
 
     class ListController
-    {        
+    {    
+        public function getCategoryObj()
+        {
+            return $productObj = new Category();
+        }    
         public function actionCategory(){
             $categoryList = array();
-            $categoryList = Category::getCategoryList();
+            $categoryList = $this->getCategoryObj()->getCategories();
             echo json_encode($categoryList);
             return true;
         }
