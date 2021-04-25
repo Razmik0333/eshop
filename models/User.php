@@ -1,6 +1,7 @@
 <?php
     class User 
     {
+        
         public static function register($login,$password,$email,$name,$country,$city,$zip)
         {
             $db = Db::getConnection();

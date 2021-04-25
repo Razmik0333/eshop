@@ -42,8 +42,6 @@
             return $smt;
         }
 
-
-
         private function getObjectForBind($obj,$fields=[])
         {
             if($obj && $fields){

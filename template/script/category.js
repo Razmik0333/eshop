@@ -49,7 +49,7 @@ function loadPage()
 
     function getCategories(obj){
         return `<li class="nav-item">
-                <a class="nav-link cat-filter" href="/catalog/filter/${obj.alias}" data-alias="${obj.alias}">${obj.arm_name}</a>
+                <a class="nav-link cat-filter" href="/category/filter/${obj.alias}" data-alias="${obj.alias}">${obj.arm_name}</a>
             </li>`;
     }
     function getSearchItems(arr)

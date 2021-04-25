@@ -39,7 +39,7 @@ function getCardItem(obj){
 			<img class="card-img-top item-card" src="/template/images/${obj.id}.jpg" alt="Card image cap">
 			${getSaleStatus(obj.discount)}
 			<div class="card-body text-center item-body">
-				<a href="/product/view/${obj.id}" class="h6 item-name" >${obj.desc}</a>
+				<a href="/product/view/${obj.id}" class="h6 item-name" >${obj.descr}</a>
 				<div class="col-6">
 					<div class="input-group-append">
 						<span class="input-group-text my-3 mx-5 star-card" data-productId="${obj.id}">
@@ -96,7 +96,7 @@ function getRecomendedItem(obj){
 				<img class="card-img" src="/template/images/${obj.id}.jpg" alt="Card image cap">
 				
 				<div class="card-body text-center">
-					<a href="/product/${obj.id}"><h5  class="card-title">${obj.desc}</h5></a>
+					<a href="/product/${obj.id}"><h5  class="card-title">${obj.descr}</h5></a>
 					<span class=" mx-auto">
 					${new Date(+obj.time_add).getFullYear()}-${month}-${date}
 					</span>
@@ -110,7 +110,7 @@ function getRecomendedItem(obj){
 }
 
 function getMaxDiscountItem(obj) {
-	console.log(obj.id);
+	console.log(obj);
 	
 	let maxDiscountItem = `<div class="card text-white text-center  mb-3" style="max-width: 18rem;">
 	<div class="card-header bg-dark">ԹԵԺ ԱՌԱՋԱՐԿ</div>
@@ -118,7 +118,7 @@ function getMaxDiscountItem(obj) {
 	<img class="card-img-top item-card" src="/template/images/${obj.id}.jpg" alt="Card image cap">
 	<img class="card-img-top sale sale-home" src="/template/images/other/sale.png" alt="Card image cap">						
 	<h5 class="card-title">Dark card title</h5>
-	<a href="/product/${obj.id}"><h6 class="text-dark text-center" id="min-name">${obj.desc}</h6></a>
+	<a href="/product/${obj.id}"><h6 class="text-dark text-center" id="min-name">${obj.descr}</h6></a>
 	<div class="input-group-append ">
 	<span class="input-group-text my-3 mx-5 star-card">
 		${getRatingStars(obj.rating,obj.id)}

@@ -248,17 +248,19 @@ function setSelectedClass(target, child, selector){
 }
 
 function getGoodsItem(obj) {
+    console.log(obj);
+    
     let productCard = `
     <div class="col-3 item-col">
         <div class="card text-center">
             <img class="card-img-top item-card" src="/template/images/${obj.id}.jpg" alt="${obj.title}" />
             ${getSaleStatus(obj.discount)}
             <div class="card-body pl-0 pr-0">
-                <a href="/product/view/${obj.id}" class="h6 item-name">${obj.desc}</a>
+                <a href="/product/view/${obj.id}" class="h6 item-name">${obj.descr}</a>
                 <div class="col-6 item-col">
                     <div class="input-group-append">
                         <span class="input-group-text my-3 mx-5 star-card" for="inputGroupSelect02">
-                            ${createRatingStars(obj.rating)}
+                        ${'ll'/*createRatingStars(obj.rating)*/}
                         </span>
                     </div>
                     <div class="input-group-append">

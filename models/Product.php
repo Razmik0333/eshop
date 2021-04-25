@@ -4,26 +4,27 @@ class Product extends Main
 {
     public $tableName = 'products';
     public $productsLists = [];
+    public $requiredFields =  ['id','main','descr','cost','new_cost','rating'];
     const SHOW_BY_DEFAULT = 8;
     const RATING_VALUE = 4;
 
     public function getProductList()
     {
 
-        $this->productsLists = $this->findFields($this->tableName, ['id','main'],self::SHOW_BY_DEFAULT);
+        $this->productsLists = $this->findFields($this->tableName,$this->requiredFields,self::SHOW_BY_DEFAULT);
         return $this->productsLists;
     }
     public function getRecomendProducts()
     {
 
-        $this->productsLists = $this->findFieldById($this->tableName, ['is_recomended' => 1],['id','main'],3);
+        $this->productsLists = $this->findFieldById($this->tableName, ['is_recomended' => 1],$this->requiredFields,3);
         return $this->productsLists;
     }
 
     public function getProductById($productId)
     {
         if ($productId) {
-            $this->productsLists = $this->findFieldById($this->tableName, ['id' => $productId],['id','main']);
+            $this->productsLists = $this->findFieldById($this->tableName, ['id' => $productId],$this->requiredFields,1);
             return $this->productsLists;
         }
         return false;
@@ -31,7 +32,7 @@ class Product extends Main
     public function getProductByStr($str)
     {
 
-        $this->productsLists = $this->findFieldsByStr($this->tableName,'main',['id','main'],$str,3);
+        $this->productsLists = $this->findFieldsByStr($this->tableName,'main',$this->requiredFields,$str,3);
         return $this->productsLists;
     }
     public function deleteProductById($id)
@@ -41,7 +42,7 @@ class Product extends Main
     public function getProductByIds($idsArray)
     {
         if($idsArray){
-            $this->productLists = $this->findFieldsByIds($this->table,'id',$idsArray,['id','main']);
+            $this->productLists = $this->findFieldsByIds($this->table,'id',$idsArray,$this->requiredFields);
             return $this->productLists;
         }
         return false;
@@ -49,22 +50,27 @@ class Product extends Main
     public function getProductFromDiscount($discount = false )
     {
         if ($discount) {
-            $this->productsLists = $this->findFieldById($this->tableName, ['discount' => $discount],['id','main']);
+            $this->productsLists = $this->findFieldById($this->tableName, ['discount' => $discount],$this->requiredFields,1);
             return $this->productsLists;
             
         }
     }
     public function getDiscountMax()
     {
-        return $this->getMaxItem('discount');
+        return $this->getMaxItem('discount',null, 'max');
+    }
+    public function getProductsInCategory($alias){
+        if ($alias) {
+            $this->productsLists = $this->findFieldById($this->tableName, ['alias' => $alias],$this->requiredFields);
+            return $this->productsLists;
+            
+        }
     }
 
-
-
-
-
-
-    public static function getTotalProducts()
+    public function getTotalProducts($alias,$param){
+        return $this->getMaxItem('cost',['alias' => $alias],$param);
+    }
+    /*public static function getTotalProducts()
     {
         // Соединение с БД
         $db = Db::getConnection();
@@ -82,7 +88,7 @@ class Product extends Main
         // Возвращаем значение count - количество
         $row = $result->fetch();
         return $row['count'];
-    }
+    }*/
     public static function getTotalProductsFromStr($str = false, $page = false)
     {
         // Соединение с БД
@@ -129,7 +135,7 @@ class Product extends Main
         $row = $result->fetch();        // Возвращаем значение count - количество
         return $row['count'];
     }
-    public static function getProductsInCategory($alias)
+    /*public static function getProductsInCategory($alias)
     {
         $db = Db::getConnection();    // Соединение с БД
         $sql = "SELECT id, title, main, image_basic, rating, cost, discount,new_cost, `desc`,1c_articul  FROM products WHERE alias = :alias";
@@ -152,10 +158,10 @@ class Product extends Main
             $i++;
         }
         return $products;// Выполнение коменды
-    }
-    public static function getMaxMinCost($alias, $param)
+    }*/
+ /*   public static function getMaxMinCost($alias, $param)
     {
-        $db = Db::getConnection();
+        
         if ($param == 'max') {
             $sql = 'SELECT  MAX(cost) AS max FROM products WHERE alias = :alias ';
         }else{
@@ -168,7 +174,7 @@ class Product extends Main
         $result->setFetchMode(PDO::FETCH_ASSOC);
         $result->execute();
         return $result->fetch();
-    }
+    }*/
     public static function getFilterProductsInCategory($categoryId, $categoryFilterId,$isFavorite,$isNew,$isCheap,$price_min,$price_max)
     {
         // Соединение с БД
@@ -370,7 +376,7 @@ class Product extends Main
     }
 */
 
-    public static function getRating($id) //$idItem id товара
+    /*public static function getRating($id) //$idItem id товара
     {
         $db = Db::getConnection();
         $sql = "SELECT rating FROM products WHERE id = :id";
@@ -380,9 +386,9 @@ class Product extends Main
         $rating = $result->fetch(PDO::FETCH_ASSOC);
         return $rating;
         
-    }
+    }*/
     
-    public static function getRatingString($id) //$idItem id товара
+    /*public static function getRatingString($id) //$idItem id товара
     {
         $db = Db::getConnection();
         $sql = 'SELECT rating_string FROM products WHERE id = :id';
@@ -393,8 +399,8 @@ class Product extends Main
         $ratings_string = $result['rating_string'];
         return $ratings_string;
         
-    }
-    public static function insertRating($id,$rating)//$id id товара $idRating значение оценки
+    }*/
+    /*public static function insertRating($id,$rating)//$id id товара $idRating значение оценки
     {
         $db = Db::getConnection();
         $sql = 'UPDATE  products  SET rating = :rating  WHERE id = :id';
@@ -405,8 +411,8 @@ class Product extends Main
         $result->bindParam(':rating', $rating);
         $result->bindParam(':id', $id);
         return $result->execute();
-    }
-    public static function insertRatingString($id,$string)//$idItem id товара $idRating значение оценки
+    }*/
+   /* public static function insertRatingString($id,$string)//$idItem id товара $idRating значение оценки
     {
         $db = Db::getConnection();
         $sql = 'SELECT * FROM products WHERE id = :id';
@@ -417,7 +423,7 @@ class Product extends Main
         $result->bindParam(':id', $id);
         return $result->execute();
         
-    }
+    }*/
 
     
     public static function createProduct($options)

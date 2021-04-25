@@ -1,30 +1,24 @@
 <?php
-    class MainController
+    class MainController extends AppController
     {
-         
-        public function getProductObj()
-        {
-            return $productObj = new Product();
-        }
         public function actionIndex()
         {
-            $arr = $this->getProductObj()->getProductList();
+            $arr = $this->getNewObject('product')->getProductList();
             echo json_encode($arr);
             return true;
         }
         public function actionRecomend()
         {
             $recomendProductsLists = array();
-            $recomendProductsLists = $this->getProductObj()->getRecomendProducts();
-            //Page::showArray($recomendProductsLists);
+            $recomendProductsLists = $this->getNewObject('product')->getRecomendProducts();
             echo json_encode($recomendProductsLists);
             return true;
         }
         public function actionMaxdiscount()
         {
-            $productDiscount = $this->getProductObj()->getDiscountMax();
+            $productDiscount = $this->getNewObject('product')->getDiscountMax();
             $productDiscount = $productDiscount['max'];
-            $productsMax= $this->getProductObj()->getProductFromDiscount($productDiscount);
+            $productsMax= $this->getNewObject('product')->getProductFromDiscount($productDiscount);
             echo json_encode($productsMax);
             return true;
         }
@@ -32,7 +26,7 @@
         public function actionSearch($str)
         {
             $productsLists = array();
-            $productsLists = $this->getProductObj()->getProductByStr($str);          
+            $productsLists = $this->getNewObject('product')->getProductByStr($str);          
             echo json_encode($productsLists);
             return true;
 

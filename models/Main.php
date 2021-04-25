@@ -9,10 +9,13 @@ abstract class Main extends Db
     }
 
     //find fields from SELECT
-    public function findFieldById($table, $arrayOfFields = [], $field,$count = 1)
+    public function findFieldById($table, $arrayOfFields = [], $field,$count = null)
     {
         $sqlString = Main::createQueryForUpdate($arrayOfFields);
-        $sql = "SELECT * FROM {$table} WHERE $sqlString LIMIT $count";
+        $sql = "SELECT * FROM {$table} WHERE $sqlString ";
+        $count !== null ?  $sql.=" LIMIT $count" : '';;
+        //echo $sql;
+
         $arr = $this->pdo->queryFetch($sql, $arrayOfFields,$field);
         return $arr; 
     }
@@ -37,15 +40,30 @@ abstract class Main extends Db
         return $arr;
         
     }
-    public function getMaxItem($str)  // get max item(discount, rating)
+    public function getMaxItem($str, $field,$minmax)  // get max item(discount, rating)
     {
-        $sql = "SELECT  MAX($str) AS max FROM products";
-        $arr = $this->pdo->queryFetch($sql,null,['max']);
+        
+        $minmaxToUpper = strtoupper($minmax);
+        $sql = "SELECT  $minmaxToUpper($str) AS $minmax FROM products ";
+        if ($field === null) {
+           $sql .= "" ;
+        } else {
+            $sqlString = Main::createQueryForUpdate($field);
+            $sql .= "WHERE $sqlString";
+        }        
+        $arr = $this->pdo->queryFetch($sql, $field,[$minmax]);
         return $arr[0];
-
     }
 
+    public function getFieldValue($table, $arrayOfFields, $str)
+    {
+        $sqlString = Main::createQueryForUpdate($arrayOfFields);
+        $sql = "SELECT $str FROM {$table} WHERE $sqlString ";
+        $arr = $this->pdo->queryFetch($sql, $arrayOfFields,[$str]);
 
+        return $arr[0][$str];
+
+    }
     //find
     //delete fields from  DELETE
     public function deleteFieldById($table, $arrayOfId)
@@ -60,13 +78,12 @@ abstract class Main extends Db
 
     public function updateFieldById($table,$arrayOfField,$arrayOfId)
     {
-
         $sqlStringId = Main::createQueryForUpdate($arrayOfId);
         $sqlString = Main::createQueryForUpdate($arrayOfField);
         $sql = "UPDATE {$table} SET $sqlString  WHERE $sqlStringId";
         $mergedArray = array_merge($arrayOfField,$arrayOfId); 
-        $res = $this->pdo->queryExecute($sql, $mergedArray);
 
+        $res = $this->pdo->queryExecute($sql, $mergedArray);
         return $res; 
 
     }

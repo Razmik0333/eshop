@@ -2,6 +2,10 @@
 
     class CatalogController 
     {
+        public function getProductObj()
+        {
+            return $productObj = new Product();
+        }
         public function actionIndex($filename,$page = 1)
         {
             $arrStyle = ['bootstrap.min','fonts','email','goods',$filename];
@@ -12,16 +16,15 @@
             require_once(ROOT."/views/catalog/".$filename.".php");//подключение файлов системы
             return true;
         }
-        public function actionCategory($filename,$alias, $page = 1)
+        public function actionCategory($filename,$alias)
         { 
-             
             $arrStyle = ['bootstrap.min','fonts','goods','email',$filename];
             $fileStyle = Page::getStyles($arrStyle);
             $arrScripts = ['bootstrap.min','category','email',$filename];
             $fileScript = Page::getScripts($arrScripts);
             $_SESSION['alias'] = $alias;
-            $cost_max = Product::getMaxMinCost($alias,'max');
-            $cost_min = Product::getMaxMinCost($alias,'min');
+            $cost_max= $this->getProductObj()->getTotalProducts($alias,'max');
+            $cost_min= $this->getProductObj()->getTotalProducts($alias,'min');
             require_once(ROOT."/views/catalog/".$filename.".php");//подключение файлов системы
             return true;
             
