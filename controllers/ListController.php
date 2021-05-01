@@ -67,7 +67,6 @@
                 $countItem = Cart::countItem($products);
                 echo json_encode($products);
             }else {
-                
                 echo json_encode('0');
             }
             return true;

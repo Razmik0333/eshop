@@ -1,43 +1,41 @@
 <?php 
 
-    class RegisterController{
+    class RegisterController extends AppController{
+        private $obj;
+        public function __construct()
+        {
+            $this->obj = $this->getNewObject('user');
+        }
         public function actionCheck($email)
         {
-            echo json_encode(User::checkEmailExists($email));
+            echo json_encode($this->obj->checkEmailExists($email));
             return true;
         }
 
         public function actionLog($login)
         {
-            echo json_encode(User::checkLoginExists($login));
+            echo json_encode($this->obj->checkLoginExists($login));
             return true;
         }
         public function actionRegister()
         {
-            $login = $_POST['login'];
-            $password = password_hash($_POST['password']);            ;
-            $email = $_POST['email'];
-            $name = $_POST['name'];
-            $country = $_POST['country'];
-            $city = $_POST['city'];
-            $zip = $_POST['zip']; 
-            echo json_encode(User::register($login,$password,$email,$name,$country,$city,$zip));
+            echo json_encode($this->getNewObject('user')->register($_POST));
             return true;
         }
         public function actionLogin()
         {
             $password = $_POST['password']; 
             $email = $_POST['email'];
-            $userId = User::checkUserData($email, $password);
+            $userId = $this->obj->checkUserData($email, $password);
+            //echo $userId;
             if ($userId) {
                 User::auth($userId);
-                echo json_encode($userId);
-                return true;
+                echo $userId;
             }else{
                 $userId = 0;
-                echo json_encode($userId);
-                return false;
+               echo json_encode($userId);
             }
+            return true;
         }
 
         public function actionGuest()

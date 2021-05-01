@@ -54,7 +54,14 @@ abstract class Main extends Db
         $arr = $this->pdo->queryFetch($sql, $field,[$minmax]);
         return $arr[0];
     }
+    public function getCountField($table,$field)
+    {
+        $sqlString = Main::createQueryForUpdate($field);
 
+        $sql = "SELECT COUNT(*) FROM $table WHERE $sqlString";
+        return $this->pdo->queryExecute($sql, $field)->fetchColumn();
+
+    }
     public function getFieldValue($table, $arrayOfFields, $str)
     {
         $sqlString = Main::createQueryForUpdate($arrayOfFields);

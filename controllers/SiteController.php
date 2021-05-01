@@ -6,6 +6,7 @@
             if ($filename == '' || $filename =='index.php') {
                 $filename = 'home';
             }
+            //unset($_SESSION['user']);
             $arrStyle = ['bootstrap.min','fonts','email',$filename];
             $fileStyle = Page::getStyles($arrStyle);
             $arrScripts = ['bootstrap.min','functions','category','email',$filename,'cart','rating'];

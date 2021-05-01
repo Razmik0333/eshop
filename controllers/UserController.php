@@ -66,8 +66,7 @@ class UserController
         }
         public function actionLogout()
         {
-            $categoryList = array();
-            $categoryList = Category::getCategoryList();
+            
             unset($_SESSION['user']);
             header("Location: /");
         }

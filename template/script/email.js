@@ -43,32 +43,6 @@ function loadPage()
                         <input type="password" class="form-control password" id="inputPassword4" placeholder="Password" name="password" value="">
                         <label for="inputPassword4">Password</label>
                     </div>
-                    <div class="form-group col-sm-6">
-                        <input type="password" class="form-control confirm " id="inputPassword3" placeholder="Confirm Password" name="confirm" value="">
-                        <label for="inputPassword3">Confirm Password</label>
-                    </div>
-                </div>
-                    <div class="form-group col-sm-6">
-                        <input type="text" class="form-control address position-relative"  id="inputAddress" placeholder="Enter Your address" name="address" value="">
-                        <label for="inputAddress">Address</label>
-                    </div>
-                    <div class="form-group col-sm-6">
-                        <input type="text" class="form-control city" style="width:100%" id="inputCity" placeholder="Enter Your city" name="city" value="">
-                        <label for="inputCity">City</label>
-                    </div>
-                <div class="form-row">
-                    <div class="form-group col-sm-4 form-country">
-                        <select id="inputState" class="form-control country" name="country" style="width:90%;"  >
-                            <option>Select country</option>
-                            <option value="Armenia" selected>Armenia</option>
-                            <option value="Russia">Russia</option>
-                            <option value="USA">USA</option>
-                        </select>
-                    </div>
-                    <div class="form-group form-zip" >
-                        <input type="text" class="form-control" id="inputZip" name="zip" value="">
-                        <label for="inputZip">Zip</label>
-                    </div>
                 </div>
                 <div class="form-group position-relative ">
                     <div class="form-check form-gender">
@@ -137,8 +111,9 @@ function loadPage()
                 let formData = new FormData(form);
                 load('/login', formData)
                 .then((res) =>{
+                    console.log(res);
                     id = res;
-                    if(res === undefined){
+                    if(res === 0){
                         modal.innerHTML = getModalWindow('Ներեցեք առկա են տեխնիկական խնդիրներ։Փորձեք մի փոքր ուշ')
                     }else{
                         modal.innerHTML = getModalWindow('Դուք հաջողությամբ մուտք եք գործել համակարգ') 
@@ -268,10 +243,8 @@ function loadPage()
             else{
                 load(`/register/check/${target.value}`)
                 .then(res => {
-                    
                     if (res === true) {
                         changeColor(target, true,'Մուտքանունը մուտքանունը առկա է');
-
                     }else{
                         changeColor(target, false,'Մուտքագրված e-mail-ը գրանցված չէ');
                     }
@@ -327,7 +300,7 @@ function loadPage()
                  <a class="nav-link text-white login" href="/user/login">ՄՈՒՏՔ</a>
              </li>
              <li class="nav-item" >
-                 <a class="nav-link text-white register" id="register" href="">ԳՐԱՆՑՈՒՄ</a>
+                 <a class="nav-link text-white register" id="register" href="/user/register">ԳՐԱՆՑՈՒՄ</a>
              </li>
             `
          }else{
