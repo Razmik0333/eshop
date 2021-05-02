@@ -37,8 +37,7 @@
             //var_dump(password_verify($password,$user['password']));
             //var_dump(password_hash('Razojan0333',PASSWORD_DEFAULT));
             if (password_verify($password,$user['password'])) {
-                echo $user['id'];
-                return true;
+                return $user['id'];
             }
             return false;
         }
@@ -60,20 +59,13 @@
             }
             return true;
         }
-        public static function getUserById($id)
+        public function getUserById($id)
         {
             if($id){
-                /*$db = Db::getConnection();
-                $sql = 'SELECT * FROM user WHERE id = :id';
-                $result = $db->prepare($sql);
-                $result->bindParam(':id',$id,PDO::PARAM_INT);
-                $result->setFetchMode(PDO::FETCH_ASSOC);
-                $result->execute();                
-                return $result->fetch();*/
-
-                $user = $this->findFieldById($this->tableName,['id'=>$id],['login','password']);
-                return true;
+                $user = $this->findFieldById($this->tableName,['id'=>$id],['id','login','name']);
+                return $user;
             }
+            return false;
         }
         public static function edit($id,$name, $password)
         {

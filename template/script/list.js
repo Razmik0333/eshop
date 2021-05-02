@@ -44,7 +44,6 @@ function loadPage() {
 
 							}else{
 								totalPrice = getTotalPrice(res, res1);
-                                console.log("🚀 ~ file: list.js ~ line 49 ~ load ~ totalPrice", totalPrice)
 								let cartTemplate = renderResult(res,res1);
 								cartItem.innerHTML = renderTotalPrice(totalPrice) + cartTemplate + getBuy('')
 								cartCount.innerHTML = getCartCount(res);
@@ -58,6 +57,7 @@ function loadPage() {
 					let modal = document.querySelector('.modal')
 					modal.classList.add('modal-item');
 					load('/list/data').then(res => {
+						console.log(res);
 						let strData = JSON.stringify(cartData);
 						if(res === 0){
 							modal.innerHTML = renderDataUser(undefined)
@@ -140,34 +140,34 @@ function renderDataUser(obj, strData, price) {
 	return `
 	<form class="text-dark form container" method="POST" action="#">
 		<div class="form-col" >
-			<div class="form-group col-sm-6">
-				<input type="text" class="form-control input-hide" id="inputName4" placeholder="Enter Your Name" name="id" value="${getData(obj,'id')}">
+			<div class="form-group col-sm-6">			
+				<input type="text" class="form-control input-hide" id="inputName4" placeholder="Enter Your Name" name="user_id" value="${getData(obj,'id')}">
 			</div>
 			<div class="form-group col-sm-6">
-				<input type="text" class="form-control name" id="inputName4" placeholder="Enter Your Name" name="name" value="${getData(obj,'name')}">
+				<input type="text" class="form-control name" id="inputName4" placeholder="Enter Your Name" name="user_name" value="${getData(obj,'name')}">
 				<label for="inputName4">First name</label>
 			</div>
 			<div class="form-group col-sm-6">
-				<input type="phone" class="form-control phone" id="inputPhone4" placeholder="Your phone" name="phone" value="">
+				<input type="phone" class="form-control phone" id="inputPhone4" placeholder="Your phone" name="user_phone" value="">
 				<label for="inputPhone4">Your phone</label>
 			</div>
 			<div class="form-group col-sm-6 input-hide">
-				<input type="hidden" class="form-control" id="inputOrder4" placeholder="Your phone" name="order" value='${strData}'>
+				<input type="hidden" class="form-control" id="inputOrder4" placeholder="Your phone" name="user_order" value='${strData}'>
 				<label for="inputOrder4">Your Order</label>
 			</div>
 			<div class="form-group col-sm-6 input-hide">
-				<input type="hidden" class="form-control disabled" id="inputPrice4" placeholder="All Price" name="price" value='${price}'>
+				<input type="hidden" class="form-control disabled" id="inputPrice4" placeholder="All Price" name="user_price" value='${price}'>
 				<label for="inputPrice4">Price</label>
 			</div>
 			<div class="form-group col-sm-6">
-			<textarea class="form-control" name="comment" placeholder="Enter Your Comment" id="exampleFormControlTextarea1" rows="3"></textarea>
+			<textarea class="form-control" name="user_comment" placeholder="Enter Your Comment" id="exampleFormControlTextarea1" rows="3"></textarea>
 		  </div>
 		</div>
 		<input type="submit" class="btn btn-primary position-relative order" data-order="order" value="Պատվիրել" name="submit"  style="left:15px">
 	</form> `;
 }
 function getData(obj,prop) {
-	return obj !== undefined ? obj[prop] : ''
+	return obj !== undefined ? obj[0][prop] : ''
 }
 
 

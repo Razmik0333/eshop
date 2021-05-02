@@ -4,7 +4,7 @@ class Product extends Main
 {
     public $tableName = 'products';
     public $productsLists = [];
-    public $requiredFields =  ['id','main','descr','cost','new_cost','rating'];
+    public $requiredFields =  ['id','main','descr','cost','new_cost','rating','descr'];
     const SHOW_BY_DEFAULT = 8;
     const RATING_VALUE = 4;
 
@@ -37,12 +37,13 @@ class Product extends Main
     }
     public function deleteProductById($id)
     {
-        return $this->deleteFieldById($this->table, ['id' => $id]);
+        return $this->deleteFieldById($this->tableName, ['id' => $id]);
     }
     public function getProductByIds($idsArray)
     {
-        if($idsArray){
-            $this->productLists = $this->findFieldsByIds($this->table,'id',$idsArray,$this->requiredFields);
+        if($idsArray){ //[20, 21, 22]
+
+            $this->productLists = $this->findFieldsByIds($this->tableName,'id',$idsArray,$this->requiredFields);
             return $this->productLists;
         }
         return false;
@@ -61,7 +62,7 @@ class Product extends Main
     }
     public function getProductsInCategory($alias){
         if ($alias) {
-            $this->productsLists = $this->findFieldById($this->tableName, ['alias' => $alias],$this->requiredFields);
+            $this->productsLists = $this->findFieldById($this->tableName, ['alias' => $alias],$this->requiredFields,null);
             return $this->productsLists;
             
         }
@@ -308,7 +309,7 @@ class Product extends Main
          return $products;
     }
     
-    public static function getProductByIdsString($idsString)
+    /*public static function getProductByIdsString($idsString)
     {
         
         $db = Db::getConnection();
@@ -333,7 +334,7 @@ class Product extends Main
             return $products;
         }
         return false;
-    }
+    }*/
     public static function saveToSession($str,$name){
         $_SESSION[$str] = $name;
     }

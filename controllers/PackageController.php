@@ -1,16 +1,18 @@
 <?php 
-    class PackageController
+    class PackageController extends AppController
     {
         public function actionData()
         {
             $userId = $_SESSION['user'];
-            $userOrders = Order::getOrdersById($userId);
+            $userOrders = $this->getNewObject('order')->getOrdersById($userId);
+            //var_dump($userOrders);
             echo json_encode($userOrders);
             return  true;
         }
         public function actionProduct($str)
         {
-            $userOrders = Product::getProductByIdsString($str);
+
+            $userOrders = $this->getNewObject('product')->getProductByIds($str);
             echo json_encode($userOrders);
             return true;
         }

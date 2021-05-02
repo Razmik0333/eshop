@@ -9,12 +9,11 @@ abstract class Main extends Db
     }
 
     //find fields from SELECT
-    public function findFieldById($table, $arrayOfFields = [], $field,$count = null)
+    public function findFieldById($table, $arrayOfFields = [], $field,$count)
     {
         $sqlString = Main::createQueryForUpdate($arrayOfFields);
         $sql = "SELECT * FROM {$table} WHERE $sqlString ";
-        $count !== null ?  $sql.=" LIMIT $count" : '';;
-        //echo $sql;
+        $count == null ? $sql .= '' : $sql .= " ORDER BY id DESC LIMIT $count ";
 
         $arr = $this->pdo->queryFetch($sql, $arrayOfFields,$field);
         return $arr; 
@@ -32,11 +31,11 @@ abstract class Main extends Db
         $arr = $this->pdo->queryFetch($sql,null, $arrayOfFields);
         return $arr;
     }
-    public function findFieldsByIds($table,$field,$idsArray,$arrayOfFields=[])
+    public function findFieldsByIds($table,$field,$idsString,$arrayOfFields=[])
     {
-        $idsString = implode(',', $idsArray);
+        //$idsString = implode(',', $idsArray);
         $sql = "SELECT * FROM {$table} WHERE $field IN ($idsString)";
-        $arr = $this->pdo->queryFetch($sql, $arrayOfFields);
+        $arr = $this->pdo->queryFetch($sql, null, $arrayOfFields);
         return $arr;
         
     }
@@ -57,7 +56,7 @@ abstract class Main extends Db
     public function getCountField($table,$field)
     {
         $sqlString = Main::createQueryForUpdate($field);
-
+        //echo $sqlString;
         $sql = "SELECT COUNT(*) FROM $table WHERE $sqlString";
         return $this->pdo->queryExecute($sql, $field)->fetchColumn();
 

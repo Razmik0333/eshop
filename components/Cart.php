@@ -14,7 +14,7 @@
                 $productsInCart[$id] = 1;
             }
             $_SESSION['products'] = $productsInCart;
-           
+           //var_dump($_SESSION['products']);
             return self::countItem();
 
         }

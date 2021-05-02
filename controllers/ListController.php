@@ -1,14 +1,14 @@
 <?php
 
-    class ListController
+    class ListController extends AppController
     {    
-        public function getCategoryObj()
-        {
-            return $productObj = new Category();
-        }    
+        // public function getCategoryObj()
+        // {
+        //     return $productObj = new Category();
+        // }    
         public function actionCategory(){
             $categoryList = array();
-            $categoryList = $this->getCategoryObj()->getCategories();
+            $categoryList = $this->getNewObject('category')->getCategories();
             echo json_encode($categoryList);
             return true;
         }
@@ -27,7 +27,7 @@
         {
             if(isset($_SESSION['user'])){
                 $id = $_SESSION['user'];
-                $dataByUser = User::getUserById($id);
+                $dataByUser = $this->getNewObject('user')->getUserById($id);
                 echo json_encode($dataByUser);
             }else {
                 echo json_encode(0);
@@ -37,13 +37,8 @@
         public function actionBuy()
         {
             if (isset($_POST)) {
-                $userId = $_POST['id'];
-                $userName = $_POST['name'];  
-                $userPhone = $_POST['phone']; 
-                $userComment = $_POST['comment'];
-                $userOrder = $_POST['order'];
-                $userPrice = $_POST['price'];
-                echo json_encode(Order::save($userId, $userName, $userPhone, $userComment, $userOrder,$userPrice));
+
+                echo json_encode($this->getNewObject('order')->save($_POST));
             }
             return true;
         }
@@ -63,7 +58,9 @@
             $productsInCart = Cart::getProducts();
             if($productsInCart){
                 $productsIds = array_keys($productsInCart);
-                $products = Product::getProductByIds($productsIds);
+                $productsIdsString = implode(',',$productsIds);
+                $products = $this->getNewObject('product')->getProductByIds($productsIdsString);
+                
                 $countItem = Cart::countItem($products);
                 echo json_encode($products);
             }else {
@@ -77,7 +74,9 @@
             $productsInCart = Cart::getProducts();
             if($productsInCart){
                 $productsIds = array_keys($productsInCart);
-                $products = Product::getProductByIds($productsIds);
+                $productsIdsString = implode(',',$productsIds);
+
+                $products = $this->getNewObject('product')->getProductByIds($productsIdsString);
                 $totalPrice = Cart::getTotalPrice($products);
                 echo json_encode($totalPrice);
             }
@@ -92,7 +91,9 @@
             $productsInCart = Cart::getProducts();
             if($productsInCart){
                 $productsIds = array_keys($productsInCart);
-                $products = Product::getProductByIds($productsIds);
+                $productsIdsString = implode(',',$productsIds);
+
+                $products = $this->getNewObject('product')->getProductByIds($productsIdsString);
                 echo json_encode($products);
             }else {
                 echo json_encode('0');

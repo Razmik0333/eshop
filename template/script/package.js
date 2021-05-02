@@ -16,10 +16,10 @@ function loadPage()
             load(`/package/product/${str}`).then(result => {
                 let template = '';
                 console.log(user_order);
-                template += renderOrderInfo();
+                template += renderOrderInfo(user_order['user_price']);
                 for (const iterator of result) {
                     
-                    console.log(iterator);
+                    //console.log(iterator);
                     template += renderOrderProducts(iterator)
                 }
                 
@@ -39,7 +39,7 @@ function getIdsStringFromOrder(str) {
     return arrString;
 
 }
-function renderOrderInfo() {
+function renderOrderInfo(totalPrice) {
     return `<div class="row bg-light p-1">
     <div class="col-4">
         <p class="mb-0">Պատվերի համարը։</p>
@@ -47,7 +47,7 @@ function renderOrderInfo() {
     </div>
     <div class="col-4">
         <p class="mb-0">Օպերատորի Անվանումը։</p>
-        <p class="mb-0"></p>
+        <p class="mb-0">Պատվերի արժեք՝ ${totalPrice}&#1423; </p>
     </div>
     <div class="col-4">
         Պատվերի Ընդհանուր Արժեքը։
@@ -64,7 +64,7 @@ function renderOrderProducts(obj) {
                         <a href="/product/"> <img class="card-img-top"  src="/template/images/${obj['id']}.jpg" alt=""/></a>
                     </div>
                     <div class="col-4" >
-                        <h5 class="cart-header h5">${obj.desc}</h5>
+                        <h5 class="cart-header h5">${obj.descr}</h5>
                         <div class="input-group-append">
                             <span class="input-group-text bg-white text-dark my-2" id="cart-cost" for="inputGroupSelect02">${obj['cost']}&#1423;</span>
                         </div>

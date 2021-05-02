@@ -1,38 +1,26 @@
 <?php  
-class Order {
+class Order extends Product
+{
     const STATUS_VALUE = 0;
-
-    public static function save($userId, $userName, $userPhone, $userComment,  $userOrder,$userPrice)
-    
+    public $tableName = "orders";
+    public $requiredFields = ['user_price', 'user_order', 'user_status'];
+    public $orderList;
+    public function save($arrOrder)
     {
-        $db = Db::getConnection();
-        $status = Order::STATUS_VALUE;
-        $sql = 
-        'INSERT INTO orders (`user_id`,`user_name`,`user_phone`,`user_comment`,`user_order`,`user_price`,`user_status`) 
-        VALUES 
-        (:user_id,:user_name,:user_phone,:user_comment,:user_order,:user_price,:user_status)';
-
-        $result = $db->prepare($sql);
-        $result->bindParam(':user_id', $userId,PDO::PARAM_STR);
-        $result->bindParam(':user_name', $userName,PDO::PARAM_STR);
-        $result->bindParam(':user_phone', $userPhone,PDO::PARAM_STR);
-        $result->bindParam(':user_comment', $userComment,PDO::PARAM_STR);
-        $result->bindParam(':user_order', $userOrder,PDO::PARAM_STR);
-        $result->bindParam(':user_price', $userPrice,PDO::PARAM_STR);
-        $result->bindParam(':user_status', $status,PDO::PARAM_STR);
-        return $result->execute();
+        return $this->insertField($this->tableName,$arrOrder);  
     }
-    public static function getOrdersById($id)
+    public function getOrdersCount($id)
+    {
+        $this->orderList = $this->getCountField($this->tableName,['user_id'=> $id]);
+        return $this->orderList;
+    }
+    public function getOrdersById($id)
     {
         if($id){
-            $db = Db::getConnection();
-            $sql = 'SELECT * FROM orders WHERE `user_id` = :user_id ';
-            $result = $db->prepare($sql);
-            $result->bindParam(':user_id',$id,PDO::PARAM_INT);
-            $result->setFetchMode(PDO::FETCH_ASSOC);
-            $result->execute();                
-            return $result->fetchAll(PDO::FETCH_ASSOC);
+            //echo $id;
+            return $this->findFieldById($this->tableName, ['user_id' => $id],$this->requiredFields,4);
         }
+        return false;
     }
     public static function getOrderById($id)
     {
@@ -114,7 +102,6 @@ class Order {
         foreach($array as  $value){
             $arr[] = array_values($value);
         }
-
         return $arr;
     }
     public static function getOrdersProducts($array)
