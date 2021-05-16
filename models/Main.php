@@ -18,10 +18,10 @@ abstract class Main extends Db
         $arr = $this->pdo->queryFetch($sql, $arrayOfFields,$field);
         return $arr; 
     }
-    public function findFields($table, $arrayOfFields = [], $count = NULL)
+    public function findFields($table, $arrayOfFields = [], $count)
     {
         $sql = "SELECT * FROM {$table}";
-        $count !== null ?  $sql.=" LIMIT $count" : '';
+        $count !== null ? $sql.=" LIMIT $count" : $sql .='';
         $arr = $this->pdo->queryFetch($sql, null, $arrayOfFields);
         return $arr;
     }

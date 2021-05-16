@@ -9,9 +9,7 @@
 					<nav aria-label="breadcrumb ">
 						<ol class="breadcrumb bg-light">
 							<li class="breadcrumb-item"><a href="/">ԳԼԽԱՎՈՐ</a></li>
-							<li class="breadcrumb-item"><a href="/category/<?php echo $productById["category"]?>"><?php echo $productById["arm_name"]?></a></li>
-							<li class="breadcrumb-item"><a href="/category/<?php echo $productById["category"]?>/<?php echo $productById["category_id"]?>"><?php echo $selectedCategory["category_arm_name"]?></a></li>
-							<li class="breadcrumb-item active" aria-current="page"><?php echo $productById['desc']?></li>
+							<li class="breadcrumb-item"><a href="/category/filter/<?php echo $productById["alias"]?>"><?php echo $productById["arm_name"]?></a></li>
 						</ol>
 					</nav>					
 				</div>
@@ -44,7 +42,7 @@
 				</div>
 		
 				<div class="col-7 p-1">
-					<h4 id="item-name"><?php echo $productById['desc']?></h4>
+					<h4 id="item-name"><?php echo $productById['descr']?></h4>
 					<span class="input-group-text mx-auto my-3 d-inline-block star-card" id="item-rating" for="inputGroupSelect02">
 						<?php for ($i = 1; $i <= 5; $i++) {
 							if ($i <= ceil($productById['rating'])) { ?>

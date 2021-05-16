@@ -5,23 +5,26 @@ class Order extends Product
     public $tableName = "orders";
     public $requiredFields = ['user_price', 'user_order', 'user_status'];
     public $orderList;
+    public $count;
     public function save($arrOrder)
     {
         return $this->insertField($this->tableName,$arrOrder);  
     }
     public function getOrdersCount($id)
     {
-        $this->orderList = $this->getCountField($this->tableName,['user_id'=> $id]);
-        return $this->orderList;
+        $this->count = $this->getCountField($this->tableName,['user_id'=> $id]);
+        return $this->count;
     }
     public function getOrdersById($id)
     {
         if($id){
             //echo $id;
-            return $this->findFieldById($this->tableName, ['user_id' => $id],$this->requiredFields,4);
+            return $this->findFieldById($this->tableName, ['user_id' => $id],$this->requiredFields,$this->count);
         }
         return false;
     }
+
+
     public static function getOrderById($id)
     {
         if($id){

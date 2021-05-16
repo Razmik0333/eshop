@@ -13,11 +13,11 @@ function loadPage()
     let loginBar = document.querySelector('.login-bar'); 
 
     load(`/guest`).then(res => {
-        checkGuest(res)
+        checkUser(res)
         return res;
         
     }).then((res) =>{
-       if (res) {
+       if (!res) {
         let register = document.querySelector('.register');
         let login = document.querySelector('.login');
         register.addEventListener('click', function (e) {
@@ -132,7 +132,7 @@ function loadPage()
                     
                     guest.then(res => {
                         
-                        checkGuest(res)
+                        checkUser(res)
                     })
                 })
             })
@@ -292,8 +292,11 @@ function loadPage()
     }   
 
     
-    function checkGuest(res) {
-        if (res) {
+    function checkUser(res) {
+        console.log(res);
+        if (!res) {
+
+            console.log(res);
             loginBar.innerHTML = 
             `
              <li class="nav-item">
@@ -304,16 +307,27 @@ function loadPage()
              </li>
             `
          }else{
+             console.log(res);
              loginBar.innerHTML = 
             `
+            <li class="nav-item dropdown bg-dark">
+                <a class="nav-link dropdown-toggle text-white" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">ԲԱՐև ${res['name']}</a>
+                <div class="dropdown-menu bg-dark menu-items">
+                    <a class="dropdown-item text-white" href="/cabinet">ԻՄ ԷՋԸ</a>
+                    <a class="dropdown-item text-white" href="/order/package">ԻՄ ՊԱՏՎԵՐՆԵՐԸ</a>
+                    <a class="dropdown-item text-white" href="/user/logout">ԵԼՔ</a>
+                    <a class="dropdown-item text-white" href="#">GBP</a>
+                    <a class="dropdown-item text-white" href="#">Other</a>
+                </div>
+			</li>
              <li class="nav-item" id="login">
-                 <a class="nav-link text-white" href="/cabinet">ԻՄ ԷՋԸ</a>
+                 <a class="nav-link text-white" href=""></a>
              </li>
              <li class="nav-item" id="login">
-                 <a class="nav-link text-white" href="/order/package">ԻՄ ՊԱՏՎԵՐՆԵՐԸ</a>
+                 <a class="nav-link text-white" href=""></a>
              </li>
              <li class="nav-item" >
-                 <a class="nav-link text-white" id="logout" href="/user/logout">ԵԼՔ</a>
+                 <a class="nav-link text-white" id="logout" href=""></a>
              </li>
             ` 
          }

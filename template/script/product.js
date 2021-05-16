@@ -21,7 +21,7 @@ function getGoodsItem(obj) {
         <img class="card-img-top item-card" src="/template/images/${obj.id}.jpg" alt="${obj.title}">
         ${getSaleStatus(obj.discount)}
         <div class="card-body text-center">
-            <a href="/product/view/${obj.id}" class="h6 item-name">${obj.desc}</a>
+            <a href="/product/view/${obj.id}" class="h6 item-name">${obj.descr}</a>
             <div class="col-6">
                 <div class="input-group-append ">
                     <span class="input-group-text my-3 mx-5 star-card" for="inputGroupSelect02">

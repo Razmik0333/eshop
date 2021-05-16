@@ -4,45 +4,24 @@
 
 ?>
 
-<div class="container border border-warning rounded order-list">
-    <!--<div class="container "> 
-            <div class="container border border-danger"> 
-            <div class="row bg-light p-1">
-                <div class="col-4">
-                    <p class="mb-0">Պատվերի համարը։</p>
-                    <p class="mb-0">Պատվերի ժամանակը։</p>
-                </div>
-                <div class="col-4">
-                    <p class="mb-0">Օպերատորի Անվանումը։</p>
-                    <p class="mb-0"></p>
-                </div>
-                <div class="col-4">
-                    Պատվերի Ընդհանուր Արժեքը։
-                    <p>Մինչ Պատվերի ավարտը Մնացել է։</p>
-                </div>
-            
-            </div>
-                <div class="row mt-3 mb-3 ">
-                    <div class="col-4 cart-item kl">
-                        <a href="/product/"><img src="" alt=""></a>
-                    </div>
-                    <div class="col-4" >
-                        <h5 class="cart-header h5"></h5>
-                        <div class="input-group-append">
-                            <span class="input-group-text bg-white text-dark my-2" id="cart-cost" for="inputGroupSelect02">դրամ</span>
-                        </div>
-                        <span class="input-group-text mx-auto my-1 d-inline-block star-card" id="cart-rating" for="inputGroupSelect02">
-                            
-                        </span>
-                        <div class="my-2 h5">Համառոտ նկարագրություն </div>
-                        <div class="mx-1 p-2 cart-description"> </div>
-                        <button type="submit" class="btn btn-primary my-1 w-50" name="confirm">Հետևել</button><br>
-                        <button type="submit" class="btn btn-danger my-1 w-50" name="confirm">Հաստատել</button>
-                        
-                    </div>
-                </div>
-            </div>
-    </div>-->
+<div class="container border border-warning rounded order-tabs">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light ">
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <ul class="navbar-nav ">
+            <li class="nav-item nav-link active-tab">ԱՄԲՈՂՋ<span class="sr-only">(current)</span></li>
+            <li class="nav-item nav-link" data-order="1">ԸՆԴՈՒՆՎԱԾ</li>
+            <li class="nav-item nav-link"data-order="2">ՈՒՂԱՐԿՎԱԾ</li>
+            <li class="nav-item nav-link"data-order="3">ԱՎԱՐՏՎԱԾ</li>
+        </ul>
+    </div>
+    </nav>
+    <div class="order-list">
+    
+    </div>
 
 </div>
 

@@ -1,6 +1,8 @@
 <?php 
 	require_once ROOT.'/views/parts/header.php';
+	
 ?>
+
 		<div class="container">			
 			<div class="row goods-card filter-item">	
 				

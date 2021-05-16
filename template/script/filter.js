@@ -29,71 +29,136 @@ function loadPage() {
         filter = load(`/filter/products`);
     }
     filter.then(res => {
-        baseArray = res;
-        if(document.querySelector('.filters') !== null){
-            let filters = document.querySelector('.filters');
-            filters.addEventListener('click', function (e) {
-                let target = e.target;
-                if (target.tagName !== 'A' || target.classList.contains('item-name')) return;
-                e.preventDefault();
-                if(target.dataset.value){
-                    filtersShow.innerHTML = target.innerHTML;
-                    setSelectedClass(target, target.parentElement.children,'selected');
-                }
-                if(target.dataset.value == 'newest'){
-                    res.sort(function sortArr(obj1, obj2) {                
-                        if(+obj1.id > +obj2.id){
-                            return -1;
-                        }
-                        if(+obj1.id > +obj2.id){
-                            return 1;
-                        }
-                        return 0;
-                    });
-                    baseArray = res;   
-                }
-                else if(target.dataset.value == 'cheap'){
-                    res.sort(function sortArr(obj1, obj2) {                
-                        if(+obj1.cost < +obj2.cost){
-                            return -1;
-                        }
-                        if(+obj1.cost > +obj2.cost){
-                            return 1;
-                        }
-                        return 0;
-                    });
-                    baseArray = res;   
-    
-                }
-                else if(target.dataset.value == 'rating'){
-                    res.sort(function sortArr(obj1, obj2) {                
-                        if(+obj1.rating < +obj2.rating){
-                            return 1;
-                        }
-                        if(+obj1.rating > +obj2.rating){
-                            return -1;
-                        }
-                        return 0;
-                    });
-                    baseArray = res;   
-    
-                }
-                else if(target.classList.contains('highest')){
-                    if(target.classList.contains('selected')){
-                        target.classList.remove('selected');
-                        baseArray = res;
-                        
-                    }else{
+        console.log(res);
+        if(!res){
+            productItem.innerHTML = 
+            `
+            <div class="spinner-border text-warning" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            `;
+
+        }else{
+            baseArray = res;
+            if(document.querySelector('.filters') !== null){
+                let filters = document.querySelector('.filters');
+                filters.addEventListener('click', function (e) {
+                    let target = e.target;
+                    if (target.tagName !== 'A' || target.classList.contains('item-name')) return;
+                    e.preventDefault();
+                    if(target.dataset.value){
+                        filtersShow.innerHTML = target.innerHTML;
                         setSelectedClass(target, target.parentElement.children,'selected');
-                        baseArray = res.filter(elem => +elem.rating >= 4);
                     }
+                    if(target.dataset.value == 'newest'){
+                        res.sort(function sortArr(obj1, obj2) {                
+                            if(+obj1.id > +obj2.id){
+                                return -1;
+                            }
+                            if(+obj1.id > +obj2.id){
+                                return 1;
+                            }
+                            return 0;
+                        });
+                        baseArray = res;   
+                    }
+                    else if(target.dataset.value == 'cheap'){
+                        res.sort(function sortArr(obj1, obj2) {                
+                            if(+obj1.cost < +obj2.cost){
+                                return -1;
+                            }
+                            if(+obj1.cost > +obj2.cost){
+                                return 1;
+                            }
+                            return 0;
+                        });
+                        baseArray = res;   
+        
+                    }
+                    else if(target.dataset.value == 'rating'){
+                        res.sort(function sortArr(obj1, obj2) {                
+                            if(+obj1.rating < +obj2.rating){
+                                return 1;
+                            }
+                            if(+obj1.rating > +obj2.rating){
+                                return -1;
+                            }
+                            return 0;
+                        });
+                        baseArray = res;   
+        
+                    }
+                    else if(target.classList.contains('highest')){
+                        if(target.classList.contains('selected')){
+                            target.classList.remove('selected');
+                            baseArray = res;
+                            
+                        }else{
+                            setSelectedClass(target, target.parentElement.children,'selected');
+                            baseArray = res.filter(elem => +elem.rating >= 4);
+                        }
+                    }
+                    total = baseArray.length;  //
+                    let start = getStart(onePage,page);  // 1 -> 0  // 2 -> 8 // 3 -> 16
+        
+                    let final = getFinal(onePage,page,total);
+                    if (start === 0) {
+                        paginationItems.innerHTML = renderPagination(res, 'first');
+                        current = 1;
+                    }
+                    
+                    setSelectedClass(child[page], child, 'active');
+                    arr = renderStartPage(baseArray,start, final); 
+        
+                    productItem.innerHTML = renderGoods(arr);  //sorting array
+                    paginationItems.addEventListener('click', generatePage,false);
+        
+                })
+                filterCost.addEventListener('keyup', function (e) {
+    
+                    let target = e.target;
+        
+                    if(e.target.tagName !== 'INPUT') return;
+        
+                    target.classList.contains('cost-min') ?  costMin = +target.value : costMax = +target.value;
+        
+                    let costBetween = res.filter(elem => +elem.cost >= costMin && +elem.cost <= costMax);   
+        
+                    baseArray = costBetween;
+                    total = baseArray.length;  //
+                    let start = getStart(onePage,page);  // 1 -> 0  // 2 -> 8 // 3 -> 16
+        
+                    let final = getFinal(onePage,page,total);
+        
+                    if (start === 0) {
+                        paginationItems.innerHTML = renderPagination(baseArray, 'first');
+                        current = 1;
+                    }
+                    
+                    setSelectedClass(child[page], child, 'active');
+                    
+                    arr = renderStartPage(baseArray,start, final); 
+        
+                    productItem.innerHTML = renderGoods(arr);  //sorting array
+                    paginationItems.addEventListener('click', generatePage,false);
+                })
+            } 
+            let search = document.querySelector('#search');
+            
+            search.addEventListener('click', function (e) {
+                e.preventDefault();
+                let searchField = document.querySelector('#search-field');
+                let value = searchField.value;
+                if(searchField.value.length > 0){
+                    let arrHasWord = res.filter((item) => item.main.search(value) !== -1)
+                    baseArray = arrHasWord;
                 }
                 total = baseArray.length;  //
                 let start = getStart(onePage,page);  // 1 -> 0  // 2 -> 8 // 3 -> 16
     
                 let final = getFinal(onePage,page,total);
                 if (start === 0) {
-                    paginationItems.innerHTML = renderPagination(res, 'first');
+                    paginationItems.innerHTML = renderPagination(baseArray, 'first');
                     current = 1;
                 }
                 
@@ -102,135 +167,81 @@ function loadPage() {
     
                 productItem.innerHTML = renderGoods(arr);  //sorting array
                 paginationItems.addEventListener('click', generatePage,false);
-    
             })
-            filterCost.addEventListener('keyup', function (e) {
-
+            
+            total = baseArray.length;
+    
+            arr = renderStartPage(baseArray,page - 1, onePage - 1);
+    
+            paginationItems.addEventListener('click', generatePage,false);  //generate pagination
+    
+            function generatePage(e) {
                 let target = e.target;
-    
-                if(e.target.tagName !== 'INPUT') return;
-    
-                target.classList.contains('cost-min') ?  costMin = +target.value : costMax = +target.value;
-    
-                let costBetween = res.filter(elem => +elem.cost >= costMin && +elem.cost <= costMax);   
-    
-                baseArray = costBetween;
-                total = baseArray.length;  //
-                let start = getStart(onePage,page);  // 1 -> 0  // 2 -> 8 // 3 -> 16
-    
-                let final = getFinal(onePage,page,total);
-    
-                if (start === 0) {
-                    paginationItems.innerHTML = renderPagination(baseArray, 'first');
-                    current = 1;
-                }
+                e.preventDefault();
                 
-                setSelectedClass(child[page], child, 'active');
+                if (target.tagName !== 'A') return;
                 
-                arr = renderStartPage(baseArray,start, final); 
-    
-                productItem.innerHTML = renderGoods(arr);  //sorting array
-                paginationItems.addEventListener('click', generatePage,false);
-            })
-        } 
-        let search = document.querySelector('#search');
+                if (+target.dataset.page) {
+                    
+                    page = +target.dataset.page;
         
-        search.addEventListener('click', function (e) {
-            e.preventDefault();
-            let searchField = document.querySelector('#search-field');
-            let value = searchField.value;
-            if(searchField.value.length > 0){
-                let arrHasWord = res.filter((item) => item.main.search(value) !== -1)
-                baseArray = arrHasWord;
-            }
-            total = baseArray.length;  //
-            let start = getStart(onePage,page);  // 1 -> 0  // 2 -> 8 // 3 -> 16
-
-            let final = getFinal(onePage,page,total);
-            if (start === 0) {
-                paginationItems.innerHTML = renderPagination(baseArray, 'first');
-                current = 1;
-            }
-            
-            setSelectedClass(child[page], child, 'active');
-            arr = renderStartPage(baseArray,start, final); 
-
-            productItem.innerHTML = renderGoods(arr);  //sorting array
-            paginationItems.addEventListener('click', generatePage,false);
-        })
+                    current = page;
+                    
+                    let start = getStart(onePage,page);  // 1 -> 0  // 2 -> 8 // 3 -> 16
+    
+                    let final = getFinal(onePage,page,total);
+                   
+                    let arr = renderStartPage(baseArray, start,final);
+    
+                    if (page === 1 || start === 0) {
+    
+                        paginationItems.innerHTML = renderPagination(baseArray, 'first');
+                    }
+                    else if (page === Math.ceil(total / onePage)) {
+                        paginationItems.innerHTML = renderPagination(baseArray, 'last');
+                    }
+                    else{
+                        paginationItems.innerHTML = renderPagination(baseArray,'other');
+                    }
+                    
+                    setSelectedClass(child[page], child, 'active');
+                    
+                    productItem.innerHTML = renderGoods(arr);
+                }
+                if (target.dataset.position) {
+                    position = target.dataset.position;
+                    
+                    position === 'prev' ? --current : ++current;
+                    
+                    current > Math.ceil(total / onePage) ?  current = 1 : false; 
+                    
+                    if (current === 1) {
+                        paginationItems.innerHTML = renderPagination(baseArray, 'first');
+                    }
         
-        total = baseArray.length;
-
-        arr = renderStartPage(baseArray,page - 1, onePage - 1);
-
-        paginationItems.addEventListener('click', generatePage,false);  //generate pagination
-
-        function generatePage(e) {
-            let target = e.target;
-            e.preventDefault();
-            
-            if (target.tagName !== 'A') return;
-            
-            if (+target.dataset.page) {
-                
-                page = +target.dataset.page;
-    
-                current = page;
-                
-                let start = getStart(onePage,page);  // 1 -> 0  // 2 -> 8 // 3 -> 16
-
-                let final = getFinal(onePage,page,total);
+                    else if (current === Math.ceil(total / onePage)) {
+                        paginationItems.innerHTML = renderPagination(baseArray, 'last');
+                    }
+                   
+                    let start = getStart(onePage,current);
+        
+                    let final = getFinal(onePage,current,total);
                
-                let arr = renderStartPage(baseArray, start,final);
-
-                if (page === 1 || start === 0) {
-
-                    paginationItems.innerHTML = renderPagination(baseArray, 'first');
-                }
-                else if (page === Math.ceil(total / onePage)) {
-                    paginationItems.innerHTML = renderPagination(baseArray, 'last');
-                }
-                else{
-                    paginationItems.innerHTML = renderPagination(baseArray,'other');
-                }
-                
-                setSelectedClass(child[page], child, 'active');
-                
-                productItem.innerHTML = renderGoods(arr);
-            }
-            if (target.dataset.position) {
-                position = target.dataset.position;
-                
-                position === 'prev' ? --current : ++current;
-                
-                current > Math.ceil(total / onePage) ?  current = 1 : false; 
-                
-                if (current === 1) {
-                    paginationItems.innerHTML = renderPagination(baseArray, 'first');
-                }
+                    let arr = renderStartPage(baseArray, start, final);
     
-                else if (current === Math.ceil(total / onePage)) {
-                    paginationItems.innerHTML = renderPagination(baseArray, 'last');
-                }
-               
-                let start = getStart(onePage,current);
+                    setSelectedClass(child[current], child, 'active');
     
-                let final = getFinal(onePage,current,total);
-           
-                let arr = renderStartPage(baseArray, start, final);
-
-                setSelectedClass(child[current], child, 'active');
-
-                productItem.innerHTML = renderGoods(arr);
+                    productItem.innerHTML = renderGoods(arr);
+                }
+               e.stopPropagation()
             }
-           e.stopPropagation()
+            paginationItems.innerHTML = renderPagination(baseArray,'first');
+    
+            
+            setSelectedClass(child[1], child, 'active');
+            
+            productItem.innerHTML = renderGoods(arr);
         }
-        paginationItems.innerHTML = renderPagination(baseArray,'first');
-
-        
-        setSelectedClass(child[1], child, 'active');
-        
-        productItem.innerHTML = renderGoods(arr);
          
     })
 }
@@ -248,8 +259,7 @@ function setSelectedClass(target, child, selector){
 }
 
 function getGoodsItem(obj) {
-    console.log(obj);
-    
+  
     let productCard = `
     <div class="col-3 item-col">
         <div class="card text-center">

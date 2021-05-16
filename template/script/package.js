@@ -7,32 +7,98 @@ window.addEventListener("load", loadPage,false);
 
 function loadPage()
 {
-    let orderList = document.querySelector('.order-list');
+    let accept;
+    let send;
+    let end;
     load('/package/data')
     .then(res => {
-        let temp1 ='';
-        for (const user_order of res) {
-            let str = getIdsStringFromOrder(user_order['user_order']);
-            load(`/package/product/${str}`).then(result => {
-                let template = '';
-                console.log(user_order);
-                template += renderOrderInfo(user_order['user_price']);
-                for (const iterator of result) {
-                    
-                    //console.log(iterator);
-                    template += renderOrderProducts(iterator)
+        let arr;
+        let temp1 =``;
+        let acceptDiv = document.querySelector('.accept');
+        let orderList = document.querySelector('.order-list');
+        arr = res;
+        let orderTabs = document.querySelector('.order-tabs');
+
+        orderTabs.addEventListener('click',function (e) {
+            e.preventDefault();
+            let target = e.target;
+            if(target.tagName !== 'LI') return;
+            let childs = target.parentNode.children;
+            for (const iterator of childs) {
+                iterator.classList.remove('active-tab');
+            }
+            target.classList.add('active-tab');
+            if(res.length !== 0){
+                if(target.dataset.order){
+                    arr = res.filter(item => item.user_status == target.dataset.order)
+
+                }else{
+                    arr = res;
                 }
-                
-                temp1 += template
-                //console.log("🚀 ~ file: package.js ~ line 24 ~ load ~ temp1", temp1)
-                
-                orderList.innerHTML = temp1
-            })
+                if(res.length !== 0){
+                    let template = '';
+                    for (const user_order of arr) {
+
+                        let str = getIdsStringFromOrder(user_order['user_order']);
+                        
+                        load(`/package/product/${str}`)
+                        .then(result => {
             
+                            template += renderCardItem(user_order,result)
+                        
+                            orderList.innerHTML = template;
+                            
+                        })
+                        
+                        
+                    }
+                }
+                else{
+                    orderList.innerHTML = 'Պատվերներ Առկա չեն';
+    
+                } 
+                template = '';
+            }
+            else{
+                orderList.innerHTML = 'Պատվերներ Առկա չեն';
+
+            }      
+
+
             
+        });
+        if(res.length !== 0){
+            let template = '';
+            for (const user_order of arr) {
+
+                let str = getIdsStringFromOrder(user_order['user_order']);
+                load(`/package/product/${str}`)
+                .then(result => {
+                    template += renderCardItem(user_order,result)
+                    orderList.innerHTML = template;
+                })
+            }
+        }else{
+            orderList.innerHTML = 'Պատվերներ Առկա չեն';
+
         }
     })
 }
+function renderCardItem(user_order,result) {
+    let template = '';
+    template += renderOrderInfo(user_order['user_price']);
+    template +=renderOrderList(result);
+    return  template;
+}
+function renderOrderList(obj) {
+    let template = '';
+    for (const iterator of obj) {
+        template += renderOrderProducts(iterator)
+    }
+    return template;
+    //temp1 += template
+}
+
 function getIdsStringFromOrder(str) {
     let objOfOrder = JSON.parse(str);
     let arrString = Object.keys(objOfOrder).join(',');

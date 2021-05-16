@@ -9,7 +9,10 @@
             $this->insertField($this->tableName,$arrOfData);  
             return true;
         }
-        
+        public function getName($id)
+        {
+           return $this->getFieldValue($this->tableName,['id' => $id], 'name');
+        }
 
         public static function checkEmail($email)
         {
@@ -33,9 +36,7 @@
         
         public function checkUserData($email,$password)
         {
-            $user = $this->findFieldById($this->tableName,['email'=>$email],['id','login','password'])[0];
-            //var_dump(password_verify($password,$user['password']));
-            //var_dump(password_hash('Razojan0333',PASSWORD_DEFAULT));
+            $user = $this->findFieldById($this->tableName,['email'=>$email],['id','login','password'],1)[0];
             if (password_verify($password,$user['password'])) {
                 return $user['id'];
             }
@@ -50,19 +51,22 @@
             if(isset($_SESSION['user'])){
                 return $_SESSION['user'];
             }
-            header("Location: /user/login");
+           // header("Location: /home");
+            return false;
         }
-        public static function isGuest()
+        public function isUser()
         {
             if(isset($_SESSION['user'])){
-                return false;
+                $id = $_SESSION['user'];
+                $user = $this->getUserById($id)[0];
+                return $user;
             }
-            return true;
+            return false;
         }
         public function getUserById($id)
         {
             if($id){
-                $user = $this->findFieldById($this->tableName,['id'=>$id],['id','login','name']);
+                $user = $this->findFieldById($this->tableName,['id'=>$id],['id','login','name','role'],1);
                 return $user;
             }
             return false;

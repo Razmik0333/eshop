@@ -40,7 +40,9 @@
 
         public function actionGuest()
         {
-            echo json_encode(User::isGuest());
+            //unset($_SESSION['user']);
+            
+            echo json_encode($this->obj->isUser());
             return true;
         }
 

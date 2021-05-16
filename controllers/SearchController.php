@@ -1,7 +1,7 @@
 <?php
-    class SearchController
+    class SearchController extends AppController
     {
-        public function actionIndex($filename,$page)
+        public function actionIndex($filename)
         {
             //echo 'pg'.$page;
             $arrStyle = ['bootstrap.min','fonts',$filename];
@@ -11,7 +11,7 @@
             $productsLists = array();
             if(isset($_POST['search'])){
                 $str = $_POST['search-field'];
-                $productsLists = Product::getProductByStr($str,1);
+                $productsLists = $this->getNewObject('product')->getProductByStr($str);          
             }
             
             

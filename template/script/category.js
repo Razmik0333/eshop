@@ -54,7 +54,7 @@ function loadPage()
     }
     function getSearchItems(arr)
     {
-        let	template = `<a href='/product/view/${arr['id']}'><li class="list-group-item">${arr['desc']}  </li></a>`
+        let	template = `<a href='/product/view/${arr['id']}'><li class="list-group-item">${arr['descr']}  </li></a>`
         return template;
     }
 function getCartCompareButtons(num,type,file){

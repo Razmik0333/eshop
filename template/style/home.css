@@ -62,6 +62,9 @@
 .active-cat{
 	background: rgb(223, 179, 83);
 }
+.active-tab{
+	background: rgba(57, 202, 255 , 1);
+}
 
 .header1, .header2, .header3, .header4 {
 	border: 1px solid #777;

@@ -67,7 +67,8 @@ return array(
         'user/login' => 'user/login',
         'user/logout' => 'user/logout',
         'cabinet/edit' => 'cabinet/edit',
-        'cabinet' => 'cabinet/index',
+        'cabinet/([page]+)' => 'cabinet/index/$1',
+        'cabinet' => 'cabinet/index/$1',
         'contacts' => 'site/contact',
         //__________________________________________________
         'order/([package]+)' => 'order/index/$1',
@@ -78,7 +79,7 @@ return array(
 
         //__________________________________________________
 
-
+        'profile' => 'profile/index',
 
         'order' => 'order/index/$1',
         //_________________________________

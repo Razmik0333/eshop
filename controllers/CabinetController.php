@@ -1,15 +1,21 @@
 <?php
 
-    class CabinetController extends AdminBase
+    class CabinetController extends AppController
     {
-        public function actionIndex()
+        public function actionIndex($filename)
         {
-            $categoryList = array();
-            $categoryList = Category::getCategoryList();
-            $userId = User::checkLogged();
-            // echo $userId;
-            $user = User::getUserById($userId);
-            require_once(ROOT.'/views/cabinet/index.php');//подключение файлов системы
+            $filename = $filename == '' ? "page" : $filename;
+                
+            if(!User::checkLogged()){
+                header("Location: /home");
+
+            }
+
+            $arrStyle = ['bootstrap.min','fonts','email',$filename];
+            $fileStyle = Page::getStyles($arrStyle);
+            $arrScripts = ['bootstrap.min','functions','category','email',$filename];
+            $fileScript = Page::getScripts($arrScripts);
+            require_once(ROOT."/views/cabinet/$filename.php");//подключение файлов системы
 
             return true;
         }        

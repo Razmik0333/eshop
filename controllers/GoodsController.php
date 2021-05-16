@@ -1,19 +1,19 @@
 <?php 
 
-class GoodsController
+class GoodsController extends AppController
 {
-    public function actionIndex($page)
+    public function actionIndex()
     {   
 
         $productsLists = array();
-        $productsLists = Product::getProductList($page);
+        $productsLists = $this->getNewObject('product')->getProductList();
         echo json_encode($productsLists);
         return true;
     }
     public function actionSearch($str)
     {   
         $productsLists = array();
-        $productsLists = Product::getProductByStr($str,1);
+        $productsLists = $this->getNewObject('product')->getProductByStr($str);
         echo  json_encode($productsLists);
         
         return true;

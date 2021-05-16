@@ -38,7 +38,7 @@ function loadPage()
           elem.addEventListener('click', function(e){
             e.preventDefault();
             let id = e.target.dataset.id;
-            let compareItem = load(`items/compare/${id}`)
+            load(`items/compare/${id}`)
             .then(res => {
               let compareItems = document.querySelector('#compare-items');
               compareItems.innerHTML = res;

@@ -18,7 +18,7 @@ function loadPage()
 			productItem.innerHTML = template
 		}
 	})
-	let recomendLists = load('main/recomend')	
+	load('main/recomend')	
 	 .then(res => {
 	 	let template = '';
 	 	for (const iterator of res) {	
@@ -26,7 +26,7 @@ function loadPage()
 	 		productRecomend.innerHTML = template
 	 	}
 	 });
-	let maxDiscountElement = load('main/maxdiscount')	
+	load('main/maxdiscount')	
 	.then(res => {
 	 	let template = getMaxDiscountItem(res[0]);
 	 	maxDiscountItem.innerHTML = template;

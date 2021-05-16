@@ -46,7 +46,7 @@ function getCompareItem(obj) {
             <img class="card-img-top sale-img" src="/template/images/${obj.id}.jpg" alt="Card image cap">
             <a href="/compare/delete/${obj.id}"><button class="btn btn-outline-dark close-item position-absolute" data-id="${obj.id}" type="submit"><i class='fa fa-close'></i></button></a>
             <div class="card-body">
-                <h5 class="card-title">${obj.desc}</h5>
+                <h5 class="card-title">${obj.descr}</h5>
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">${obj.cost}&#1423;</li>
