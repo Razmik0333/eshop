@@ -1,7 +1,8 @@
 <?php 
 
-class GoodsController extends AppController
+class GoodsController 
 {
+    use AppController;
     public function actionIndex()
     {   
 

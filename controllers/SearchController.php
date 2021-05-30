@@ -1,6 +1,7 @@
 <?php
-    class SearchController extends AppController
+    class SearchController
     {
+        use AppController;
         public function actionIndex($filename)
         {
             //echo 'pg'.$page;

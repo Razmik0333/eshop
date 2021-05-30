@@ -1,7 +1,8 @@
 <?php
 
-    class CabinetController extends AppController
+    class CabinetController 
     {
+        //use AppController;
         public function actionIndex($filename)
         {
             $filename = $filename == '' ? "page" : $filename;

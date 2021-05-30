@@ -1,6 +1,6 @@
 <?php
 
-class AppController{
+trait AppController{
     public function getNewObject($string)
     {
         $className = ucfirst($string);

@@ -67,16 +67,14 @@ function loadPage()
                     id = res;
                     
                     if(res){
-                        modal.innerHTML = getModalWindow('Դուք հաջողությամբ գրանցվել եք') 
+                        modal.innerHTML = getModalWindow('Դուք հաջողությամբ գրանցվել եք', false) 
                     }else{
-                        modal.innerHTML = getModalWindow('Ներեցեք առկա են տեխնիկական խնդիրներ։Փորձեք մի փոքր ուշ')
+                        modal.innerHTML = getModalWindow('Ներեցեք առկա են տեխնիկական խնդիրներ։Փորձեք մի փոքր ուշ', false)
                     }
                     
                 })
                 .then(() => {
                     let close = document.querySelector('.close');
-                    let login = document.querySelector('.login');
-                    let register = document.querySelector('.register');
                     close.addEventListener('click',function (e) {
                         e.preventDefault();
                         modal.classList.remove('modal-item')
@@ -114,9 +112,9 @@ function loadPage()
                     console.log(res);
                     id = res;
                     if(res === 0){
-                        modal.innerHTML = getModalWindow('Ներեցեք առկա են տեխնիկական խնդիրներ։Փորձեք մի փոքր ուշ')
+                        modal.innerHTML = getModalWindow('Ներեցեք առկա են տեխնիկական խնդիրներ։Փորձեք մի փոքր ուշ', false)
                     }else{
-                        modal.innerHTML = getModalWindow('Դուք հաջողությամբ մուտք եք գործել համակարգ') 
+                        modal.innerHTML = getModalWindow('Դուք հաջողությամբ մուտք եք գործել համակարգ', false) 
                     }
                     
                 }).then(() => {
@@ -320,15 +318,7 @@ function loadPage()
                     <a class="dropdown-item text-white" href="#">Other</a>
                 </div>
 			</li>
-             <li class="nav-item" id="login">
-                 <a class="nav-link text-white" href=""></a>
-             </li>
-             <li class="nav-item" id="login">
-                 <a class="nav-link text-white" href=""></a>
-             </li>
-             <li class="nav-item" >
-                 <a class="nav-link text-white" id="logout" href=""></a>
-             </li>
+
             ` 
          }
     }
@@ -346,23 +336,7 @@ function changeColor(item,condition,comment) {
         return false
     }
 }
-function getModalWindow(str) {
-    return `<div class="modal-wind" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Ծանուցում</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p>${str}</p>
-        </div>
-      </div>
-    </div>
-  </div>`;
-}
+
 function checkNameLength(str) {            
     return str.trim().length > 2  ? true  : false;
 }

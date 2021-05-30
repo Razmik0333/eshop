@@ -1,6 +1,7 @@
 <?php 
-    class PackageController extends AppController
+    class PackageController
     {
+        use AppController;
         public function actionData()
         {
             $userId = $_SESSION['user'];

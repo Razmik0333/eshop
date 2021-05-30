@@ -4,6 +4,7 @@ return array(
 
         'test/test/([a-zA-Z0-9]+)' => 'test/test/$1',
         'admin/product/create' => 'adminProduct/create',
+        'admin/product/item/([0-9]+)' => 'adminProduct/item/$1',
         'admin/product/update/([0-9]+)' => 'adminProduct/update/$1',
         'admin/product/delete/([0-9]+)' => 'adminProduct/delete/$1',
         'admin/product' => 'adminProduct/index',

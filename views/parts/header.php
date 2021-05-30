@@ -7,8 +7,7 @@
 	<?php foreach ($fileStyle as $value) {?>
 		<link rel="stylesheet" <?php echo $value ?>>
 	<?php }?>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+	<script src="https://use.fontawesome.com/dc298a9238.js"></script>
 		<?php foreach ($fileScript as $value) {?>
 			<?php echo $value;?>
 	<?php } ?>

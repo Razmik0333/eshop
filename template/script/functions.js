@@ -14,3 +14,29 @@ function getRatingStars(num,id){
 	let rating = createRatingStars(num,id);
 	return rating;
 }
+
+function getModalWindow(str,survey) {
+    let template = `<div class="modal-wind" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Ծանուցում</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>${str}</p>
+        </div>`;
+    let templateWithSurvey = `
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary confirm">ԱՅՈ</button>
+        <button type="button" class="btn btn-secondary reject" data-dismiss="modal">ՈՉ</button>
+      </div>`;
+      let templateFooter = `
+        </div>
+      </div>
+    </div>`;
+    survey === true ? template += templateWithSurvey + templateFooter : template += templateFooter;
+    return template;
+}

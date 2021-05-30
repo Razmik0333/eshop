@@ -1,6 +1,8 @@
 <?php 
 
-    class RegisterController extends AppController{
+    class RegisterController
+    {
+        use AppController;
         private $obj;
         public function __construct()
         {

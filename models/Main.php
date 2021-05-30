@@ -99,8 +99,10 @@ abstract class Main extends Db
     {
         $sqlString = $this->createQueryForInsert($arrayOfField);
         $sql = "INSERT INTO {$table} $sqlString";
-        $res = $this->pdo->queryExecute($sql, $arrayOfField);
-        return $res;
+        if ($this->pdo->queryExecute($sql, $arrayOfField)){
+            return $this->pdo->getLastId();
+        }
+        return false;
     }
     //insert fields from INSERT
     public function createQueryForInsert($arrayOfFields = [])

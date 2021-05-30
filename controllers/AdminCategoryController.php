@@ -2,11 +2,11 @@
 
     class AdminCategoryController extends AdminBase
     {
+        use AppController;
         public function actionIndex()
         {
             self::checkAdmin();
-            $categoryList = array();
-            $categoryList = Category::getCategoryList();
+            
             require_once(ROOT.'/views/admin_category/index.php');//подключение файлов системы
             return true;
         }               

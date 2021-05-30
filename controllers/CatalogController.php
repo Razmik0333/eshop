@@ -2,10 +2,9 @@
 
     class CatalogController 
     {
-        public function getProductObj()
-        {
-            return $productObj = new Product();
-        }
+        use AppController;
+
+
         public function actionIndex($filename,$page = 1)
         {
             $arrStyle = ['bootstrap.min','fonts','email','goods',$filename];
@@ -23,8 +22,8 @@
             $arrScripts = ['bootstrap.min','category','email',$filename];
             $fileScript = Page::getScripts($arrScripts);
             $_SESSION['alias'] = $alias;
-            $cost_max= $this->getProductObj()->getTotalProducts($alias,'max');
-            $cost_min= $this->getProductObj()->getTotalProducts($alias,'min');
+            $cost_max= $this->getNewObject('product')->getTotalProducts($alias,'max');
+            $cost_min= $this->getNewObject('product')->getTotalProducts($alias,'min');
             require_once(ROOT."/views/catalog/".$filename.".php");//подключение файлов системы
             return true;
             

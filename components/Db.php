@@ -31,9 +31,14 @@
             return $res;
         }
 
+        public function getLastId()
+        {
+            return $this->db->lastInsertId();
+        }
         private function query($sql, $fieldsForBind)
         {
-            $smt = $this->db->prepare($sql); 
+            $smt = $this->db->prepare($sql);
+            //var_dump($this->db->lastInsertId()); 
             if ($fieldsForBind === null) {
                  $smt->execute();
             }else{

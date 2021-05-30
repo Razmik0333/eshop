@@ -1,6 +1,7 @@
 <?php
-    class MainController extends AppController
+    class MainController
     {
+        use AppController;
         public function actionIndex()
         {
             $arr = $this->getNewObject('product')->getProductList();

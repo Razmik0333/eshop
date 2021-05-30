@@ -51,14 +51,13 @@
             if(isset($_SESSION['user'])){
                 return $_SESSION['user'];
             }
-           // header("Location: /home");
             return false;
         }
         public function isUser()
         {
             if(isset($_SESSION['user'])){
                 $id = $_SESSION['user'];
-                $user = $this->getUserById($id)[0];
+                $user = $this->getUserById($id);
                 return $user;
             }
             return false;
@@ -66,7 +65,7 @@
         public function getUserById($id)
         {
             if($id){
-                $user = $this->findFieldById($this->tableName,['id'=>$id],['id','login','name','role'],1);
+                $user = $this->findFieldById($this->tableName,['id'=>$id],['id','login','name','role'],1)[0];
                 return $user;
             }
             return false;

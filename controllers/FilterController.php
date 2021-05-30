@@ -1,7 +1,7 @@
 <?php 
-    class FilterController extends AppController
+    class FilterController
     {
-
+        use AppController;
        public function actionProduct()
        {
             $alias = $_SESSION['alias'];

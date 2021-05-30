@@ -1,11 +1,8 @@
 <?php
 
-    class ListController extends AppController
-    {    
-        // public function getCategoryObj()
-        // {
-        //     return $productObj = new Category();
-        // }    
+    class ListController
+    {       
+        use AppController;
         public function actionCategory(){
             $categoryList = array();
             $categoryList = $this->getNewObject('category')->getCategories();

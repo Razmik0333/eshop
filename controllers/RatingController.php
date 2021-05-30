@@ -1,7 +1,7 @@
 <?php
-    class RatingController extends AppController
+    class RatingController extends 
         {      
-
+            use AppController;
 
             public function actionAddRating($productId, $ratingId)
             {

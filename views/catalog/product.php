@@ -1,6 +1,5 @@
 <?php 
 	require_once ROOT.'/views/parts/header.php';
-	//echo 'po';
 ?>
 		<div class="container">			
 			<div class="row goods-card filter-item">	

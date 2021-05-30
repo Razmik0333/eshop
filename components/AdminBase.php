@@ -3,17 +3,18 @@
  * Абстрактный класс AdminBase содержит общую логику для контроллеров, которые 
  * используются в панели администратора
  */
-abstract class AdminBase 
+abstract class AdminBase extends User
 {
     /**
      * Метод, который проверяет пользователя на то, является ли он администратором
      */
-    public static function checkAdmin()
+    public function checkAdmin()
     {
+
         // Проверяем авторизирован ли пользователь. Если нет, он будет переадресован
         $userId = User::checkLogged();
         // Получаем информацию о текущем пользователе
-        $user = User::getUserById($userId);
+        $user = $this->getUserById($userId);
         // Если роль текущего пользователя "admin", пускаем его в админпанель
         if ($user['role'] == 'admin') {
             return true;

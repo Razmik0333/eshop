@@ -4,16 +4,13 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		<link rel="stylesheet" href="/template/bootstrap/bootstrap.min.css">
-		<link rel="stylesheet" href="/template/style/home_Page_3.css">
-		<link rel="stylesheet" href="/template/style/cart.css">
-		<link rel="stylesheet" href="/template/style/email.css">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-		<script src="/template/bootstrap/bootstrap.min.js"></script>
-		<script src="/template/script/home_Page_3.js"></script>
-		<script src="/template/script/shope_page_3.js" defer></script>
-		<script src="/template/script/admin.js"></script>
-
+		<?php foreach ($fileStyle as $value) {?>
+			<link rel="stylesheet" <?php echo $value ?>>
+		<?php }?>
+		<script src="https://use.fontawesome.com/dc298a9238.js"></script>
+		<?php foreach ($fileScript as $value) {?>
+			<?php echo $value;?>
+		<?php } ?>
     <!-- Bootstrap CSS -->
     <title>ԱԴՄԻՆԻՍՏՐԱՏՈՐ</title>
   </head>
