@@ -50,17 +50,15 @@
 .remove{
 	display: none
 }
-.rating-full{
-	color: #d58e32;
-}
-.rating-empty{
-	color: #fff;
-}
+
 .cart-btn::before{
 	content: '🛒';
 }
 .compare-btn::before{
 	content: '⚖';
+}
+.wishlist-btn::before{
+	content: '♡';
 }
 
 .modal-item{
@@ -84,7 +82,9 @@
     margin: 1% 46% 0;
     
 }
-
+.search-zone{
+	width: 50%;
+}
 .modal-item select{
     margin: 6% 46%;
 }

@@ -8,7 +8,7 @@ window.addEventListener("load", loadPage,false);
 function loadPage()
 {
     let categories = document.querySelector('.category-items');
-    load('/list/category')
+    load('/category/list')
     .then(res => {
         let template = '';
         for (const iterator of res) {	
@@ -16,11 +16,14 @@ function loadPage()
         }
         return template;
     }).then(result => {
-        load('/list/countItems')
-        .then(res => {
-            let arrCount = res.split(' ');
-            let text = getCartCompareButtons(arrCount[0],'cart','list');
-            categories.innerHTML = result + text;
+        load('/category/counts')
+        .then(counts => {
+            console.log(counts);
+            //let arrCount = counts.sp
+            let cart = getButtons(counts[0],'cart','list');
+            let compare = getButtons(counts[1],'compare','items');
+            let wishlist = getButtons(counts[2],'wishlist','page');
+            categories.innerHTML = result + cart + compare + wishlist;
             })
         })
         
@@ -57,7 +60,7 @@ function loadPage()
         let	template = `<a href='/product/view/${arr['id']}'><li class="list-group-item">${arr['descr']}  </li></a>`
         return template;
     }
-function getCartCompareButtons(num,type,file){
+function getButtons(num,type,file){
 	return `<li class="nav-item">
 	<a href="/${type}/${file}">
 		<button type="button" class="btn btn-warning ${type}-btn">

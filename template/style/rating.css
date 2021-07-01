@@ -1,0 +1,29 @@
+.star-card{
+	text-align: center;
+	z-index: 99999;
+}
+
+.star-card a:hover{
+	text-decoration: none;
+}
+
+.ratings{
+	color: red;
+}
+.hidden{
+	visibility: hidden;
+}
+.ratings:hover{
+	color: red;
+}
+
+
+.rating-full{
+	color: #d58e32;
+}
+.rating-empty{
+	color: #fff;
+}
+.head-rating{
+	width: 21%;
+}

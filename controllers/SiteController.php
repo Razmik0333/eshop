@@ -7,7 +7,7 @@
                 $filename = 'home';
             }
             //unset($_SESSION['user']);
-            $arrStyle = ['bootstrap.min','fonts','email',$filename];
+            $arrStyle = ['bootstrap.min','fonts','rating','email',$filename];
             $fileStyle = Page::getStyles($arrStyle);
             $arrScripts = ['bootstrap.min','functions','category','email',$filename,'cart','rating'];
             $fileScript = Page::getScripts($arrScripts);

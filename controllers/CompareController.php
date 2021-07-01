@@ -4,7 +4,7 @@
     {       
         public function actionAdd($id)
         {
-            Cart::addProductCompare($id);
+            Compare::addProductCompare($id);
             $refferer = $_SERVER['HTTP_REFERER'];
             header("Location: $refferer ");
             return true;
@@ -16,7 +16,7 @@
         // }
         public function actionDelete($id)
         {
-            Cart::deleteCompareProduct($id);
+            Compare::deleteCompareProduct($id);
             header("Location: /compare/items ");
             return true;
         }
@@ -24,7 +24,7 @@
         { 
             $arrStyle = ['bootstrap.min','fonts',$filename];
             $fileStyle = Page::getStyles($arrStyle);
-            $arrScripts = ['bootstrap.min','category',$filename];
+            $arrScripts = ['bootstrap.min','category','email',$filename];
             $fileScript = Page::getScripts($arrScripts); 
             require_once(ROOT.'/views/catalog/'.$filename.'.php');//подключение файлов системы
             return true;

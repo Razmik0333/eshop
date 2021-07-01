@@ -5,6 +5,9 @@
 .cart-btn::before{
 	content: '🛒';
 }
+.wishlist-btn::before{
+	content: '♡';
+}
 .sale-img{
 	width: 100px;
 	height: auto;
@@ -13,6 +16,7 @@
 .close-item{
 	left: 75%;
 	top: 0%;
+	z-index: 99999;
 }
 .compare-description{
 	margin-top: 60px;

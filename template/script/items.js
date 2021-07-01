@@ -12,39 +12,47 @@ function loadPage() {
         if(res){
             compareItem.innerHTML = renderCompare(res);
         }
-    })
-    .then(res => {
-        let closeItem = document.querySelectorAll('.close-item');
-        closeItem.forEach((item) => {
-            item.addEventListener('click', function (e) {
-                e.preventDefault();
-                let id = e.target.dataset.id;
-                console.log("id", id)
-                let itemDelete = load(`/items/delete/${id}`)
+    }).then(() => {
+        let compareItem = document.querySelector('.compare-item');
+        console.log("🚀 ~ file: items.js ~ line 18 ~ loadPage ~ compareItem", compareItem)
+        compareItem.addEventListener('click', function (e) {
+            e.preventDefault();
+            let target = e.target;
+            if (target.tagName === 'A') return
+            if(target.classList.contains('close-item')){
+                let id = target.dataset.id;
+                        
+                
+                load(`/items/delete/${id}`)
                 .then(res => {
-                    compareItem.innerHTML = renderCompare(res);
-                }).then(() => {
-                    load(`/items/delete/${id}`)
-                    .then(res => {
-                        if(res){
+                        load(`/items/productCount`).then(count =>{
+                        let compareItems = document.querySelector('#compare-items');
+                        console.log("🚀 ~ file: items.js ~ line 20 ~ compareItems", compareItems)
+                        console.log(count);
+                        if(res == 0){
+                            compareItems.innerHTML = count;
+                            compareItem.innerHTML = getEmptyList();
+                        }else{
+
+                            compareItems.innerHTML = count;
                             compareItem.innerHTML = renderCompare(res);
-                        }
-                        else{
-                            window.open('/')
                         }
                     })
                 })
-            })
+            }
         })
+
     })
 }
-
+function getEmptyList() {
+    return '<div class="total-price">ԱՎԵԼԱՑՎԱԾ ԱՊՐԱՆՔՆԵՐ ՉԿԱՆ</div>';
+}
 function getCompareItem(obj) {
     let compareItem = 
     `<div class="col-3">
         <div class="card text-center" >
             <img class="card-img-top sale-img" src="/template/images/${obj.id}.jpg" alt="Card image cap">
-            <a href="/compare/delete/${obj.id}"><button class="btn btn-outline-dark close-item position-absolute" data-id="${obj.id}" type="submit"><i class='fa fa-close'></i></button></a>
+            <a href="/compare/delete/${obj.id}"><button class="btn btn-outline-dark close-item position-absolute fa fa-close" data-id="${obj.id}" type="submit"></button></a>
             <div class="card-body">
                 <h5 class="card-title">${obj.descr}</h5>
             </div>
@@ -79,10 +87,15 @@ function getCompareDescription() {
     return compareDescription;
 }
 function renderCompare(obj){
+    console.log(obj);
     let compareTemplate = ``;
-    compareTemplate += getCompareDescription();
-    for (const iterator of obj) {
-        compareTemplate += getCompareItem(iterator)
+    if(obj != 0){
+        compareTemplate += getCompareDescription();
+        for (const iterator of obj) {
+            compareTemplate += getCompareItem(iterator)
+        }
+    }else{
+        compareTemplate = getEmptyList();
     }
     return compareTemplate;
 }

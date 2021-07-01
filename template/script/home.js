@@ -17,6 +17,8 @@ function loadPage()
 			template += getCardItem(iterator);
 			productItem.innerHTML = template
 		}
+
+		
 	})
 	load('main/recomend')	
 	 .then(res => {
@@ -39,18 +41,18 @@ function getCardItem(obj){
 			<img class="card-img-top item-card" src="/template/images/${obj.id}.jpg" alt="Card image cap">
 			${getSaleStatus(obj.discount)}
 			<div class="card-body text-center item-body">
-				<a href="/product/view/${obj.id}" class="h6 item-name" >${obj.descr}</a>
+				<a href="/product/view/${obj.id}" class="h6 item-name">${obj.descr}</a>
 				<div class="col-6">
 					<div class="input-group-append">
 						<span class="input-group-text my-3 mx-5 star-card" data-productId="${obj.id}">
 							${getRatingStars(obj.rating,obj.id)}
 						</span>
 					</div>
-					<nav class=" navbar-expand-lg navbar-light input-group-append">
+					<nav class=" navbar-expand-lg navbar-light input-group-append home-inputs">
 						<div class="collapse navbar-collapse" id="navbarSupportedContent">
 							<ul class="navbar-nav mr-auto">
 								<li class="nav-link pr-0">
-									<a href="/cart/add/${obj.id}">
+									<a href="/cart/add/${obj.id}/1">
 										<input class="btn btn-outline-dark add-cart" data-id="${obj.id}" type="submit" value="🛒">
 									</a>
 								</li>
@@ -59,11 +61,16 @@ function getCardItem(obj){
 										<input class="btn btn-outline-dark compare" data-id="${obj.id}" type="submit" value="&#8644;">
 									</a>
 								</li>
+								<li class="nav-link pl-0 pr-0">
+									<a href="/wishlist/add/${obj.id}">
+										<input class="btn btn-outline-dark wishlist" data-id="${obj.id}" type="submit" value="&#x2661;">
+									</a>
+								</li>
 								<li class="nav-link pr-0">
-									<span class="btn  my-2 my-sm-0 bg-light text-dark item-cost" for="inputGroupSelect02">${obj.cost}&#1423;</span>
+									<span class="btn  my-2 my-sm-0 bg-light text-dark item-cost" for="inputGroupSelect02"><del>${obj.cost}&#1423;</del></span>
 								</li>
 								<li class="nav-link pl-0">
-									<span class="btn btn-outline-success my-2 my-sm-0 bg-secondary text-light item-cost" for="inputGroupSelect02">${obj.new_cost}</span>
+									<span class="btn btn-outline-success my-2 my-sm-0 bg-secondary text-light item-cost" for="inputGroupSelect02">${obj.cost * (1-obj.discount/100)}</span>
 								</li>
 							</ul>
 						</div>
@@ -75,10 +82,7 @@ function getCardItem(obj){
 `;
 	return productCard;
 }
-function getSaleStatus(discount) {
-	let img = `<img class="card-img-top sale" src="/template/images/other/sale.png" alt="Card image cap">`;
-	return +discount > 0 ? img : '';
-}
+
 
 
 function getRecomendedItem(obj){
@@ -110,7 +114,6 @@ function getRecomendedItem(obj){
 }
 
 function getMaxDiscountItem(obj) {
-	console.log(obj);
 	
 	let maxDiscountItem = `<div class="card text-white text-center  mb-3" style="max-width: 18rem;">
 	<div class="card-header bg-dark">ԹԵԺ ԱՌԱՋԱՐԿ</div>
@@ -124,7 +127,7 @@ function getMaxDiscountItem(obj) {
 		${getRatingStars(obj.rating,obj.id)}
 	</span>
 	</div>
-	<nav class=" navbar-expand-lg navbar-light input-group-append">
+	<nav class=" navbar-expand-lg navbar-light input-group-append home-inputs">
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-link  pr-0">

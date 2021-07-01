@@ -1,28 +1,29 @@
 <?php 
-    class Cart
+    class Cart extends Schedule
     {
-        public static function addProduct($id)
+        public function addProduct($id,$count)
         {
+           // echo $count;
             $id = intval($id);
             $productsInCart = array();
-            if (isset($_SESSION['products'])) {
-                $productsInCart = $_SESSION['products'];
+            if (isset($_SESSION[$this->sessionName])) {
+                $productsInCart = $_SESSION[$this->sessionName];
             }
             if (array_key_exists($id, $productsInCart)) {
-                $productsInCart[$id] ++ ;
+                $productsInCart[$id] += $count ;
             }else{
-                $productsInCart[$id] = 1;
+                $productsInCart[$id] = $count;
             }
-            $_SESSION['products'] = $productsInCart;
+            $_SESSION[$this->sessionName] = $productsInCart;
            //var_dump($_SESSION['products']);
-            return self::countItem();
+            return $this->countItem();
 
         }
-        public static function countItem()
+        public function countItem()
         {
-            if (isset($_SESSION['products'])) {
+            if (isset($_SESSION[$this->sessionName])) {
                 $count = 0;
-                foreach ($_SESSION['products'] as $id => $quantity) {
+                foreach ($_SESSION[$this->sessionName] as $id => $quantity) {
                     $count = $count + $quantity;
                 }
                 return $count;
@@ -30,27 +31,8 @@
                 return 0;
             }
         }
-        public static function getProducts()
-        {
-            if (isset($_SESSION['products'])) {
-                return $_SESSION['products'];
-            }
-            return false;
-        }
-        public static function deleteProduct($id)
-        {
-            if (isset($_SESSION['products'])) {
-                unset($_SESSION['products'][$id]);
-            }
-            return true;
-        }
-        public static function clear()
-        {
-            unset($_SESSION['products']);
-            return true;
-
-        }
-        public static function getTotalPrice($products)
+        
+        public  function getTotalPrice($products)
         {
             $productsInCart = self::getProducts();
             $total = 0;
@@ -61,41 +43,7 @@
             }
             return $total;
         }
-        public static function addProductCompare($id)
-        {
-            //if (isset($_SESSION['compare'])) {
-
-                $id = intval($id);
-                if(count($_SESSION['compare']) < 3){
-                    $_SESSION['compare'][$id] = $id;
-                    
-                    return $_SESSION['compare']; 
-                }
-            //}
-            return false;
-
-        }
-        public static function getProductsForCompare()
-        {
-            if (isset($_SESSION['compare'])) {
-                return $_SESSION['compare'];
-            }
-            return false;
-        }
-        public static function countCompareItem()
-        {
-            if (isset($_SESSION['compare'])) {
-                return count($_SESSION['compare']);
-            }
-            return 0;
-        }
-        public static function deleteCompareProduct($id)
-        {
-            if (isset($_SESSION['compare'])) {
-                unset($_SESSION['compare'][$id]);
-            }
-            return true;
-        }
+        
     }
 
 

@@ -48,9 +48,7 @@
 								<a class="dropdown-item text-white" href="#">Հայերեն</a>
 							</div>
 						</li> -->
-						<li class="nav-item dropdown bg-dark">
-							<a class="nav-link text-white" href="/contacts">ՀԵՏԱԴԱՐՁ ԿԱՊ <span class="sr-only">(current)</span></a>
-						</li>
+
 						<!-- <li class="nav-item dropdown bg-dark">
 							<a class="nav-link dropdown-toggle text-white" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Help</a>
 							<div class="dropdown-menu bg-dark menu-items">

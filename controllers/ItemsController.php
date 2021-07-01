@@ -1,40 +1,66 @@
 <?php 
     class ItemsController{
+        use AppController;
+        public $compare;  
+        public $sessionName; 
+        public $className = 'compare';
+ 
+        public function __construct()
+        {
+            $this->compare = $this->getNewObject($this->className);
+            $this->sessionName = $this->compare->sessionName;
+        }
         public function actionProduct()
         {
-            //unset($_SESSION['compare']);
+            //$this->compare = $this->getNewObject('compare');
             $productsForCompare = array();
-            $productsForCompare = Cart::getProductsForCompare();
+            
+            $productsForCompare = $this->compare->getProducts($this->sessionName);
             if ($productsForCompare) {
-                $productsIds = array_keys($productsForCompare);
-                $products = Product::getProductByIds($productsForCompare);
+                $productsIdsString = Compare::getCompareArray($productsForCompare);
+                $products = $this->getNewObject('product')->getProductByIds($productsIdsString);
+                echo json_encode($products);
+                
+            }else{
+
+                echo json_encode('0');
+                
             }
-            echo json_encode($products);
             return true;
-         
-        
         }
         public function actionCompare($id)
         {
-            Cart::addProductCompare($id);
-            echo Cart::countCompareItem();
+
+            $this->compare->addProduct($id);
+            echo $this->compare->countItem($this->sessionName);
             return true;
         }
         public function actionDelete($id)
         {
-            if(isset($_SESSION['compare'])){
-                Cart::deleteCompareProduct($id);
-                $productsForCompare = array();
-                $productsForCompare = Cart::getProductsForCompare();
-                if ($productsForCompare) {
-                    $productsIds = array_keys($productsForCompare);
-                    $products = Product::getProductByIds($productsForCompare);
-                    echo json_encode($products);  
-                }
+            
+            $this->compare->deleteProduct($id);
+            $productsForCompare = array();
+            $productsForCompare = $this->compare->getProducts($this->sessionName);
+            if ($productsForCompare) {
+                $productsIdsString = Compare::getCompareArray($productsForCompare);
+                $products = $this->getNewObject('product')->getProductByIds($productsIdsString);
+                echo json_encode($products);  
                 return true;
-
             }
-            header("Location: / ");
+            echo json_encode('0');
+            return true;
+        }
+        public function actionProductCount()
+        {
+            $productsInCart = false;
+            $productsInCart = $this->compare->getProducts();
+            if ($productsInCart) {
+                echo json_encode(count($productsInCart));
+            }
+            else{
+                echo 0;
+            }
+            return true;
         }
     }
 

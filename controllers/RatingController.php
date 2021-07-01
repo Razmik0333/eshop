@@ -1,5 +1,5 @@
 <?php
-    class RatingController extends 
+    class RatingController extends Product
         {      
             use AppController;
 

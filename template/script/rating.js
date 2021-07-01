@@ -8,9 +8,9 @@ function loadPage()
 {
     let productItem = document.querySelector('.product-item');
     productItem.addEventListener('click', function(e){
-        e.preventDefault()
         let target = e.target;
         if(target.dataset.rating){
+            e.preventDefault()
             let productId = target.dataset.product
             let productRating = target.dataset.rating
             load(`/rating/addRating/${productId}/${productRating}`).then(res => {
@@ -25,8 +25,6 @@ function loadPage()
         
 
     })
-
-    //productItem.
 
     
 }

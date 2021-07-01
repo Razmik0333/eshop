@@ -1,0 +1,8 @@
+.login-form p{
+    color: beige;
+}
+
+.modal-item input[type='text'], [type='password'],[type='email']{
+    margin: 1% 41% 0;
+    
+}

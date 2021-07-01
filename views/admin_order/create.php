@@ -22,14 +22,6 @@
                         <p>ՀԵՐԹԱԿԱՆ ՀԱՄԱՐ</p>
                         <input type="text" name="category_id" placeholder="" value="">
                         <br/><br/>
-                        
-                        <!-- <p>ԿԱՏԵԳՈՐԻԱՆԵՐԻ ՔԱՆԱԿ</p>
-                        <input type="text" name="category_count" placeholder="" value="" id="count">
-             
-                        <br/><br/>
-                        <div id="category">
-                                                
-                        </div> -->
                         <input type="submit" name="submit" class="btn btn-default" value="Сохранить">
 
                         <br/><br/>

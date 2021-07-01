@@ -54,7 +54,6 @@ class Product extends Main
         if ($discount) {
             $this->productsLists = $this->findFieldById($this->tableName, ['discount' => $discount],$this->requiredFields,1);
             return $this->productsLists;
-            
         }
     }
     public function getDiscountMax()

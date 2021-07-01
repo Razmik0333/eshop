@@ -10,9 +10,56 @@ window.addEventListener("load", loadPage,false);
 
 function loadPage()
 {	
-  let cardOtherTemplate = ``;
-	load('/feature/product')
-	.then(res => {
+  let count = 0;
+  load('/commodity/product')
+	.then(obj => {
+    let productId = obj ['id'];
+    //load(`/commodity/productImage/${productId}`).then(url => {
+
+    
+      load('/commodity/productCount')
+      .then(count => {
+          let productItem = document.querySelector('.product-item');
+          let countForSale = getCountProduct(count, productId);
+          productItem.innerHTML = getProductsById(obj,countForSale);
+        }).then(() =>{
+          let quantity = document.querySelector('.quantity')
+          let productQuantity = document.querySelector('.product-quantity')
+          quantity.addEventListener('click', function (e) {
+            e.preventDefault()
+            let target = e.target;
+            if (target.tagName === 'SPAN') return;
+            if(target.classList.contains('add')){
+              productQuantity.value++;
+            }
+            if(target.classList.contains('sub')){
+              productQuantity.value <= 0 ? 0 : productQuantity.value--
+            }
+            
+
+          })
+        })
+        
+        
+
+
+
+    //})
+  })
+  
+  let header = `<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			
+  <div class="collapse navbar-collapse" id="navbarText">
+    <nav aria-label="breadcrumb ">
+      <ol class="breadcrumb bg-light">
+        <li class="breadcrumb-item"><a href="/">ԳԼԽԱՎՈՐ</a></li>
+        <li class="breadcrumb-item"><a href="/category/filter/<?php echo $productById["alias"]?>"><?php echo $productById["arm_name"]?></a></li>
+      </ol>
+    </nav>					
+  </div>
+</nav>`;
+  
+  /*res => {
     let cardOther = document.querySelector('.card-other');
 		for (const iterator of res) {
             cardOtherTemplate += getOtherProducts(iterator);
@@ -46,7 +93,7 @@ function loadPage()
             })
           })
         })
-    })
+    })*/
 }
 
 function getOtherProducts(obj) {
@@ -55,14 +102,14 @@ function getOtherProducts(obj) {
             <div class="card " >
                 <img class="card-img-top other-card " src="/template/images/${obj.id}.jpg" alt="Card image cap">
                 <div class="card-body">
-                    <a href="/product/">
-                        <p class="h6 other-name text-center">${obj.description}</p>
+                    <a href="/product/view/${obj.id}">
+                        <p class="h6 other-name text-center">${obj.descr}</p>
                     </a>
                     <div class="col-6">
                         <div class="input-group-append ">
-						<span class="input-group-text my-3 mx-5 star-card">
-							${getRatingStars(obj.rating)}
-						</span>
+                        <span class="input-group-text my-3 mx-5 star-card">
+                          ${getRatingStars(obj.rating)}
+                        </span>
                         </div>
                         <div class="input-group-append">
                             <input class="btn btn-outline-dark" type="button" value="&#x2661">
@@ -77,18 +124,7 @@ function getOtherProducts(obj) {
         </div>`;
 return otherItem;
 }
-function getRatingStars(num){
-	let rating = createRatingStars(num);
-	return rating;
+
+function add(numm) {
+  return numm++
 }
- function createRatingStars(value) {
- 	let rating = '';
- 	for (let i = 1; i <= 5; i++) {
- 		if (i <= value) {
- 			rating += `<a href="/rating/add/${i}" class="fa fa-star stars rating-full" name="star" data-rating="${i}" data-product=""  value=""></a><br>`;
- 		}else{
- 			rating += `<a href="/rating/add/${i}" class="fa fa-star stars rating-empty" name="star" data-rating="${i}" data-product=""  value=""></a><br>`;
- 		}
- 	}
- 	return rating
- }

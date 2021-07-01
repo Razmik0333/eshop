@@ -13,9 +13,9 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <ul class="navbar-nav ">
             <li class="nav-item nav-link active-tab">ԱՄԲՈՂՋ<span class="sr-only">(current)</span></li>
-            <li class="nav-item nav-link" data-order="1">ԸՆԴՈՒՆՎԱԾ</li>
-            <li class="nav-item nav-link"data-order="2">ՈՒՂԱՐԿՎԱԾ</li>
-            <li class="nav-item nav-link"data-order="3">ԱՎԱՐՏՎԱԾ</li>
+            <li class="nav-item nav-link" data-order="0">ԸՆԴՈՒՆՎԱԾ</li>
+            <li class="nav-item nav-link"data-order="1">ՈՒՂԱՐԿՎԱԾ</li>
+            <li class="nav-item nav-link"data-order="2">ԱՎԱՐՏՎԱԾ</li>
         </ul>
     </div>
     </nav>

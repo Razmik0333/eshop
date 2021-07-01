@@ -3,21 +3,20 @@
     class ListController
     {       
         use AppController;
-        public function actionCategory(){
-            $categoryList = array();
-            $categoryList = $this->getNewObject('category')->getCategories();
-            echo json_encode($categoryList);
-            return true;
-        }
-        public static function actionCountItems()
+        public $cart;  
+        public $sessionName;
+        public $className = 'cart';
+        public function __construct()
         {
-            echo json_encode(Cart::countItem().' '.Cart::countCompareItem());
-            return true;
+            $this->cart = $this->getNewObject($this->className);
+            $this->sessionName = $this->cart->sessionName;
         }
 
-        public function actionCart($id)
+
+
+        public function actionCart($id,$count)
         {
-            echo Cart::addProduct($id);
+            echo $this->cart->addProduct($id,$count);
             return true;
         }
         public function actionData()
@@ -40,8 +39,10 @@
             return true;
         }
         public function actionProductCount(){
+            //unset($_SESSION['products']);
+
             $productsInCart = false;
-            $productsInCart = Cart::getProducts();
+            $productsInCart = $this->cart->getProducts();
             if ($productsInCart) {
                 echo json_encode($productsInCart);
             }
@@ -52,13 +53,11 @@
         }
         public function actionProduct(){
             $productsInCart = false;
-            $productsInCart = Cart::getProducts();
+            $productsInCart = $this->cart->getProducts();
             if($productsInCart){
                 $productsIds = array_keys($productsInCart);
                 $productsIdsString = implode(',',$productsIds);
                 $products = $this->getNewObject('product')->getProductByIds($productsIdsString);
-                
-                $countItem = Cart::countItem($products);
                 echo json_encode($products);
             }else {
                 echo json_encode('0');
@@ -68,13 +67,13 @@
         public function actionTotalprice()
         {
             $productsInCart = false;
-            $productsInCart = Cart::getProducts();
+            $productsInCart = $this->cart->getProducts();
             if($productsInCart){
                 $productsIds = array_keys($productsInCart);
                 $productsIdsString = implode(',',$productsIds);
 
                 $products = $this->getNewObject('product')->getProductByIds($productsIdsString);
-                $totalPrice = Cart::getTotalPrice($products);
+                $totalPrice = $this->cart->getTotalPrice($products);
                 echo json_encode($totalPrice);
             }
             return true;
@@ -84,8 +83,8 @@
             //echo $id;
             $productsInCart = false;
             
-            Cart::deleteProduct($id);
-            $productsInCart = Cart::getProducts();
+            $this->cart->deleteProduct($id);
+            $productsInCart = $this->cart->getProducts();
             if($productsInCart){
                 $productsIds = array_keys($productsInCart);
                 $productsIdsString = implode(',',$productsIds);
@@ -100,7 +99,7 @@
         public function actionClear()
         {
            // echo 'clear';
-            Cart::clear();
+           $this->cart->clear($this->sessionName);
             echo json_encode('1');
             return true;
         }

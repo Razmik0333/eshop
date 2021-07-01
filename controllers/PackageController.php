@@ -14,7 +14,6 @@
 
         public function actionProduct($str)
         {
-
             $userOrders = $this->getNewObject('product')->getProductByIds($str);
             echo json_encode($userOrders);
             return true;

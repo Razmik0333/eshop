@@ -16,3 +16,11 @@
 .rating-empty{
 	color: #fff;
 }
+
+.search-zone{
+	width: 50%;
+}
+
+.wishlist-btn::before{
+	content: '♡';
+}

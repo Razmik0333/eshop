@@ -3,7 +3,7 @@ class Order extends Product
 {
     const STATUS_VALUE = 0;
     public $tableName = "orders";
-    public $requiredFields = ['user_price', 'user_order', 'user_status'];
+    public $requiredFields = ['id','user_name','user_phone','user_comment','user_price', 'user_order', 'user_status'];
     public $orderList;
     public $count;
     public function save($arrOrder)
@@ -23,20 +23,26 @@ class Order extends Product
         }
         return false;
     }
-
-
-    public static function getOrderById($id)
+    public function getOrderById($id)
     {
         if($id){
-            $db = Db::getConnection();
-            $sql = 'SELECT * FROM orders WHERE `id` = :id ';
-            $result = $db->prepare($sql);
-            $result->bindParam('id',$id,PDO::PARAM_INT);
-            $result->setFetchMode(PDO::FETCH_ASSOC);
-            $result->execute();                
-            return $result->fetch();
+            //echo $id;
+            return $this->findFieldById($this->tableName, ['id' => $id],$this->requiredFields,$this->count)[0];
         }
+        return false;
     }
+    public function getOrderList()
+    {
+        return $this->findFields($this->tableName, $this->requiredFields, null);
+
+    }
+    public function getUserOrders()
+    {
+
+        return $this->getRows($this->tableName, 'user_order');
+
+    }
+
     public static function updateOrderStatus($id,$status)
     {
         if($id){
@@ -49,100 +55,22 @@ class Order extends Product
             return $result->execute();    
         }
     }
-    public static function deleteOrderById($id)
+    public function deleteOrderById($id)
     {
-        $db = Db::getConnection();
-        $sql = 'DELETE FROM orders WHERE id = :id';
-        $result = $db->prepare($sql);
-        $result->bindParam(':id', $id, PDO::PARAM_INT);
-        return $result->execute();        
+        $this->deleteFieldById($this->tableName, ['id' => $id]);
+        return true;
     }    
+    public function updateOrder($id, $arrayOfField)
+    {
 
-    public static function getOrderList()
-    {
-        $db = Db::getConnection();
-        $sql = 'SELECT * FROM orders';
-        $result = $db->prepare($sql);
-        $result->execute();                
-        return $result->fetchAll(PDO::FETCH_ASSOC);
-    }
-    public static function saveDataToArray($orders)
-    {
-        $arr = array();
-        foreach($orders as $key => $order){
-            $arr[$key] = $order;
-        }
-        return $arr;
-    }
-    public static function getOrderStatus($orders)
-    {
-        $arr = array();
-        foreach($orders  as $order){
-            $arr[] = Order::getOrderText($order['status']);
-        }
-        return $arr;
-    }
-    public static function jsonDecode($orders)
-    {
-        $arr = array();
-        foreach($orders as  $order){
-            $arr[] = Order::saveDataToArray(json_decode($order["products"]));
-        }
-        return $arr;
-    }
-    public static function getKeyToArray($array)
-    {
-        $arr = array();
-        foreach($array as  $value){
-            $arr[] = array_keys($value);
-        }
-
-        return $arr;
-    }
-    public static function getValuesToArray($array)
-    {
-        $arr = array();
-        foreach($array as  $value){
-            $arr[] = array_values($value);
-        }
-        return $arr;
-    }
-    public static function getOrdersProducts($array)
-    {
-        $arr = array();
-        foreach($array as  $value){
-            $arr[] = Product::getProductByIds($value);
-        }
-
-        return $arr;
-    }
-    public static function getPrice($orders, $costs)
-    {
-        $totalPrice = array();
-        foreach($orders as $key => $order){
-            $total = 0;
-            foreach ($order as $key1 => $value) {
-               $total += $value['cost'] * $costs[$key][$key1];
-                                   
-            }$totalPrice[] = $total;
-        }
-
-        return $totalPrice;
+        $this->updateFieldById($this->tableName,[
+            'user_name' => $arrayOfField['user_name'],
+            'user_phone' => $arrayOfField['user_phone'],
+            'user_order' => $arrayOfField['user_order'],
+            'user_comment' => $arrayOfField['user_comment'],            
+            'user_status' => $arrayOfField['user_status'],            
+        ], ['id' => $id]);
+        return true;
     }
 
-    public static function getOrderText($status)
-    {
-        switch ($status) {
-            case '0':
-                return 'Պատվերն ընդունված է։';
-                break;
-            case '1':
-                return 'Պատվերն ուղարկված է պատվիրատուին։';
-                break;
-            case '2':
-                return 'Պատվերն հասել է պատվիրատուին։';
-                break;
-        }
-    }
 }
-?>

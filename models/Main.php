@@ -61,13 +61,22 @@ abstract class Main extends Db
         return $this->pdo->queryExecute($sql, $field)->fetchColumn();
 
     }
-    public function getFieldValue($table, $arrayOfFields, $str)
+    public function getRowsFromField($table, $arrayOfFields, $str)
     {
         $sqlString = Main::createQueryForUpdate($arrayOfFields);
+        //echo $sqlString;
         $sql = "SELECT $str FROM {$table} WHERE $sqlString ";
         $arr = $this->pdo->queryFetch($sql, $arrayOfFields,[$str]);
 
         return $arr[0][$str];
+
+    }
+    public function getRows($table, $str)
+    {
+        $sql = "SELECT $str FROM {$table} ";
+        $arr = $this->pdo->queryFetch($sql, null,[$str]);
+        $arrayFromRows = Main::getArrayFromData($arr);
+        return $arrayFromRows;
 
     }
     //find
@@ -125,6 +134,15 @@ abstract class Main extends Db
 
         return substr($sqlString, 0, -2); // delete last character ,
         
+    }
+    public static function getArrayFromData($arr)
+    {
+        foreach ($arr as $k1 => $v1) {
+            foreach ($v1 as $k2 => $v2) {
+                $arrFromValues[] = $v2;
+            }
+        }
+        return $arrFromValues;
     }
 }
 

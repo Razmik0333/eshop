@@ -7,9 +7,9 @@
 
         public function actionIndex($filename,$page = 1)
         {
-            $arrStyle = ['bootstrap.min','fonts','email','goods',$filename];
+            $arrStyle = ['bootstrap.min','fonts','email','rating','goods',$filename];
             $fileStyle = Page::getStyles($arrStyle);
-            $arrScripts = ['bootstrap.min','functions','category','email',$filename,'cart'];
+            $arrScripts = ['bootstrap.min','functions','category','email','cart',$filename,'cart'];
             $fileScript = Page::getScripts($arrScripts);
 
             require_once(ROOT."/views/catalog/".$filename.".php");//подключение файлов системы
@@ -17,9 +17,9 @@
         }
         public function actionCategory($filename,$alias)
         { 
-            $arrStyle = ['bootstrap.min','fonts','goods','email',$filename];
+            $arrStyle = ['bootstrap.min','fonts','goods','rating','email',$filename];
             $fileStyle = Page::getStyles($arrStyle);
-            $arrScripts = ['bootstrap.min','category','email',$filename];
+            $arrScripts = ['bootstrap.min','category','functions','email','cart',$filename];
             $fileScript = Page::getScripts($arrScripts);
             $_SESSION['alias'] = $alias;
             $cost_max= $this->getNewObject('product')->getTotalProducts($alias,'max');

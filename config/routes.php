@@ -1,8 +1,6 @@
 <?php
 
 return array(
-
-        'test/test/([a-zA-Z0-9]+)' => 'test/test/$1',
         'admin/product/create' => 'adminProduct/create',
         'admin/product/item/([0-9]+)' => 'adminProduct/item/$1',
         'admin/product/update/([0-9]+)' => 'adminProduct/update/$1',
@@ -10,6 +8,8 @@ return array(
         'admin/product' => 'adminProduct/index',
         // Управление категориями:    
         'admin/category/create' => 'adminCategory/create',
+        'admin/category/item/([0-9]+)' => 'adminCategory/item/$1',
+
         'admin/category/update/([0-9]+)' => 'adminCategory/update/$1',
         'admin/category/delete/([0-9]+)' => 'adminCategory/delete/$1',
         'admin/category' => 'adminCategory/index',
@@ -19,6 +19,8 @@ return array(
         'admin/categories/([0-9]+)' => 'adminCategories/category/$1',
         'admin/categories' => 'adminCategories/index',
         // Управление заказами:
+        'admin/order/create' => 'adminOrder/create',
+        'admin/order/item' => 'adminOrder/item',
         'admin/order/update/([0-9]+)' => 'adminOrder/update/$1',
         'admin/order/delete/([0-9]+)' => 'adminOrder/delete/$1',
         'admin/order/view/([0-9]+)' => 'adminOrder/view/$1',
@@ -26,6 +28,10 @@ return array(
         // Админпанель:
         'admin' => 'admin/index',
         'product/([view]+)/([0-9]+)' => 'product/view/$1/$2',
+        'commodity/recomend' => 'commodity/recomend/$1',
+        'commodity/productCount' => 'commodity/productCount',
+
+        'commodity/product' => 'commodity/product',
         'search/ajaxProduct/([a-zA-Z0-9]+)' => 'search/ajaxProduct/$1',
         'search/page=([0-9]+)' => 'search/index/$1',
         
@@ -58,11 +64,18 @@ return array(
         'guest' => 'register/guest',
         'category/([filter]+)/([a-zA-Z0-9]+)' => 'catalog/category/$1/$2',
         'ajaxCategory/([0-9]+)' => 'category/ajaxCategory/$1',
-        //'category/([0-9]+)/([0-9]+)' => 'catalog/category/$1/$1',
-        'cart/add/([0-9]+)' => 'cart/add/$1', // actionAdd в CartController
+        'cart/add/([0-9]+)/([0-9]+)' => 'cart/add/$1/$2', // actionAdd в CartController
         'cart/delete/([0-9]+)' => 'cart/delete/$1', // actionDelete в CartController
         'cart/addAjax/([0-9]+)' => 'cart/addAjax/$1', // actionAddAjax в CartController
         'cart/checkout' => 'cart/checkout',
+        //_____________________________________________
+        'wishlist/items' => 'wishlistItem/wishlist', // actionAdd в WishlistController
+        'wishlist/list/([0-9]+)' => 'wishlistItem/list/$1', // actionAdd в WishlistController
+
+
+        'wishlist/add/([0-9]+)' => 'wishlistItem/add/$1', // actionAdd в WishlistController
+        'wishlist/delete/([0-9]+)' => 'wishlistItem/delete/$1', // actionDelete в WishlistController
+        'wishlist/([page]+)' => 'wishlist/index/$1',
         //_________________________________________________
         'user/register' => 'user/register',
         'user/login' => 'user/login',
@@ -84,21 +97,28 @@ return array(
 
         'order' => 'order/index/$1',
         //_________________________________
-        'feature/product' => 'feature/product/$1',
 
         //_________________________________
         'items/product' => 'items/product',
 
         'items/compare/([0-9]+)' => 'items/compare/$1',
         'items/delete/([0-9]+)' => 'items/delete/$1',
-
+        'items/productCount' => 'items/productcount',
         //_________________________________
         'list/buy' => 'list/buy',
         'list/clear' => 'list/clear',
 
-        'list/category' => 'list/category',
-        'list/countItems' => 'list/countItems',
-        'list/cart' => 'list/cart',
+        'category/list' => 'category/list',
+        'category/counts' => 'category/counts',
+        // 'list/countItems' => 'list/countItems',
+
+
+
+        'list/cart/([0-9]+)/([0-9]+)' => 'list/cart/$1/$2',
+
+
+
+
         'list/product' => 'list/product',
         'list/totalprice' => 'list/totalprice',
         'list/productcount' => 'list/productcount',

@@ -44,7 +44,7 @@ function loadPage() {
                 let filters = document.querySelector('.filters');
                 filters.addEventListener('click', function (e) {
                     let target = e.target;
-                    if (target.tagName !== 'A' || target.classList.contains('item-name')) return;
+                    if (target.tagName !== 'A' || target.classList.contains('filter-item')) return;
                     e.preventDefault();
                     if(target.dataset.value){
                         filtersShow.innerHTML = target.innerHTML;
@@ -176,8 +176,8 @@ function loadPage() {
             paginationItems.addEventListener('click', generatePage,false);  //generate pagination
     
             function generatePage(e) {
-                let target = e.target;
                 e.preventDefault();
+                let target = e.target;
                 
                 if (target.tagName !== 'A') return;
                 
@@ -266,11 +266,11 @@ function getGoodsItem(obj) {
             <img class="card-img-top item-card" src="/template/images/${obj.id}.jpg" alt="${obj.title}" />
             ${getSaleStatus(obj.discount)}
             <div class="card-body pl-0 pr-0">
-                <a href="/product/view/${obj.id}" class="h6 item-name">${obj.descr}</a>
+                <a href="/product/view/${obj.id}" class="h6 filter-item">${obj.descr}</a>
                 <div class="col-6 item-col">
                     <div class="input-group-append">
                         <span class="input-group-text my-3 mx-5 star-card" for="inputGroupSelect02">
-                        ${'ll'/*createRatingStars(obj.rating)*/}
+                            ${getRatingStars(obj.rating,obj.id)}                        
                         </span>
                     </div>
                     <div class="input-group-append">
@@ -280,7 +280,7 @@ function getGoodsItem(obj) {
                         <a href="/compare/add/${obj.id}">
                             <input class="btn btn-outline-dark compare" data-id="${obj.id}" type="submit" value="&#8644;" />
                         </a>												
-                        <span class="input-group-text bg-light text-dark" for="inputGroupSelect02">${obj.new_cost}&#1423;</span>
+                        <span class="input-group-text bg-light text-dark" for="inputGroupSelect02">${obj.cost * (1-obj.discount/100)}&#1423;</span>
                         <span class="input-group-text bg-secondary text-light " for="inputGroupSelect02"><del>${obj.cost}</del>&#1423;</span>
                     </div>
                 </div>
@@ -297,10 +297,10 @@ function getSaleStatus(discount) {
 	return +discount > 0 ? img : '';
 }
 
-function getRatingStars(num){
-	let rating = createRatingStars(num);
-	return rating;
-}
+// function getRatingStars(num){
+// 	let rating = createRatingStars(num);
+// 	return rating;
+// }
 
 function renderGoods(obj){
     let goodsTemplate = ``;

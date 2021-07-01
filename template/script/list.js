@@ -9,15 +9,18 @@ function loadPage() {
 	
 	let cartData;
 	let totalPrice = 0;
+	let cartItems = document.querySelector('#cart-items');
+
 	load('/list/productCount')
 	.then(res => {
 		cartData = res;
 		load('/list/product')
 		.then(res1 =>{
-			let cartCount = document.querySelector('.cart-count');
-			if (+res1 === 0) {
+			if (+res1 ==0) {
+
+				console.log(res1);
 				cartItem.innerHTML = renderTotalPrice(0) + getBuy('disabled')
-				cartCount.innerHTML = 0;
+				//cartItems.innerHTML = 0;
 			
 			}else{
 				totalPrice = getTotalPrice(res, res1);
@@ -36,17 +39,18 @@ function loadPage() {
 					load(`/list/delete/${target.dataset.delete}`).then(res1 => {
 						load(`/list/productCount`).then(res => {
 							cartData = res;
-							let cartCount = document.querySelector('.cart-count');
+							let cartItems = document.querySelector('#cart-items');
 
 							if (+res1 === 0 ) {
 								cartItem.innerHTML = renderTotalPrice(0) + getBuy('disabled')
-								cartCount.innerHTML = 0;
+								cartItems.innerHTML = 0;
 
 							}else{
+								console.log(getCartCount(res));
 								totalPrice = getTotalPrice(res, res1);
 								let cartTemplate = renderResult(res,res1);
 								cartItem.innerHTML = renderTotalPrice(totalPrice) + cartTemplate + getBuy('')
-								cartCount.innerHTML = getCartCount(res);
+								cartItems.innerHTML = getCartCount(res);
 							}
 							
 						})
@@ -68,7 +72,7 @@ function loadPage() {
 						
 					}).then(() =>{
 						let form = document.querySelector('.form');
-						form.addEventListener('change', function (e) {
+						form.addEventListener('mouseover', function (e) {
 							e.preventDefault();
 							let target = e.target;
 							let value = target.value;
@@ -77,6 +81,7 @@ function loadPage() {
 									changeColor(target, false, `Անունը պետք է ունենա 2-ից ավելի սիմվոլ`)
 					
 								}else{
+									console.log('good');
 									changeColor(target, true, `Անունը ճիշտ է`);
 								}
 							}
@@ -93,14 +98,14 @@ function loadPage() {
 								}
 							}else{
 								form.addEventListener('submit', function (e) {
-									let formData = new FormData(form);
 									e.preventDefault();
+									let formData = new FormData(form);
 									load('/list/buy', formData).then(res => {
 										if (res) {
 											load('/list/clear')
 											.then(result => {
 												if(result){
-													let cartCount = document.querySelector('.cart-count');
+													let cartItems = document.querySelector('#cart-items');
 
 													modal.innerHTML = getModalWindow('Ձեր պատվերն ընդունված է։Մենք Ձեզ հետ կկապնվենք։');
 													let close = document.querySelector('.close');
@@ -109,7 +114,8 @@ function loadPage() {
 														modal.classList.remove('modal-item');
 														modal.innerHTML = 'visible';
 														cartItem.innerHTML = renderTotalPrice(0) + getBuy('disabled')
-														cartCount.innerHTML = 0;													})
+														cartItems.innerHTML = 0;													
+													})
 												} 
 											})
 										}
@@ -132,7 +138,7 @@ function getCartCount(obj) {
 	let count = 0;
 	let values = Object.values(obj)
 	values.forEach(element => {
-		count += element
+		count += +element
 	});
 	return count;
 }
@@ -167,7 +173,7 @@ function renderDataUser(obj, strData, price) {
 	</form> `;
 }
 function getData(obj,prop) {
-	return obj !== undefined ? obj[0][prop] : ''
+	return obj !== undefined ? obj[prop] : ''
 }
 
 
@@ -188,15 +194,15 @@ function getCartItem(obj1, obj2) {
 		    <div class="container card-item"> 
 				<div class="row mt-3">
 					<div class="col-4 kl">
-						<a class="cart-link" href="/product/${obj1.id}"><img src="/template/images/${obj1.id}.jpg" alt="${obj1.title}"></a>
+						<a class="cart-link" href="/product/view/${obj1.id}"><img src="/template/images/${obj1.id}.jpg" alt="${obj1.title}"></a>
 					</div>
 					<div class="col-7" >
-						<a href="/product/view/${obj1.id}" class="cart-header h5"></a>
+						<a href="/product/view/${obj1.id}" class="cart-header h5">${obj1.descr}</a>
 						<div class="input-group-append">
 							<span class="input-group-text bg-white text-dark my-2" id="cart-cost" for="inputGroupSelect02"> ${obj2[obj1.id]} x ${obj1.cost}&#1423;</span>
 						</div>
 						<span class="input-group-text   my-3 star-card" for="inputGroupSelect02">
-							${createRatingStars(obj1.rating)}
+							${getRatingStars(obj1['rating'],obj1['id'])}   
 						</span>
 						<div class="my-2 h5">Համառոտ նկարագրություն </div>
 						<div class="mx-1 p-2 cart-description"> </div>
@@ -223,19 +229,6 @@ function getBuy(str) {
 			<button class="btn btn-outline-dark mx-auto ${str} buy" data-buy="1" name="buy">Կատարել գնում</button>
 		</a>`
 }
-
-function createRatingStars(value) {
-	let rating = '';
-	for (let i = 1; i <= 5; i++) {
-		if (i <= value) {
-			rating += `<a href="/rating/add/${i}" class="fa fa-star stars rating-full" name="star" data-rating="${i}" data-product=""  value=""></a><br>`;
-		}else{
-			rating += `<a href="/rating/add/${i}" class="fa fa-star stars rating-empty" name="star" data-rating="${i}" data-product=""  value=""></a><br>`;
-		}
-	}
-	return rating
-}
-
 
 function renderResult(obj1,obj2){
 	let cartTemplate = ``;

@@ -2,10 +2,10 @@
     class CartController
     {
 
-        public  function actionAdd($id)
+        public  function actionAdd($id,$count)
         {
-            
-            Cart::addProduct($id);
+
+            Cart::addProduct($id,$count);
             $refferer = $_SERVER['HTTP_REFERER'];
             header("Location: $refferer ");
             return true;
@@ -13,13 +13,14 @@
         }
         public function actionDelete($id)
         {
-            Cart::deleteProduct($id);
+            Cart::deleteProduct('products',$id);
             header("Location: /cart/list ");
             return true;
 
         }
         public function actionAddAjax($id)
         {
+            
             echo Cart::addProduct($id);
             return true;
 
@@ -28,22 +29,11 @@
 
         public function actionIndex($filename)
         {
-            $arrStyle = ['bootstrap.min','fonts',$filename];
+            $arrStyle = ['bootstrap.min','fonts','rating',$filename];
             $fileStyle = Page::getStyles($arrStyle);
             $arrScripts = ['bootstrap.min','email','functions','category',$filename];
             $fileScript = Page::getScripts($arrScripts);
-            // $categoryList = array();
-            // $categoryList = Category::getCategoryList();
-            // $productsInCart = false;
-            // $productsInCart = Cart::getProducts();
-            // if($productsInCart){
-            //     $productsIds = array_keys($productsInCart);
-            //     $products = Product::getProductByIds($productsIds);
-            //     $totalPrice = Cart::getTotalPrice($products);
-            //     $countItem = Cart::countItem($products);
-            // } else {
-            //     header("Location: / ");
-            // }           
+                      
             require_once(ROOT.'/views/cart/'.$filename.'.php');//подключение файлов системы
             return true;
         }

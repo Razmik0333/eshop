@@ -109,7 +109,6 @@ function loadPage()
                 let formData = new FormData(form);
                 load('/login', formData)
                 .then((res) =>{
-                    console.log(res);
                     id = res;
                     if(res === 0){
                         modal.innerHTML = getModalWindow('Ներեցեք առկա են տեխնիկական խնդիրներ։Փորձեք մի փոքր ուշ', false)
@@ -291,10 +290,8 @@ function loadPage()
 
     
     function checkUser(res) {
-        console.log(res);
         if (!res) {
 
-            console.log(res);
             loginBar.innerHTML = 
             `
              <li class="nav-item">
@@ -305,7 +302,6 @@ function loadPage()
              </li>
             `
          }else{
-             console.log(res);
              loginBar.innerHTML = 
             `
             <li class="nav-item dropdown bg-dark">
@@ -313,10 +309,11 @@ function loadPage()
                 <div class="dropdown-menu bg-dark menu-items">
                     <a class="dropdown-item text-white" href="/cabinet">ԻՄ ԷՋԸ</a>
                     <a class="dropdown-item text-white" href="/order/package">ԻՄ ՊԱՏՎԵՐՆԵՐԸ</a>
+                    <a class="nav-link text-white" href="/contacts">ՀԵՏԱԴԱՐՁ ԿԱՊ <span class="sr-only">(current)</span></a>
                     <a class="dropdown-item text-white" href="/user/logout">ԵԼՔ</a>
-                    <a class="dropdown-item text-white" href="#">GBP</a>
-                    <a class="dropdown-item text-white" href="#">Other</a>
+
                 </div>
+
 			</li>
 
             ` 

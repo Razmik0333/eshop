@@ -13,12 +13,27 @@ function loadPage()
     load('/package/data')
     .then(res => {
         let arr;
-        let temp1 =``;
-        let acceptDiv = document.querySelector('.accept');
+        let template = '';
+
+        console.log(res);
         let orderList = document.querySelector('.order-list');
         arr = res;
         let orderTabs = document.querySelector('.order-tabs');
+        for (const user_order of arr) {
 
+            let str = getIdsStringFromOrder(user_order['user_order']);
+        
+            load(`/package/product/${str}`)
+            .then(result => {
+
+                template += renderCardItem(user_order,result)
+        
+                orderList.innerHTML = template;
+            
+            })
+        
+        
+        }
         orderTabs.addEventListener('click',function (e) {
             e.preventDefault();
             let target = e.target;
@@ -28,69 +43,52 @@ function loadPage()
                 iterator.classList.remove('active-tab');
             }
             target.classList.add('active-tab');
-            if(res.length !== 0){
+
+            if (res.length <= 0) {
+                orderList.innerHTML = 'Պատվերներ Առկա չեն';
+            }
+            else{
                 if(target.dataset.order){
+                    console.log(target.dataset.order);
                     arr = res.filter(item => item.user_status == target.dataset.order)
+                    console.log("🚀 ~ file: package.js ~ line 36 ~ arr", arr)
 
                 }else{
                     arr = res;
                 }
-                if(res.length !== 0){
-                    let template = '';
-                    for (const user_order of arr) {
-
-                        let str = getIdsStringFromOrder(user_order['user_order']);
-                        
-                        load(`/package/product/${str}`)
-                        .then(result => {
-            
-                            template += renderCardItem(user_order,result)
-                        
-                            orderList.innerHTML = template;
-                            
-                        })
-                        
-                        
-                    }
-                }
-                else{
-                    orderList.innerHTML = 'Պատվերներ Առկա չեն';
-    
-                } 
-                template = '';
             }
-            else{
-                orderList.innerHTML = 'Պատվերներ Առկա չեն';
-
-            }      
-
-
             
-        });
-        if(res.length !== 0){
+            if (arr.length === 0) {
+                orderList.innerHTML = 'Պատվերներ Առկա չեն';
+            }
             let template = '';
             for (const user_order of arr) {
 
                 let str = getIdsStringFromOrder(user_order['user_order']);
+            
                 load(`/package/product/${str}`)
                 .then(result => {
-                    template += renderCardItem(user_order,result)
-                    orderList.innerHTML = template;
-                })
-            }
-        }else{
-            orderList.innerHTML = 'Պատվերներ Առկա չեն';
 
-        }
+                    template += renderCardItem(user_order,result)
+            
+                    orderList.innerHTML = template;
+                
+                })
+            
+            
+            }
+            
+        });
+
     })
 }
 function renderCardItem(user_order,result) {
     let template = '';
-    template += renderOrderInfo(user_order['user_price']);
-    template +=renderOrderList(result);
+    template += renderOrderHeader(user_order['user_price']);
+    template +=renderOrderBody(result);
     return  template;
 }
-function renderOrderList(obj) {
+function renderOrderBody(obj) {
     let template = '';
     for (const iterator of obj) {
         template += renderOrderProducts(iterator)
@@ -105,7 +103,7 @@ function getIdsStringFromOrder(str) {
     return arrString;
 
 }
-function renderOrderInfo(totalPrice) {
+function renderOrderHeader(totalPrice) {
     return `<div class="row bg-light p-1">
     <div class="col-4">
         <p class="mb-0">Պատվերի համարը։</p>

@@ -4,13 +4,49 @@ class Category extends Main
 {
     public $tableName = 'category';
     public $categoryList = [];
+    public $requiredFields =  ['id','alias','arm_name'];
+
     public function getCategories()
     {
        $categoryList = $this->findFields($this->tableName,['id','alias','arm_name'],null);
         return $categoryList;
     }
+    public function getCategoryById($categoryId)
+    {
+        if ($categoryId) {
+            $this->categoryList = $this->findFieldById($this->tableName, ['id' => $categoryId],$this->requiredFields,1)[0];
+            return $this->categoryList;
+        }
+        return false;
+    }
+    public function createCategory($arrayOfField)
+    {
+        $time =  time();
+        //var_dump($arrayOfField);
+        return  $this->insertField($this->tableName, [
+            'alias' => $arrayOfField['alias'],
+            'arm_name' => $arrayOfField['arm_name'],            
+        ]
+        ); 
+        
+    }
+    
+    public function updateCategory($id, $arrayOfField)
+    {
 
+        $time =  time(); 
+        $this->updateFieldById($this->tableName,[
+            'alias' => $arrayOfField['alias'],
+            'arm_name' => $arrayOfField['arm_name'],            
+        ], ['id' => $id]);
+        return true;
+    }
 
+    public function deleteCategoryById($id)
+    {
+        $this->deleteFieldById($this->tableName, ['id' => $id]);
+        return true;
+    }
 
 
 
@@ -57,15 +93,15 @@ class Category extends Main
     }
   
 
-    public static function createCategory($options)
-    {
-        $db = Db::getConnection();
-        $sql = 'INSERT INTO category (`name`,arm_name ) VALUES (:name, :arm_name)';
-        $result = $db->prepare($sql);        
-        $result->bindParam(':alias', $options['category_id']);
-        $result->bindParam(':arm_name', $options['category']);
-        return $result->execute();       
-    }
+    // public static function createCategory($options)
+    // {
+    //     $db = Db::getConnection();
+    //     $sql = 'INSERT INTO category (`name`,arm_name ) VALUES (:name, :arm_name)';
+    //     $result = $db->prepare($sql);        
+    //     $result->bindParam(':alias', $options['category_id']);
+    //     $result->bindParam(':arm_name', $options['category']);
+    //     return $result->execute();       
+    // }
     public static function createCategoriesItem($options)
     {
         $db = Db::getConnection();
@@ -88,32 +124,32 @@ class Category extends Main
 
         return $result->execute();       
     }
-    public static function updateCategory($id, $options)
-    {
-        $db = Db::getConnection();
-        $sql = 'UPDATE  category  SET `name` = :category, arm_name = :category_id WHERE id = :id';
-        $result = $db->prepare($sql);        
-        $result->bindParam(':category', $options['category']);
-        $result->bindParam(':category_id', $options['category_id']);
-        $result->bindParam(':id', $id);
-        return $result->execute();        
-    }
-    public static function deleteCategoryById($id)
-    {
-        $db = Db::getConnection();
-        $sql = 'DELETE FROM  category   WHERE id = :id';
-        $result = $db->prepare($sql);        
-        $result->bindParam(':id', $id);
-        return $result->execute();        
-    }   
-    public static function deleteCategoriesById($id)
-    {
-        $db = Db::getConnection();
-        $sql = 'DELETE FROM  item_category   WHERE id = :id';
-        $result = $db->prepare($sql);        
-        $result->bindParam(':id', $id);
-        return $result->execute();        
-    }   
+    // public static function updateCategory($id, $options)
+    // {
+    //     $db = Db::getConnection();
+    //     $sql = 'UPDATE  category  SET `name` = :category, arm_name = :category_id WHERE id = :id';
+    //     $result = $db->prepare($sql);        
+    //     $result->bindParam(':category', $options['category']);
+    //     $result->bindParam(':category_id', $options['category_id']);
+    //     $result->bindParam(':id', $id);
+    //     return $result->execute();        
+    // }
+    // public static function deleteCategoryById($id)
+    // {
+    //     $db = Db::getConnection();
+    //     $sql = 'DELETE FROM  category   WHERE id = :id';
+    //     $result = $db->prepare($sql);        
+    //     $result->bindParam(':id', $id);
+    //     return $result->execute();        
+    // }   
+    // public static function deleteCategoriesById($id)
+    // {
+    //     $db = Db::getConnection();
+    //     $sql = 'DELETE FROM  item_category   WHERE id = :id';
+    //     $result = $db->prepare($sql);        
+    //     $result->bindParam(':id', $id);
+    //     return $result->execute();        
+    // }   
     
    
 }
