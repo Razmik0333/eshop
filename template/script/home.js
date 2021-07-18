@@ -16,10 +16,34 @@ function loadPage()
 		for (const iterator of res) {	
 			template += getCardItem(iterator);
 			productItem.innerHTML = template
-		}
-
-		
+		}		
 	})
+	.then(() =>{
+		load('/list/product')
+		.then(res => {
+			let addCart = document.querySelectorAll('.add-cart');
+			addToList(res, addCart)
+		})
+	})
+	.then(() =>{
+		load('/items/product')
+		.then(res => {
+			let compare = document.querySelectorAll('.compare');
+			addToList(res, compare)		
+		})
+	})
+	.then(() =>{
+		load('/wishlist/items')
+		.then(res => {
+			let wishlist = document.querySelectorAll('.wishlist');
+			addToList(res, wishlist)
+		})
+	})
+
+
+
+
+	
 	load('main/recomend')	
 	 .then(res => {
 	 	let template = '';
@@ -152,6 +176,7 @@ function getMaxDiscountItem(obj) {
 	</div>`;
 	return maxDiscountItem
 }
+
 
 
 

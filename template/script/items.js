@@ -14,7 +14,6 @@ function loadPage() {
         }
     }).then(() => {
         let compareItem = document.querySelector('.compare-item');
-        console.log("🚀 ~ file: items.js ~ line 18 ~ loadPage ~ compareItem", compareItem)
         compareItem.addEventListener('click', function (e) {
             e.preventDefault();
             let target = e.target;
@@ -27,8 +26,6 @@ function loadPage() {
                 .then(res => {
                         load(`/items/productCount`).then(count =>{
                         let compareItems = document.querySelector('#compare-items');
-                        console.log("🚀 ~ file: items.js ~ line 20 ~ compareItems", compareItems)
-                        console.log(count);
                         if(res == 0){
                             compareItems.innerHTML = count;
                             compareItem.innerHTML = getEmptyList();

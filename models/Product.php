@@ -11,7 +11,7 @@ class Product extends Main
     public function getProductList()
     {
 
-        $this->productsLists = $this->findFields($this->tableName,$this->requiredFields,null);
+        $this->productsLists = $this->findFields($this->tableName,$this->requiredFields,8);
         return $this->productsLists;
     }
     public function getRecomendProducts()

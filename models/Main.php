@@ -21,7 +21,7 @@ abstract class Main extends Db
     public function findFields($table, $arrayOfFields = [], $count)
     {
         $sql = "SELECT * FROM {$table}";
-        $count !== null ? $sql.=" LIMIT $count" : $sql .='';
+        $count !== null ? $sql.=" ORDER BY id DESC LIMIT $count " : $sql .='';
         $arr = $this->pdo->queryFetch($sql, null, $arrayOfFields);
         return $arr;
     }
@@ -129,9 +129,7 @@ abstract class Main extends Db
         $sqlString = "";
         foreach ($arrayOfFields as $key => $value) {
             $sqlString .= "$key = :$key, ";
-           
         }
-
         return substr($sqlString, 0, -2); // delete last character ,
         
     }
@@ -143,6 +141,15 @@ abstract class Main extends Db
             }
         }
         return $arrFromValues;
+    }
+    public function getFieldValue($table,$arrayOfFields,$str){
+        $sqlString = Main::createQueryForUpdate($arrayOfFields);
+        $sql = "SELECT $str FROM {$table} WHERE $sqlString ";
+        
+
+        $arr = $this->pdo->queryFetch($sql, $arrayOfFields,[$str]);
+       // var_dump($arr);
+        return $arr[0][$str]; 
     }
 }
 

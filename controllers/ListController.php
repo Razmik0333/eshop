@@ -33,7 +33,11 @@
         public function actionBuy()
         {
             if (isset($_POST)) {
-
+                $adminEmail = 'razmik0333@gmail.ru';
+                $message = '<a href="http://eshopoop.com/orders">Список заказов</a>';
+                $subject = 'Новый заказ!';
+                mail($adminEmail, $subject, $message);
+                // Очищаем корзину
                 echo json_encode($this->getNewObject('order')->save($_POST));
             }
             return true;

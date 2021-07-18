@@ -50,9 +50,6 @@
             return true;
         }       
         
-        
-
-
         public function actionDelete($id)
         {
             self::checkAdmin();

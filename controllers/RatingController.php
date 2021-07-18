@@ -3,17 +3,22 @@
         {      
             use AppController;
 
+            public $rating;
+            public function __construct()
+            {
+               $this->rating = $this->getNewObject('rating');
+            }
             public function actionAddRating($productId, $ratingId)
             {
-                $currentRating = $this->getNewObject('rating')->getRating($productId);
+                $currentRating = $this->rating->getRating($productId);
                 if ($currentRating == 0) {
-                    $this->getNewObject('rating')->updateRating($productId,$ratingId,$ratingId);
+                    $this->rating->updateRating($productId,$ratingId,$ratingId);
                     echo json_encode($ratingId);
                 }else{
-                    $currentString = $this->getNewObject('rating')->getRatingString($productId);
-                    $newString = $this->getNewObject('rating')->returnNewString($currentString, $ratingId);
-                    $newRating = $this->getNewObject('rating')->getNewRating($newString);
-                    $this->getNewObject('rating')->updateRating($productId,$newRating,$newString);
+                    $currentString = $this->rating->getRatingString($productId);
+                    $newString = $this->rating->returnNewString($currentString, $ratingId);
+                    $newRating = $this->rating->getNewRating($newString);
+                    $this->rating->updateRating($productId,$newRating,$newString);
                     echo json_encode($newRating);
                 }                
                 return true;

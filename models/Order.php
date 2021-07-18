@@ -42,19 +42,7 @@ class Order extends Product
         return $this->getRows($this->tableName, 'user_order');
 
     }
-
-    public static function updateOrderStatus($id,$status)
-    {
-        if($id){
-            $db = Db::getConnection();
-            $sql = 'UPDATE orders SET status = :status WHERE `id` = :id';
-            $result = $db->prepare($sql);
-            $result->bindParam('id',$id,PDO::PARAM_INT);
-            $result->bindParam('status',$status,PDO::PARAM_INT);
-            $result->setFetchMode(PDO::FETCH_ASSOC);
-            return $result->execute();    
-        }
-    }
+    
     public function deleteOrderById($id)
     {
         $this->deleteFieldById($this->tableName, ['id' => $id]);

@@ -20,6 +20,7 @@ class Page
         }
         return $resource;
     }
+    
     public static function showArray($arr)
     {
         echo '<pre>';

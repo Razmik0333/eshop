@@ -48,8 +48,8 @@ return array(
         'compare/addAjax/([0-9]+)' => 'compare/addAjax/$1',
         'compare/delete/([0-9]+)' => 'compare/delete/$1',
         //сравнение характеристик товаров
-        'catalog/([product]+)/page=([0-9]+)' => 'catalog/index/$1/$2',
-        'catalog' => 'catalog/index',
+        'catalog/([product]+)' => 'catalog/index/$1',
+        //'catalog' => 'catalog/index',
         'filter/product' => 'filter/product',
 
         'goods/search/([a-zA-Z0-9]+)' => 'goods/search/$1/$2',
@@ -70,12 +70,13 @@ return array(
         'cart/checkout' => 'cart/checkout',
         //_____________________________________________
         'wishlist/items' => 'wishlistItem/wishlist', // actionAdd в WishlistController
-        'wishlist/list/([0-9]+)' => 'wishlistItem/list/$1', // actionAdd в WishlistController
 
 
         'wishlist/add/([0-9]+)' => 'wishlistItem/add/$1', // actionAdd в WishlistController
         'wishlist/delete/([0-9]+)' => 'wishlistItem/delete/$1', // actionDelete в WishlistController
+        'wishlist/productCount' => 'wishlistItem/productcount',
         'wishlist/([page]+)' => 'wishlist/index/$1',
+
         //_________________________________________________
         'user/register' => 'user/register',
         'user/login' => 'user/login',

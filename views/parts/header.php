@@ -5,14 +5,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<?php foreach ($fileStyle as $value) {?>
-		<link rel="stylesheet" <?php echo $value ?>>
+		<link rel="stylesheet" <?php echo $value; ?>>
 	<?php }?>
 	<script src="https://use.fontawesome.com/dc298a9238.js"></script>
 		<?php foreach ($fileScript as $value) {?>
 			<?php echo $value;?>
 	<?php } ?>
     <!-- Bootstrap CSS -->
-    <title>home</title>
+    <title><?php echo $filename;?></title>
   </head>
   <body>
 		<!--start of top container-->

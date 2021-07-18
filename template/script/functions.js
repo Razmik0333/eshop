@@ -146,3 +146,20 @@ function getSaleStatus(discount) {
 	let img = `<img class="card-img-top sale" src="/template/images/other/sale.png" alt="Card image cap">`;
 	return +discount > 0 ? img : '';
 }
+
+function addToList(obj,selector) {
+  // console.log(obj);
+  // console.log(selector);
+	if(typeof obj === 'object'){
+		for (const iterator of selector) {
+			let id = iterator.dataset.id
+			obj.forEach((elem,index) => {
+        if (elem['id'] == id) {
+					iterator.classList.remove('btn-outline-dark')
+					iterator.classList.add('btn-dark')
+				}
+			});
+		}
+	}
+	return true;
+}

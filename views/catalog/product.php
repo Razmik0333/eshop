@@ -3,7 +3,7 @@
 	//echo 'po';
 ?>
 		<div class="container">			
-			<div class="row goods-card filter-item">	
+			<div class="row goods-card product-item">	
 			</div>
 			<nav aria-label="Page navigation example">
 				<ul class="pagination pagination-items">

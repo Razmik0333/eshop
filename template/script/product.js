@@ -9,6 +9,7 @@ function loadPage() {
     let items_goods;
     load('/goods/items/1')
     .then(res => {
+        console.log(res);
         goodsCard.innerHTML = renderGoods(res);
         items_goods = res;
     });

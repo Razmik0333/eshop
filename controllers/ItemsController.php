@@ -52,10 +52,10 @@
         }
         public function actionProductCount()
         {
-            $productsInCart = false;
-            $productsInCart = $this->compare->getProducts();
-            if ($productsInCart) {
-                echo json_encode(count($productsInCart));
+            $productsForCompare = false;
+            $productsForCompare = $this->compare->getProducts();
+            if ($productsForCompare) {
+                echo json_encode(count($productsForCompare));
             }
             else{
                 echo 0;

@@ -6,16 +6,90 @@ async function load(url, obj) {
 
 function loadPage() {
     let wishlistItems = document.querySelector('.wishlist-item');
-    load('/wishlist/items')
-    .then(res => {
-        if (typeof res == 'object') {
-            let template = '';
-            for (const iterator of res) {	
-                template += getCardItem(iterator);
-                wishlistItems.innerHTML = template
-            }
-        }
-    })
+    let saved = document.querySelector('.saved');
+    load('/wishlist/productCount').then(count =>{
+		console.log(count);
+		load('/wishlist/items')
+		.then(res => {
+			if (typeof res == 'object') {
+				let template = '';
+				for (const iterator of res) {	
+					template += getCardItem(iterator);
+					wishlistItems.innerHTML = template
+				}
+			}
+		})
+		.then(() =>{
+			load('/list/product')
+			.then(res => {
+				let addCart = document.querySelectorAll('.add-cart');
+				addToList(res, addCart);
+			})
+		})
+		.then(() =>{
+			load('/items/product')
+			.then(res => {
+				let compare = document.querySelectorAll('.compare');
+				addToList(res, compare);	
+			})
+		})
+		.then(() =>{
+			load('/wishlist/items')
+			.then(res => {
+				let wishlist = document.querySelectorAll('.wishlist');
+				addToList(res, wishlist);
+			})
+		}).then(() => {
+			wishlistItems.addEventListener('click', function (e) {
+				e.preventDefault();
+				let target = e.target;
+				let id = target.dataset.id
+				if(target.tagName !== 'INPUT') return;
+				if(target.classList.contains('wishlist')){
+					load(`/wishlist/delete/${id}`).then(res => {
+						load('/wishlist/productCount').then(count1 =>{
+							let wishlistCount = document.querySelector('.wishlist-count');
+
+							if (+res == 0 ) {
+								console.log(res);
+								saved.innerHTML = wishListEmpty()
+								wishlistItems.innerHTML = '';
+								wishlistCount.innerHTML = count1
+							}else{
+								let template = '';
+								for (const iterator of res) {	
+									template += getCardItem(iterator);
+									wishlistItems.innerHTML = template
+								}
+								wishlistCount.innerHTML = count1;
+
+							}
+						})
+					}).then(() =>{
+						load('/list/product')
+						.then(res => {
+							let addCart = document.querySelectorAll('.add-cart');
+							addToList(res, addCart)
+						})
+					})
+					.then(() =>{
+						load('/items/product')
+						.then(res => {
+							let compare = document.querySelectorAll('.compare');
+							addToList(res, compare)		
+						})
+					})
+					.then(() =>{
+						load('/wishlist/items')
+						.then(res => {
+							let wishlist = document.querySelectorAll('.wishlist');
+							addToList(res, wishlist)
+						})
+					})
+				}
+			})
+		})
+	})
 }
 
 
@@ -67,4 +141,8 @@ function getCardItem(obj){
 	</div>
 `;
 	return productCard;
+}
+
+function wishListEmpty() {
+	return 'ԱՎԵԼԱՑՎԱԾ ԱՊՐԱՆՔՆԵՐ ՉԿԱՆ';
 }

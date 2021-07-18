@@ -18,7 +18,6 @@ function loadPage()
     }).then(result => {
         load('/category/counts')
         .then(counts => {
-            console.log(counts);
             //let arrCount = counts.sp
             let cart = getButtons(counts[0],'cart','list');
             let compare = getButtons(counts[1],'compare','items');

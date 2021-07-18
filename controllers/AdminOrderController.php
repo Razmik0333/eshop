@@ -17,16 +17,13 @@
         }   
         public function actionCreate(){
             self::checkAdmin();
-
             echo json_encode($this->getNewObject('order')->save($_POST));
             return true;
-            //Page::showArray($_POST);
         }
                          
         public function actionItem($id)
         {
             self::checkAdmin();
-
             $orderById = $this->getNewObject('order')->getOrderById($id);
             echo json_encode($orderById);
             return true;

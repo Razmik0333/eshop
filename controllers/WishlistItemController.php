@@ -17,27 +17,45 @@
 
             return true;
         }
-        public function actionList($id)
+        public function actionProductCount()
         {
-            echo $this->wishlist->addProduct($id);
-
+            $productsForWishlist = false;
+            $productsForWishlist = $this->wishlist->getProducts();
+            if ($productsForWishlist) {
+                echo json_encode(count($productsForWishlist));
+            }
+            else{
+                echo 0;
+            }
             return true;
         }
 
-        public function actionDelete(Type $var = null)
+        public function actionDelete($id)
         {
-            echo 'wish delete';
+            $this->wishlist->deleteProduct($id);
+            $productsInWishlist = $this->wishlist->getProducts();
+            if($productsInWishlist){
+                //unset($_SESSION['wishlist']);
+                $productsIds = array_keys($productsInWishlist);
+                $productsIdsString = implode(',',$productsIds);
+                $products = $this->getNewObject('product')->getProductByIds($productsIdsString);
+                
+                $countItem = $this->wishlist->countItem($products);
+                echo json_encode($products);
+            }else {
+                echo json_encode('0');
+            }
             return true;
         }
 
         public function actionWishlist()
         {
             
-            $productsInCart = false;
-            $productsInCart = $this->wishlist->getProducts();
-            if($productsInCart){
+            $productsInWishlist = false;
+            $productsInWishlist = $this->wishlist->getProducts();
+            if($productsInWishlist){
                 //unset($_SESSION['wishlist']);
-                $productsIds = array_keys($productsInCart);
+                $productsIds = array_keys($productsInWishlist);
                 $productsIdsString = implode(',',$productsIds);
                 $products = $this->getNewObject('product')->getProductByIds($productsIdsString);
                 

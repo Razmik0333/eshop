@@ -15,26 +15,64 @@ function loadPage() {
 	.then(res => {
 		cartData = res;
 		load('/list/product')
-		.then(res1 =>{
-			if (+res1 ==0) {
+			.then(res1 =>{
+				if (+res1 ==0) {
 
-				console.log(res1);
-				cartItem.innerHTML = renderTotalPrice(0) + getBuy('disabled')
-				//cartItems.innerHTML = 0;
-			
-			}else{
-				totalPrice = getTotalPrice(res, res1);
-				let cartTemplate = renderResult(res,res1);
-				cartItem.innerHTML = renderTotalPrice(totalPrice) + cartTemplate + getBuy('');
-				return res1;
-			}
-		})
+					console.log(res1);
+					cartItem.innerHTML = renderTotalPrice(0) + getBuy('disabled')
+					//cartItems.innerHTML = 0;
+				
+				}else{
+					totalPrice = getTotalPrice(res, res1);
+					let cartTemplate = renderResult(res,res1);
+					cartItem.innerHTML = renderTotalPrice(totalPrice) + cartTemplate + getBuy('');
+					return res1;
+				}
+			})
+			.then(() =>{
+				load('/items/product')
+				.then(res => {
+					let compare = document.querySelectorAll('.compare');
+					addToList(res, compare)		
+				})
+			})
+			.then(() =>{
+				load('/wishlist/items')
+				.then(res => {
+					let wishlist = document.querySelectorAll('.wishlist');
+					 addToList(res, wishlist)
+				})
+			})
 		})
 		.then(() => {
 			cartItem.addEventListener('click', function (e) {
+
 				e.preventDefault();
 				let target = e.target;
-				if (target.tagName !== 'BUTTON') return;
+				let id = target.dataset.id;
+				
+				if (target.tagName == 'DIV') return;
+				if(target.classList.contains('wishlist')){
+					load(`/wishlist/add/${id}`)
+					.then(res => {
+
+						let wishlistItems = document.querySelector('#wishlist-items');
+						wishlistItems.innerHTML = res;
+					}).then(() => {
+						load('/wishlist/items')
+						.then(res => {
+							console.log(res);
+							res.forEach(elem => {
+								if (id === elem['id']) {
+									target.classList.remove('btn-outline-dark')
+									target.classList.add('btn-dark')
+								}
+							});
+						})
+		
+					
+					})
+				}
 				if (target.dataset.delete) {					
 					load(`/list/delete/${target.dataset.delete}`).then(res1 => {
 						load(`/list/productCount`).then(res => {
@@ -46,7 +84,6 @@ function loadPage() {
 								cartItems.innerHTML = 0;
 
 							}else{
-								console.log(getCartCount(res));
 								totalPrice = getTotalPrice(res, res1);
 								let cartTemplate = renderResult(res,res1);
 								cartItem.innerHTML = renderTotalPrice(totalPrice) + cartTemplate + getBuy('')
@@ -81,7 +118,6 @@ function loadPage() {
 									changeColor(target, false, `Անունը պետք է ունենա 2-ից ավելի սիմվոլ`)
 					
 								}else{
-									console.log('good');
 									changeColor(target, true, `Անունը ճիշտ է`);
 								}
 							}
@@ -207,9 +243,11 @@ function getCartItem(obj1, obj2) {
 						<div class="my-2 h5">Համառոտ նկարագրություն </div>
 						<div class="mx-1 p-2 cart-description"> </div>
 						
-						<button class="btn btn-outline-dark" type="button"><i class='fa fa-search'></i></button>
+						<a href="/wishlist/add/${obj1.id}">
+							<input class="btn btn-outline-dark wishlist" data-id="${obj1.id}" type="submit" value="&#x2661;">
+						</a>
 						<a href="/compare/add/${obj1.id}">
-							<input class="btn btn-outline-dark compare" data-id="" type="button" value="⇄">												
+							<input class="btn btn-outline-dark compare" data-id="${obj1.id}" type="button" value="⇄">												
 						</a>
 						<input type="hidden" name="delete" value="">
 						<a href="/cart/delete/${obj1.id}">

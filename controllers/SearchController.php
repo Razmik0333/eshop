@@ -14,8 +14,6 @@
                 $str = $_POST['search-field'];
                 $productsLists = $this->getNewObject('product')->getProductByStr($str);          
             }
-            
-            
             require_once(ROOT."/views/catalog/".$filename.".php");//подключение файлов системы
             return true;
         }
