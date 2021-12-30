@@ -13,12 +13,10 @@ function loadPage()
             e.preventDefault()
             let productId = target.dataset.product
             let productRating = target.dataset.rating
-            load(`/rating/addRating/${productId}/${productRating}`).then(res => {
-                let starCard = document.querySelectorAll('.star-card');
-                load(`/rating/product/${productId}`).then(res => {
-                    console.log(res.rating);
-                    starCard.innerHTML = getRatingStars(res.rating,res.id)
-                })
+            load(`/rating/addRating/${productId}/${productRating}`).then(rating => {
+                //console.log(rating);
+                target.parentNode.innerHTML = getRatingStars(rating,productId)
+
             })
 
         } 

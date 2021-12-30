@@ -12,22 +12,22 @@ abstract class Main extends Db
     public function findFieldById($table, $arrayOfFields = [], $field,$count)
     {
         $sqlString = Main::createQueryForUpdate($arrayOfFields);
-        $sql = "SELECT * FROM {$table} WHERE $sqlString ";
-        $count == null ? $sql .= '' : $sql .= " ORDER BY id DESC LIMIT $count ";
-
+        $sql = "SELECT * FROM {$table} WHERE $sqlString ORDER BY id DESC";
+        $count == null ? $sql .= '' : $sql .= "  LIMIT $count ";
         $arr = $this->pdo->queryFetch($sql, $arrayOfFields,$field);
         return $arr; 
     }
     public function findFields($table, $arrayOfFields = [], $count)
     {
-        $sql = "SELECT * FROM {$table}";
-        $count !== null ? $sql.=" ORDER BY id DESC LIMIT $count " : $sql .='';
+        $sql = "SELECT * FROM {$table} ORDER BY id ";
+        $count !== null ? $sql.="  ASC LIMIT $count " : $sql .=" DESC  ";
+        //echo $sql;
         $arr = $this->pdo->queryFetch($sql, null, $arrayOfFields);
         return $arr;
     }
-    public function findFieldsByStr($table,$field,$arrayOfFields = [],$str, $count)
+    public function findFieldsByStr($table,$field,$arrayOfFields = [],$str)
     {
-        $sql = "SELECT * FROM {$table} WHERE $field LIKE '%$str%' LIMIT $count";
+        $sql = "SELECT * FROM {$table} WHERE $field LIKE '%$str%'";
         $arr = $this->pdo->queryFetch($sql,null, $arrayOfFields);
         return $arr;
     }

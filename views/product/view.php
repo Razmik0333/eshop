@@ -17,6 +17,7 @@
 			</div>
 		</div>
 		<div class="modal"></div>	
+		<div id="test"></div>	
 
 <?php 
 	require_once ROOT.'/views/parts/footer.php';

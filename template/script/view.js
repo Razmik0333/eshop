@@ -3,29 +3,27 @@ async function load(url, obj) {
 	return say.getResult(url,obj);
 }
 
-
-
-window.addEventListener("load", loadPage,false);
-
+//window.addEventListener("load", loadPage,false);
 
 function loadPage()
 {	
   let count = 0;
   load('/commodity/product')
 	.then(obj => {
-    let productId = obj ['id'];
-    //load(`/commodity/productImage/${productId}`).then(url => {
-
+    console.log(obj);
     
+    let productId = obj ['id'];
+    let quantity = document.querySelector('.quantity')
+    console.log("🚀 ~ file: view.js ~ line 18 ~ quantity", quantity)
+   
       load('/commodity/productCount')
       .then(count => {
-          let productItem = document.querySelector('.product-item');
-          let countForSale = getCountProduct(count, productId);
-          productItem.innerHTML = getProductsById(obj,countForSale);
+           let productItem1 = document.querySelector('.product-item');
+           let countForSale = getCountProduct(count, productId);
+           productItem1.innerHTML = getProductsById(obj,countForSale);
         }).then(() =>{
-          let quantity = document.querySelector('.quantity')
-          let productQuantity = document.querySelector('.product-quantity')
-          quantity.addEventListener('click', function (e) {
+            let productQuantity = document.querySelector('.product-quantity')
+            quantity.addEventListener('click', function (e) {
             e.preventDefault()
             let target = e.target;
             if (target.tagName === 'SPAN') return;
@@ -40,11 +38,6 @@ function loadPage()
           })
         })
         
-        
-
-
-
-    //})
   })
   
   let header = `<nav class="navbar navbar-expand-lg navbar-light bg-light">

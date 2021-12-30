@@ -8,7 +8,7 @@ class Category extends Main
 
     public function getCategories()
     {
-       $categoryList = $this->findFields($this->tableName,['id','alias','arm_name'],null);
+       $categoryList = $this->findFields($this->tableName,['id','alias','arm_name'],3);
         return $categoryList;
     }
     public function getCategoryById($categoryId)

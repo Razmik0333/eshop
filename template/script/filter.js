@@ -1,6 +1,6 @@
 //'use strict';
 
-window.addEventListener("load", loadPage,false);
+//window.addEventListener("load", loadPage,false);
 async function load(url, obj) {
 	let say = await import('./getResult.js');
 	return say.getResult(url,obj);

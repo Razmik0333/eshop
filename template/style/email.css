@@ -5,9 +5,12 @@
 
 .modal-item{
     background-color: rgba(35, 42, 47 , .5);
-    display: block;
+    display: flex;
     z-index: 100000;
     overflow-y: scroll;
+    align-items: center;
+    justify-content: center;
+    width: 102%;
 }
 .femaleLabel{
  margin-left: 0;   

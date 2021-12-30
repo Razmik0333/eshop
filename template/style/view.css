@@ -1,4 +1,4 @@
-#item-img  {
+.item-img  {
 	width: 90%;
 	height:auto;
 	cursor: pointer;
@@ -6,7 +6,7 @@
 	border-radius: 5px;
 	left: 7%;
 }
-#quantity{
+.product-quantity{
 	border: 1px solid #777;
 	width: 100px;
 }
@@ -27,7 +27,7 @@ transition: 0.3s;
 	left: 35%;
 	top: 10%
 }
-#resize{
+.resize{
 	left: 10%;
 	visibility: hidden;
 }

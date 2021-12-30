@@ -16,7 +16,17 @@ class Page
     {
         $resource = '';
         foreach ($arr as $value) {
+           // Page::showArray($value);
+
             $resource[] = "<script src='/template/script/${value}.js'></script>";
+        }
+        return $resource;
+    }
+    public static function getModules($arr)
+    {
+        $resource = [];
+        foreach ($arr as $value) {
+            $resource[] = "<script src='/template/script/classes/${value}.js' type='module'></script>";
         }
         return $resource;
     }

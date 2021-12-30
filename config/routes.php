@@ -48,13 +48,14 @@ return array(
         'compare/addAjax/([0-9]+)' => 'compare/addAjax/$1',
         'compare/delete/([0-9]+)' => 'compare/delete/$1',
         //сравнение характеристик товаров
-        'catalog/([product]+)' => 'catalog/index/$1',
+        'catalog/([all]+)' => 'catalog/index/$1',
         //'catalog' => 'catalog/index',
-        'filter/product' => 'filter/product',
-
-        'goods/search/([a-zA-Z0-9]+)' => 'goods/search/$1/$2',
         'goods/items' => 'goods/index',
-
+        'filter/product' => 'filter/product',
+        
+        'goods/search' => 'goods/search',
+        
+        'goods/([base]+)' => 'goods/base',
         //  ////
 
         'register/check/([a-zA-Z0-9]+)' => 'register/check/$1',
@@ -69,7 +70,7 @@ return array(
         'cart/addAjax/([0-9]+)' => 'cart/addAjax/$1', // actionAddAjax в CartController
         'cart/checkout' => 'cart/checkout',
         //_____________________________________________
-        'wishlist/items' => 'wishlistItem/wishlist', // actionAdd в WishlistController
+        'wishlist/wish' => 'wishlistItem/wishlist', // actionAdd в WishlistController
 
 
         'wishlist/add/([0-9]+)' => 'wishlistItem/add/$1', // actionAdd в WishlistController
@@ -137,7 +138,7 @@ return array(
         'search' => 'search/index',
         'compare' => 'compare/index',
         'cart/([list]+)' => 'cart/index/$1',
-        '([home]+)' => 'site/index/$1',
+        '([site]+)' => 'site/index/$1',
         'index.php' => 'site/index/$1',
         '' => 'site/index/$1',
     );

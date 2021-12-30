@@ -21,7 +21,8 @@
         }
         public function actionRegister()
         {
-            echo json_encode($this->getNewObject('user')->register($_POST));
+            echo json_encode($_POST);
+            //echo json_encode($this->getNewObject('user')->register($_POST));
             return true;
         }
         public function actionLogin()

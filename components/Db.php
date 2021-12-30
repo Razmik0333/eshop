@@ -2,10 +2,10 @@
 
     class Db
     {
-        protected static $instance;
+        private static $instance;
         private $params = [];
         private $db;
-        public function __construct()
+        private function __construct()
         {
             $paramsPath = ROOT.'/config/db_params.php';
             $this->params = include($paramsPath);
@@ -79,7 +79,6 @@
                 self::$instance = new self;
             }
             return self::$instance;
-
         }
        
     }

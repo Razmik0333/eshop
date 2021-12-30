@@ -37,8 +37,9 @@ function loadPage() {
 				})
 			})
 			.then(() =>{
-				load('/wishlist/items')
+				load('/wishlist/wish')
 				.then(res => {
+					console.log(res);
 					let wishlist = document.querySelectorAll('.wishlist');
 					 addToList(res, wishlist)
 				})
@@ -59,7 +60,7 @@ function loadPage() {
 						let wishlistItems = document.querySelector('#wishlist-items');
 						wishlistItems.innerHTML = res;
 					}).then(() => {
-						load('/wishlist/items')
+						load('/wishlist/wish')
 						.then(res => {
 							console.log(res);
 							res.forEach(elem => {
@@ -73,7 +74,7 @@ function loadPage() {
 					
 					})
 				}
-				if (target.dataset.delete) {					
+				if (target.dataset.delete) {
 					load(`/list/delete/${target.dataset.delete}`).then(res1 => {
 						load(`/list/productCount`).then(res => {
 							cartData = res;
@@ -230,32 +231,35 @@ function getCartItem(obj1, obj2) {
 		    <div class="container card-item"> 
 				<div class="row mt-3">
 					<div class="col-4 kl">
-						<a class="cart-link" href="/product/view/${obj1.id}"><img src="/template/images/${obj1.id}.jpg" alt="${obj1.title}"></a>
+						<a class="cart-link" href="/product/view/${obj1.id}">
+							<img src="/template/images/${obj1.id}.jpg" alt="${obj1.title}">
+						</a>
 					</div>
 					<div class="col-7" >
 						<a href="/product/view/${obj1.id}" class="cart-header h5">${obj1.descr}</a>
 						<div class="input-group-append">
-							<span class="input-group-text bg-white text-dark my-2" id="cart-cost" for="inputGroupSelect02"> ${obj2[obj1.id]} x ${obj1.cost}&#1423;</span>
+							<span class="input-group-text bg-white text-dark my-2" id="cart-cost"> ${obj2[obj1.id]} x ${obj1.cost}&#1423;</span>
 						</div>
-						<span class="input-group-text   my-3 star-card" for="inputGroupSelect02">
+						<span class="input-group-text my-3 star-card">
 							${getRatingStars(obj1['rating'],obj1['id'])}   
 						</span>
 						<div class="my-2 h5">Համառոտ նկարագրություն </div>
 						<div class="mx-1 p-2 cart-description"> </div>
-						
-						<a href="/wishlist/add/${obj1.id}">
-							<input class="btn btn-outline-dark wishlist" data-id="${obj1.id}" type="submit" value="&#x2661;">
-						</a>
-						<a href="/compare/add/${obj1.id}">
-							<input class="btn btn-outline-dark compare" data-id="${obj1.id}" type="button" value="⇄">												
-						</a>
-						<input type="hidden" name="delete" value="">
-						<a href="/cart/delete/${obj1.id}">
-							<button class="btn btn-outline-dark close-item" data-delete="${obj1.id}" type="button">x</button>
-						</a>
+						<span class="input-group-text bg-white cart-buttons">
+							<a href="/wishlist/add/${obj1.id}">
+								<input class="btn btn-outline-dark wishlist" data-id="${obj1.id}" type="submit" value="&#x2661;">
+							</a>
+							<a href="/compare/add/${obj1.id}">
+								<input class="btn btn-outline-dark compare" data-id="${obj1.id}" type="button" value="⇄">												
+							</a>
+							<a href="/cart/delete/${obj1.id}">
+								<button class="btn btn-outline-dark close-item" data-delete="${obj1.id}" type="button">x</button>
+							</a>
+						</span>
 					</div>
+		
 				</div>
-				</div>
+			</div>
 	`;
 	return productCard;
 }

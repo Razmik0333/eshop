@@ -11,7 +11,7 @@
 						
 					</div>
 					
-					<div class="list-group text-center">
+					<div class="list-group text-center sort">
 						<div class="text-center p-2">
 							Տեսակավորել ըստ
 						</div>
@@ -30,9 +30,9 @@
 							<div class="text-start p-2 filter-cost">
 								Գին
 								<input type="text" class="form-control mb-2 mr-sm-2 cost-min" id="inlineFormInputName2" placeholder="<?php echo $cost_min['min']; ?>" name="price-min">
-								<input type="text" class="form-control cost-max" id="inlineFormInputGroupUsername2" placeholder="<?php echo $cost_max['max']; ?>" name="price-max">
-							</div>
-							<div class="text-start p-2">
+								<input type="text" class="form-control cost-max" id="inlineFormInputGroupUsername2" placeholder="<?php echo $cost_max['max']; ?>" name="price-max">							</div>
+							<div class="text-start p-2 high-rate">
+								Վարկանիշ
 								<a type="submit" href="" class="btn btn-block btn-outline-warning ratings highest" name="highest" title="4 and more" >&#9733;&#9733;&#9733;&#9733; ԵՎ ԱՎԵԼԻՆ</a><br>
 							</div>
 						</div>

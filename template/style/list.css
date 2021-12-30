@@ -111,3 +111,6 @@
 .error{
     outline:solid rgb(250, 22, 22) 3px;
 }
+.cart-buttons{
+	border: none;
+}

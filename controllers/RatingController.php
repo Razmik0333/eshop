@@ -29,7 +29,7 @@
             }
             public function actionProduct($id)
             {
-                //echo json_encode($id);
+                echo json_encode($id);
                 //$changeArrayRating = Product::getProductById($id);
                 //echo json_encode($changeArrayRating);
                 return true;

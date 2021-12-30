@@ -5,9 +5,9 @@
 
         public function register($arrOfData)
         {     
-            $arrOfData['password'] = password_hash($arrOfData['password'],PASSWORD_DEFAULT); 
-            $this->insertField($this->tableName,$arrOfData);  
-            return true;
+             $arrOfData['password'] = password_hash($arrOfData['password'],PASSWORD_DEFAULT); 
+             $this->insertField($this->tableName,$arrOfData);  
+             return true;
         }
         public function getName($id)
         {

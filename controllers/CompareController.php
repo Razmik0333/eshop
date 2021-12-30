@@ -26,7 +26,9 @@
             $fileStyle = Page::getStyles($arrStyle);
             $arrScripts = ['bootstrap.min','category','email',$filename];
             $fileScript = Page::getScripts($arrScripts); 
-            require_once(ROOT.'/views/catalog/'.$filename.'.php');//подключение файлов системы
+            $arrModules = ['classes/Connect','classes/BaseMethods','classes/Tag','classes/TagWithTextContent','classes/Form','classes/Links','classes/Input','classes/Img','classes/CategoryBar'];
+            $fileModules = Page::getScripts($arrModules);
+            require_once(ROOT.'/views/contents/'.$filename.'.php');//подключение файлов системы
             return true;
         }
     }    

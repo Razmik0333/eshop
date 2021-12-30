@@ -1,0 +1,26 @@
+
+.product-item{
+	height: 1100px;
+}
+
+.container{
+    max-width: 1440px;
+
+}
+
+.home-inputs{
+	margin-left: -36px;
+}
+
+.cost-hidden{
+	visibility: hidden;
+}
+
+.item-col {
+    max-width: 20%
+}
+
+
+.item-col,.item-body,.item-cost {
+	padding-right: 5px;
+}

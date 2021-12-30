@@ -33,7 +33,8 @@
             $fileStyle = Page::getStyles($arrStyle);
             $arrScripts = ['bootstrap.min','email','functions','category',$filename];
             $fileScript = Page::getScripts($arrScripts);
-                      
+            $arrModules = ['classes/Connect','classes/BaseMethods','classes/Tag','classes/TagWithTextContent','classes/Links','classes/Input','classes/Img','classes/Form','classes/CartCard','classes/CategoryBar'];
+            $fileModules = Page::getScripts($arrModules);
             require_once(ROOT.'/views/cart/'.$filename.'.php');//подключение файлов системы
             return true;
         }

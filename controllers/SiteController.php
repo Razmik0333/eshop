@@ -3,14 +3,20 @@
     {
         public function actionIndex($filename)
         {
+            echo $filename;
             if ($filename == '' || $filename =='index.php') {
-                $filename = 'home';
+                $filename = 'site';
             }
             //unset($_SESSION['user']);
-            $arrStyle = ['bootstrap.min','fonts','rating','email',$filename];
+            $arrStyle = ['bootstrap.min','fonts','rating','email','goods',$filename];
             $fileStyle = Page::getStyles($arrStyle);
-            $arrScripts = ['bootstrap.min','functions','category','email',$filename,'cart','rating'];
+            $arrScripts = ['functions','category','email',$filename,'cart','rating'];
             $fileScript = Page::getScripts($arrScripts);
+            $arrModules = ['Connect','Tag','Links','TagWithTextContent','BaseMethods','Form','Input','Img',
+            'modal/ModalWindow','modal/ModalEvent','CategoryBar','home/ProductCard','home/HomeEvent','home/RecomendCard','Pagination'];
+            $fileModules = Page::getModules($arrModules);
+            $scripts = ['public/category','public/smartSearch','public/products','public/recomend'];
+            $fileScripts = Page::getModules($scripts);
             require_once(ROOT."/views/site/".$filename.".php");//подключение файлов системы
             return true;
         }

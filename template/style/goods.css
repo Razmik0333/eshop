@@ -39,7 +39,13 @@
 	z-index: 99999;
 	top: 35px;
 	left: -14px;
-	visibility: hidden;
+	
 	width: 35%;
 
+}
+.hide{
+	visibility: hidden;
+}
+.show{
+	visibility: visible;
 }

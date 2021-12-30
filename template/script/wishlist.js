@@ -1,4 +1,4 @@
-window.addEventListener("load", loadPage,false);
+//window.addEventListener("load", loadPage,false);
 async function load(url, obj) {
 	let say = await import('./getResult.js');
 	return say.getResult(url,obj);
@@ -9,7 +9,7 @@ function loadPage() {
     let saved = document.querySelector('.saved');
     load('/wishlist/productCount').then(count =>{
 		console.log(count);
-		load('/wishlist/items')
+		load('/wishlist/wish')
 		.then(res => {
 			if (typeof res == 'object') {
 				let template = '';
@@ -34,7 +34,7 @@ function loadPage() {
 			})
 		})
 		.then(() =>{
-			load('/wishlist/items')
+			load('/wishlist/wish')
 			.then(res => {
 				let wishlist = document.querySelectorAll('.wishlist');
 				addToList(res, wishlist);
@@ -80,7 +80,7 @@ function loadPage() {
 						})
 					})
 					.then(() =>{
-						load('/wishlist/items')
+						load('/wishlist/wish')
 						.then(res => {
 							let wishlist = document.querySelectorAll('.wishlist');
 							addToList(res, wishlist)

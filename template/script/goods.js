@@ -1,4 +1,4 @@
-window.addEventListener("load", loadPage,false);
+//window.addEventListener("load", loadPage,false);
 async function load(url, obj) {
 	let say = await import('./getResult.js');
 	return say.getResult(url,obj);
@@ -44,7 +44,7 @@ function getGoodsItem(obj) {
                         <input class="btn btn-outline-dark add-cart" data-id="" type="submit" value="🛒">
                     </a>
                     <input class="btn btn-outline-dark" type="button" value="&#8644;">
-                    <span class="input-group-text bg-light text-dark" for="inputGroupSelect02">${obj.new_cost}&#1423;</span>
+                    <span class="input-group-text bg-light text-dark" for="inputGroupSelect02">${obj.cost * (1 - obj.discount)}&#1423;</span>
                     <span class="input-group-text bg-secondary text-light " for="inputGroupSelect02"><del>${obj.cost}&#1423;</del></span>											
                 </div>
                 </div>

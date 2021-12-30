@@ -5,9 +5,12 @@
     background-color: #ffc107;
     color: #000;
 }
-
+.container{
+	max-width: 1440px;
+}
 .filter-show{
     width: 170px;
+	height: 40px;
 }
 
 .rating-full{
@@ -23,4 +26,15 @@
 
 .wishlist-btn::before{
 	content: '♡';
+}
+.home-inputs{
+	margin-left: -36px;
+}
+
+.cost-hidden{
+	visibility: hidden;
+}
+
+.product-item{
+	min-height: 1200px;
 }

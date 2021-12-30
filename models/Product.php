@@ -4,14 +4,20 @@ class Product extends Main
 {
     public $tableName = 'products';
     public $productsLists = [];
-    public $requiredFields =  ['id','main','descr','cost','discount','availability','rating','alias','category','arm_name','1c_articul'];
+    public $requiredFields =  ['id','main','descr','cost','discount','availability','rating','alias','category','arm_name','1c_articul','time_add'];
     const SHOW_BY_DEFAULT = 8;
     const RATING_VALUE = 4;
 
     public function getProductList()
     {
 
-        $this->productsLists = $this->findFields($this->tableName,$this->requiredFields,8);
+        $this->productsLists = $this->findFields($this->tableName,$this->requiredFields,10);
+        return $this->productsLists;
+    }
+    public function getAllProductList()
+    {
+
+        $this->productsLists = $this->findFields($this->tableName,$this->requiredFields,null);
         return $this->productsLists;
     }
     public function getRecomendProducts()
@@ -32,7 +38,7 @@ class Product extends Main
     public function getProductByStr($str)
     {
 
-        $this->productsLists = $this->findFieldsByStr($this->tableName,'main',$this->requiredFields,$str,8);
+        $this->productsLists = $this->findFieldsByStr($this->tableName,'main',$this->requiredFields,$str);
         return $this->productsLists;
     }
     public function deleteProductById($id)

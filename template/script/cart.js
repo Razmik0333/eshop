@@ -11,15 +11,16 @@ function loadPage()
 	
 
 	productItem.addEventListener('click', function (e) {
-		e.preventDefault();
-		let count =0 ;
 		let target = e.target;
 		let classList = target.classList;
+		!classList.contains('item-name') ? e.preventDefault() : e.defaultPrevented = false;
+
 		let id = target.dataset.id;
 		let productQ = document.querySelector('.product-quantity');
-		count = productQ === null ?  1 :  productQ.value
+		let count = productQ === null ?  1 :  productQ.value
 		let modal = document.querySelector('.modal');
-		if(classList.contains('add-cart')){
+
+	/*	if(classList.contains('add-cart')){
 			if (count == 0) {
 				document.body.style.overflow = 'hidden';
             	modal.classList.add('modal-item');
@@ -31,7 +32,6 @@ function loadPage()
 					
 				});
 			}else{
-				console.log('wow');
 				load(`/list/cart/${id}/${count}`)
 				.then(res => {
 					console.log(res);
@@ -50,20 +50,20 @@ function loadPage()
 					if (typeof res == 'object') {
 						let arrExist = res.filter(elem => elem['id'] === id);
 						if(arrExist.length == 0){
-								target.classList.remove('btn-outline-dark')
-								target.classList.add('btn-dark')
-								load(`/items/compare/${id}`)
-									.then(res => {
-										console.log(res);
-										let compareItems = document.querySelector('#compare-items');
-										compareItems.innerHTML = res;
-		
+							target.classList.remove('btn-outline-dark')
+							target.classList.add('btn-dark')
+							load(`/items/compare/${id}`)
+								.then(res => {
+									console.log(res);
+									let compareItems = document.querySelector('.compare-btn');
+									compareItems.innerHTML = res;
+	
 							})
 						}else if (arrExist.length > 0) {
 								target.classList.remove('btn-dark')
 								target.classList.add('btn-outline-dark');
 								load(`/items/delete/${id}`).then(res =>{
-									let compareItems = document.querySelector('#compare-items');
+									let compareItems = document.querySelector('.compare-btn');
 									console.log( res);
 									res === 0 ? 0 : res.length;
 									compareItems.innerHTML = res;
@@ -75,16 +75,16 @@ function loadPage()
 						load(`/items/compare/${id}`)
 						.then(res => {
 							console.log(res);
-							let compareItems = document.querySelector('#compare-items');
+							let compareItems = document.querySelector('.compare-btn');
 							compareItems.innerHTML = res;
 						})
 					}
 				});
 				
-		}
-		if(classList.contains('wishlist')){
+		}*/
+		/*if(classList.contains('wishlist')){
 
-			load('/wishlist/items')
+			load('/wishlist/wish')
 			.then(res => {
 				console.log( res);
 				if (typeof res == 'object') {
@@ -122,7 +122,8 @@ function loadPage()
 
 				
 			})
-		}
+		}*/
+
 	})
 
 
